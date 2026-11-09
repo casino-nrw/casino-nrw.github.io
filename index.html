@@ -92,7 +92,7 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 <p class="muted" style="margin-bottom:0"><b>Glücksrad:</b> Wähle Dark oder light und setze <span class="lim">500 bis 2000</span> Punkte. Landet das Rad auf deiner Farbe, bekommst du das Doppelte deines Einsatzes. Bei der anderen Farbe oder beim Stern ★ ist der Einsatz verloren. Du kannst auch auf den Stern ★ setzen: Landet das Rad dort, bekommst du das Dreifache deines Einsatzes.</p>
 <p class="muted" style="margin-bottom:0"><b>Münzwurf:</b> Wähle Kopf oder Zahl und setze <span class="lim">500 bis 2000</span> Punkte. Trifft deine Seite (50 %), bekommst du das 1,9-fache deines Einsatzes zurück, sonst ist er verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>1 gegen 1:</b> Du wählst eine Farbe und deinen Einsatz (<span class="lim">500 bis 2000</span>) und erstellst eine Herausforderung. Ein anderer Spieler tritt mit einer anderen Farbe bei und setzt denselben Einsatz. Dann wird mit 4 Würfeln gewürfelt: Wessen Farbe öfter fällt, gewinnt den ganzen Pott (doppelter Einsatz). Bei Gleichstand wird automatisch neu gewürfelt. Findet sich 15 Minuten lang kein Gegner, bekommst du deinen Einsatz zurück. Du kannst die Herausforderung auch selbst abbrechen.</p>
-<p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen ist der Multiplikator auf ×25 begrenzt: Erreichst du ihn, wirst du ebenfalls automatisch ausgezahlt. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p></div>
+<p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen steigt der Multiplikator mit jedem Diamanten gleichmäßig an, bei allen 20 Diamanten ist er ×25. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p></div>
 </main>
 <script>
 // Die Supabase-Daten stehen in der Datei config.js (siehe ANLEITUNG.md)
@@ -691,7 +691,7 @@ async function minesReveal(i){
   if(r.error){st.mmsg=r.error.message;await load();render();return}
   var d=r.data;st.mines=d;
   if(d.status==="lost"){st.mmsg="💥 Bombe! Der Einsatz ist verloren (−"+fmt(d.stake)+" Punkte)";SFX.play("lose")}
-  else if(d.status==="cashed"){st.mmsg=(d.k<25-d.mines?"🎉 Höchst-Multiplikator ×"+d.mult.toFixed(2)+" erreicht! ":"🎉 Alle Diamanten gefunden! ")+"+"+fmt(d.payout-d.stake)+" Punkte";outcome(1,d.payout,d.stake,150)}
+  else if(d.status==="cashed"){st.mmsg="🎉 Alle Diamanten gefunden! +"+fmt(d.payout-d.stake)+" Punkte";outcome(1,d.payout,d.stake,150)}
   else{st.mmsg="";SFX.play("ding")}
   await load();render();
 }
