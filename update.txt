@@ -1,7 +1,5 @@
-**👤 Neu: Spielerprofile und Profilbilder**
-• Tippe auf einen Namen in der Rangliste, im Live-Feed oder oben bei deinem Namen, um das Profil zu öffnen
-• Im Profil siehst du Abzeichen, Rang, Punkte, Anzahl Spiele, Gewinnquote, gesetzte Punkte, größten Gewinn, Lieblingsspiel und die letzten 5 Spiele
-• Du kannst dein eigenes **Profilbild** hochladen: Öffne dein Profil und tippe auf „📷 Profilbild ändern“
-• Das Bild erscheint in der Rangliste, im Live-Feed und beim Überweisen
-• Von anderen Spielern kannst du direkt im Profil Punkte überweisen
-• Bitte nur passende Bilder. Admins können unpassende Bilder entfernen
+**🔻 Plinko: besser und schneller**
+• Die Kugeln fallen jetzt viel natürlicher: Sie hüpfen von Nagel zu Nagel, mit Funkeln beim Aufprall und einer kleinen Leuchtspur
+• Du kannst **mehrere Kugeln gleichzeitig** werfen: Drück einfach direkt nochmal auf „Kugel fallen lassen“, während die erste noch fällt (bis zu 12 gleichzeitig)
+• Jede Kugel hat eine eigene Farbe, und unter dem Brett stehen die Ergebnisse deiner letzten Würfe
+• Die Gewinnchancen und Multiplikatoren sind unverändert
