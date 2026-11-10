@@ -72,6 +72,25 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .duel-i{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem;flex-wrap:wrap}
 .md{display:inline-block;width:16px;height:16px;border-radius:5px;margin-right:4px;vertical-align:-3px}
 .md.hit{outline:2px solid #fff}.md.hit2{outline:2px solid #ffd54a}
+.xfer{background:linear-gradient(160deg,rgba(80,120,255,.18),rgba(245,179,1,.10));border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin:14px 0 6px}
+.xfer h2{margin:0 0 2px!important}
+.xhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-weight:800;color:#fff;font-size:.95rem;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.av.big{width:44px;height:44px;font-size:1.25rem}
+.xgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.xp{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);border:2px solid transparent;border-radius:12px;padding:7px 8px;cursor:pointer;min-width:0;font-size:.88rem}
+.xp:hover{background:rgba(255,255,255,.08)}
+.xp.sel{border-color:var(--accent);background:rgba(245,179,1,.14)}
+.xp span.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xto{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.3);border-radius:14px;padding:10px 12px;margin:10px 0}
+.xto.empty{opacity:.7}
+.xq{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.xq button{padding:6px 11px;font-size:.85rem;background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;border:1px solid var(--line)}
+.xq button.on{background:var(--accent);color:#2a1a00;border-color:var(--accent)}
+.xsend{width:100%;padding:13px;font-size:1.05rem;margin-top:8px}
+.xh{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem}
+.xh .mid{flex:1;min-width:0}
+.xh .arrow{font-size:1.1rem}
 .bdg{display:inline-block;margin-left:4px;font-size:.85rem;vertical-align:baseline;cursor:default}
 .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .bitem{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:.8rem;line-height:1.25}
@@ -500,28 +519,41 @@ function minesHtml(me,canPlay,mx){
   }
   return h+'</div>';
 }
+function avColor(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%360;return "hsl("+h+",55%,42%)"}
+function avHtml(n,big){return '<span class="av'+(big?' big':'')+'" style="background:'+avColor(n)+'">'+esc((n||"?").charAt(0).toUpperCase())+'</span>'}
 function tlistHtml(){
   var q=st.tsearch.trim().toLowerCase();
   var l=st.list.filter(function(p){return p.id!==st.user.id&&!p.banned&&(!q||p.name.toLowerCase().indexOf(q)>=0)});
   l.sort(function(a,b){var qa=q&&a.name.toLowerCase().indexOf(q)===0?0:1,qb=q&&b.name.toLowerCase().indexOf(q)===0?0:1;return qa-qb||a.name.localeCompare(b.name,"de")});
   if(!l.length)return '<p class="muted">Kein Spieler gefunden.</p>';
-  return l.slice(0,6).map(function(p){return '<div class="opt'+(p.id===st.tsel?' sel':'')+'" data-act="tsel" data-v="'+esc(p.id)+'"><span>'+esc(p.name)+badgeIcons(p.id,3)+'</span></div>'}).join("")+(l.length>6?'<p class="muted" style="margin:6px 0 0">… und '+(l.length-6)+' weitere. Tippe mehr vom Namen, um zu suchen.</p>':'');
+  return '<div class="xgrid">'+l.slice(0,8).map(function(p){return '<div class="xp'+(p.id===st.tsel?' sel':'')+'" data-act="tsel" data-v="'+esc(p.id)+'">'+avHtml(p.name)+'<span class="nm">'+esc(p.name)+badgeIcons(p.id,2)+'</span></div>'}).join("")+'</div>'+(l.length>8?'<p class="muted" style="margin:0">… und '+(l.length-8)+' weitere. Tippe mehr vom Namen, um zu suchen.</p>':'');
+}
+function tAfter(){
+  var amt=parseInt(st.tamt),b=st.me?st.me.balance:0;
+  if(!(amt>0))return "";
+  return amt>b?'<span class="loss">Dafür fehlen dir '+fmt(amt-b)+' Punkte</span>':'Danach hast du noch <b>'+fmt(b-amt)+'</b> Punkte';
+}
+function tBtnText(){
+  var amt=parseInt(st.tamt),sel=st.list.find(function(p){return p.id===st.tsel});
+  return sel?'💸 '+(amt>0?fmt(amt):'…')+' Punkte an '+sel.name+' senden':'Wähle zuerst einen Empfänger';
 }
 function transferHtml(){
   var sel=st.list.find(function(p){return p.id===st.tsel});if(!sel)st.tsel=null;
-  var h='<h2 style="margin:14px 0 6px">💸 Punkte überweisen</h2>';
-  h+='<input id="tsearch" type="search" placeholder="Spieler suchen …" value="'+esc(st.tsearch)+'" style="width:100%;margin-bottom:8px"><div id="tlist">'+tlistHtml()+'</div>';
-  h+='<p class="muted" style="margin:8px 0">'+(sel?'Empfänger: <b>'+esc(sel.name)+'</b>':'Tippe auf einen Spieler, um ihn auszuwählen.')+'</p>';
-  h+='<div class="row"><input id="tamt" type="number" min="100" max="10000" step="100" value="'+esc(st.tamt)+'"><button data-act="tsend"'+(sel?'':' disabled')+'>Senden</button></div>';
-  h+='<p class="muted" style="margin:6px 0 0">100 bis 10.000 Punkte pro Überweisung, höchstens 50.000 in 24 Stunden.</p>';
+  var h='<div class="xfer"><div class="xhead"><h2>💸 Punkte überweisen</h2><span class="muted">Dein Guthaben: <b>'+fmt(st.me?st.me.balance:0)+'</b></span></div>';
+  h+='<input id="tsearch" type="search" placeholder="🔍 Spieler suchen …" value="'+esc(st.tsearch)+'" style="width:100%"><div id="tlist">'+tlistHtml()+'</div>';
+  h+=sel?'<div class="xto">'+avHtml(sel.name,true)+'<div><div class="muted" style="font-size:.75rem">Empfänger</div><b style="font-size:1.1rem">'+esc(sel.name)+'</b>'+badgeIcons(sel.id,3)+'</div></div>':'<div class="xto empty"><span style="font-size:1.6rem">👆</span><span class="muted">Tippe oben auf einen Spieler, um ihn auszuwählen.</span></div>';
+  h+='<div class="muted" style="font-size:.8rem">Betrag</div><div class="xq" id="tq">'+[100,500,1000,5000,10000].map(function(n){return '<button data-act="tq" data-v="'+n+'" class="'+(parseInt(st.tamt)===n?'on':'')+'">'+fmt(n)+'</button>'}).join("")+'</div>';
+  h+='<input id="tamt" type="number" min="100" max="10000" step="100" value="'+esc(st.tamt)+'" style="width:100%"><div class="muted" id="tafter" style="margin:6px 0 0;font-size:.85rem">'+tAfter()+'</div>';
+  h+='<button class="xsend" id="tsendbtn" data-act="tsend"'+(sel?'':' disabled')+'>'+esc(tBtnText())+'</button>';
+  h+='<p class="muted" style="margin:8px 0 0;font-size:.78rem">100 bis 10.000 Punkte pro Überweisung · höchstens 50.000 in 24 Stunden</p>';
   if(st.tmsg)h+='<div class="msg">'+esc(st.tmsg)+'</div>';
   if(st.tlist.length){
-    h+='<div class="muted" style="margin:10px 0 4px">Letzte Überweisungen</div>'+st.tlist.slice(0,5).map(function(x){
-      var out=x.from_id===st.user.id,t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
-      return '<div class="feed-i"><span>'+(out?'An <b>'+esc(x.to_name)+'</b>':'Von <b>'+esc(x.from_name)+'</b>')+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+(out?'loss':'win')+'">'+(out?'−':'+')+fmt(x.amount)+'</span></div>';
+    h+='<div class="muted" style="margin:12px 0 2px;font-size:.8rem">Letzte Überweisungen</div>'+st.tlist.slice(0,5).map(function(x){
+      var out=x.from_id===st.user.id,other=out?x.to_name:x.from_name,t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+      return '<div class="xh">'+avHtml(other)+'<div class="mid"><b>'+esc(other)+'</b><br><span class="muted" style="font-size:.78rem">'+(out?'↗ gesendet':'↙ erhalten')+' · '+t+' Uhr</span></div><b class="'+(out?'loss':'win')+'">'+(out?'−':'+')+fmt(x.amount)+'</b></div>';
     }).join("");
   }
-  return h;
+  return h+'</div>';
 }
 function badgesHtml(){
   var have=st.badges[st.user.id]||[],keys=Object.keys(BADGES);
@@ -643,7 +675,8 @@ app.addEventListener("click",function(e){
   else if(a==="mn"){st.mn=+v;render()}
   else if(a==="plr"){st.pr=v;st.plSlot=null;render()}
   else if(a==="pdrop")plinkoDrop();
-  else if(a==="tsel"){st.tsel=v;render()}
+  else if(a==="tsel"){st.tsel=v;st.tmsg="";render()}
+  else if(a==="tq"){st.tamt=String(v);st.tmsg="";render()}
   else if(a==="tsend")sendPoints();
   else if(a==="mstart")minesStart();
   else if(a==="mcell")minesReveal(+v);
@@ -663,7 +696,7 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
-  else if(t.id==="tamt")st.tamt=t.value;
+  else if(t.id==="tamt"){st.tamt=t.value;var tb=document.getElementById("tsendbtn"),ta=document.getElementById("tafter");if(tb)tb.textContent=tBtnText();if(ta)ta.innerHTML=tAfter();Array.prototype.forEach.call(document.querySelectorAll("#tq button"),function(b){b.className=(parseInt(t.value)===+b.dataset.v)?"on":""})}
   else if(t.id==="tsearch"){st.tsearch=t.value;document.getElementById("tlist").innerHTML=tlistHtml()}
   else if(t.id==="lmin")st.lminIn=t.value;
   else if(t.id==="lmax")st.lmaxIn=t.value;
