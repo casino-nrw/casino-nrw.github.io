@@ -1,9 +1,25 @@
-**Neu**
-• 🔻 **Plinko**: Kugel fallen lassen, Risiko wählen (niedrig, mittel, hoch), Multiplikatoren bis ×140
-• 💸 **Punkte überweisen**: In „Mein Menü“ kannst du anderen Spielern Punkte schicken
-• 🏅 **Abzeichen**: 12 Stück, sie stehen hinter deinem Namen in Rangliste und Live-Feed
-• 💣 **Minen**: 5×5-Feld, Diamanten aufdecken, jederzeit auszahlen
+**🏅 Neu: Abzeichen (Erfolge)**
+Für besondere Leistungen bekommst du jetzt automatisch Abzeichen. Sie stehen hinter deinem Namen in der Rangliste und im Live-Feed. Unter „Mein Menü“ siehst du alle Abzeichen und was dir noch fehlt. Wenn du eins neu verdienst, bekommst du eine Meldung.
 
-**Geändert**
-• Live-Feed und „Letzte Duelle“ zeigen nur noch die letzten 5 Einträge
-• Admins können Mindest- und Höchsteinsatz ändern
+🎲 **Frischling**: dein erstes Spiel
+🔥 **Dauerspieler**: 100 Spiele
+🎰 **Stammgast**: 500 Spiele
+💰 **Großgewinn**: ein Gewinn von mindestens 5.000 Punkten
+🤑 **Jackpot**: mindestens 20.000 Punkte auf einmal ausgezahlt
+🎩 **Highroller**: 2.000 Punkte in einem Spiel gesetzt
+🐋 **Wal**: insgesamt 100.000 Punkte gesetzt
+⭐ **Sternenfänger**: beim Glücksrad auf Stern gewonnen
+💎 **Minenräumer**: bei Minen mit mindestens 10 Diamanten ausgezahlt
+🎯 **Volltreffer**: bei Plinko mindestens ×10 getroffen
+⚔️ **Duellant**: 5 Duelle gewonnen
+🤝 **Spender**: insgesamt 1.000 Punkte an andere überwiesen
+
+Wer die Bedingungen schon erfüllt hat, hat die Abzeichen automatisch bekommen.
+
+**💸 Neu: Punkte überweisen**
+Du kannst jetzt anderen Spielern Punkte schicken. Du findest es unter „Mein Menü“:
+• Spieler suchen und auswählen, Betrag eingeben oder einen Schnellknopf nutzen
+• 100 bis 10.000 Punkte pro Überweisung, höchstens 50.000 in 24 Stunden
+• Der Empfänger bekommt eine Meldung auf der Seite
+• Deine letzten Überweisungen siehst du direkt darunter
+• Gesperrte Spieler können weder senden noch empfangen
