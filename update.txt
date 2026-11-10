@@ -1,5 +1,6 @@
-**🔻 Plinko: besser und schneller**
-• Die Kugeln fallen jetzt viel natürlicher: Sie hüpfen von Nagel zu Nagel, mit Funkeln beim Aufprall und einer kleinen Leuchtspur
-• Du kannst **mehrere Kugeln gleichzeitig** werfen: Drück einfach direkt nochmal auf „Kugel fallen lassen“, während die erste noch fällt (bis zu 12 gleichzeitig)
-• Jede Kugel hat eine eigene Farbe, und unter dem Brett stehen die Ergebnisse deiner letzten Würfe
-• Die Gewinnchancen und Multiplikatoren sind unverändert
+🧭 Komplett neues Layout!
+• Links die neue Seitenleiste: Spiele (Farbwürfel, Glücksrad, Münzwurf, 1 gegen 1, Minen, Plinko) und Community (Rangliste, Live-Feed, Abzeichen, Überweisen, Regeln)
+• Oben rechts dein Benutzermenü: Mein Profil, Überweisen, Meine Statistik, Abzeichen, Einstellungen und Abmelden
+• Dein Punktestand steht jetzt oben in der Leiste, immer sichtbar
+• Neue Einstellungen-Seite (Profilbild, Ton, Abmelden)
+• Auf dem Handy öffnet man die Seitenleiste mit dem ☰-Knopf
