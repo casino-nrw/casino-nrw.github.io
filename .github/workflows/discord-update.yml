@@ -17,6 +17,7 @@ jobs:
         env:
           WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           REPO: ${{ github.repository }}
+          ROLE_ID: ${{ secrets.DISCORD_ROLE_ID }}
         run: |
           if [ -z "$WEBHOOK" ]; then
             echo "Es ist kein Geheimnis DISCORD_WEBHOOK hinterlegt. Siehe Anleitung."
@@ -44,6 +45,12 @@ jobs:
                   "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               }],
           }
+          # Optional: Rolle anpingen, wenn das Geheimnis DISCORD_ROLE_ID gesetzt ist
+          role = os.environ.get("ROLE_ID", "").strip()
+          if role.isdigit():
+              payload["content"] = f"<@&{role}>"
+              payload["allowed_mentions"] = {"parse": [], "roles": [role]}
+
           req = urllib.request.Request(
               os.environ["WEBHOOK"],
               data=json.dumps(payload).encode("utf-8"),
