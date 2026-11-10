@@ -1,0 +1,9 @@
+**Neu**
+• 🔻 **Plinko**: Kugel fallen lassen, Risiko wählen (niedrig, mittel, hoch), Multiplikatoren bis ×140
+• 💸 **Punkte überweisen**: In „Mein Menü“ kannst du anderen Spielern Punkte schicken
+• 🏅 **Abzeichen**: 12 Stück, sie stehen hinter deinem Namen in Rangliste und Live-Feed
+• 💣 **Minen**: 5×5-Feld, Diamanten aufdecken, jederzeit auszahlen
+
+**Geändert**
+• Live-Feed und „Letzte Duelle“ zeigen nur noch die letzten 5 Einträge
+• Admins können Mindest- und Höchsteinsatz ändern
