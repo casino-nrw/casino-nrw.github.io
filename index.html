@@ -72,6 +72,14 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .duel-i{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem;flex-wrap:wrap}
 .md{display:inline-block;width:16px;height:16px;border-radius:5px;margin-right:4px;vertical-align:-3px}
 .md.hit{outline:2px solid #fff}.md.hit2{outline:2px solid #ffd54a}
+.bdg{display:inline-block;margin-left:4px;font-size:.85rem;vertical-align:baseline;cursor:default}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.bitem{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:.8rem;line-height:1.25}
+.bitem .e{font-size:1.4rem}
+.bitem.lock{opacity:.4;filter:grayscale(1)}
+.bitem b{display:block;font-size:.85rem}
+.plwrap{margin:10px 0 4px}.plwrap svg{display:block;width:100%;height:auto}
+.plslot{transition:filter .2s}
 .stt{width:100%;border-collapse:collapse}
 .stt th{font-size:.72rem;color:var(--muted);font-weight:600;text-align:right;padding:4px 3px;border-bottom:1px solid var(--line)}
 .stt th:first-child{text-align:left}
@@ -92,7 +100,10 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 <p class="muted" style="margin-bottom:0"><b>Glücksrad:</b> Wähle Dark oder light und setze <span class="lim">500 bis 2000</span> Punkte. Landet das Rad auf deiner Farbe, bekommst du das Doppelte deines Einsatzes. Bei der anderen Farbe oder beim Stern ★ ist der Einsatz verloren. Du kannst auch auf den Stern ★ setzen: Landet das Rad dort, bekommst du das Dreifache deines Einsatzes.</p>
 <p class="muted" style="margin-bottom:0"><b>Münzwurf:</b> Wähle Kopf oder Zahl und setze <span class="lim">500 bis 2000</span> Punkte. Trifft deine Seite (50 %), bekommst du das 1,9-fache deines Einsatzes zurück, sonst ist er verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>1 gegen 1:</b> Du wählst eine Farbe und deinen Einsatz (<span class="lim">500 bis 2000</span>) und erstellst eine Herausforderung. Ein anderer Spieler tritt mit einer anderen Farbe bei und setzt denselben Einsatz. Dann wird mit 4 Würfeln gewürfelt: Wessen Farbe öfter fällt, gewinnt den ganzen Pott (doppelter Einsatz). Bei Gleichstand wird automatisch neu gewürfelt. Findet sich 15 Minuten lang kein Gegner, bekommst du deinen Einsatz zurück. Du kannst die Herausforderung auch selbst abbrechen.</p>
-<p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen steigt der Multiplikator mit jedem Diamanten gleichmäßig an, bei allen 20 Diamanten ist er ×25. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p></div>
+<p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen steigt der Multiplikator mit jedem Diamanten gleichmäßig an, bei allen 20 Diamanten ist er ×25. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p>
+<p class="muted"><b>Plinko:</b> Wähle Risiko und Einsatz und lass die Kugel fallen. Sie springt über 12 Reihen Nägel und landet in einem Feld mit einem Multiplikator. Am Rand sind die hohen Multiplikatoren, in der Mitte die niedrigen. Bei hohem Risiko sind die Randfelder viel größer, aber seltener.</p>
+<p class="muted"><b>Überweisen:</b> In „Mein Menü“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
+<p class="muted" style="margin-bottom:0"><b>Abzeichen:</b> Für besondere Leistungen bekommst du automatisch Abzeichen. Sie erscheinen hinter deinem Namen, in „Mein Menü“ siehst du alle und was dir noch fehlt.</p></div>
 </main>
 <script>
 // Die Supabase-Daten stehen in der Datei config.js (siehe ANLEITUNG.md)
@@ -167,6 +178,7 @@ var SFX=(function(){
     },
     lose:function(c,o,t){blip(c,o,t,330,.4,"sawtooth",.28,200);blip(c,o,t+.22,247,.5,"sawtooth",.28,130)},
     even:function(c,o,t){blip(c,o,t,440,.3,"sine",.25);blip(c,o,t+.12,440,.3,"sine",.18)},
+    peg:function(c,o,t,i){i=i||0;blip(c,o,t,520+i*45,.06,"triangle",.22);click(c,o,t,2400,.25,.02)},
     ding:function(c,o,t){blip(c,o,t,880,.45,"sine",.3);blip(c,o,t+.14,1320,.55,"sine",.28)}
   };
   return {
@@ -203,7 +215,7 @@ function limTxt(){return MINS+' bis '+MAXS}
 function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.querySelectorAll('.lim'),function(e){e.textContent=limTxt()})}
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
-var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,mn:3,mmsg:"",mbusy:false};
+var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -258,9 +270,29 @@ async function load(){
     qs.push(sb.rpc("my_stats"));
     qs.push(sb.from("game_log").select("id,game,bet,stake,payout,created_at").eq("user_id",st.user.id).order("created_at",{ascending:false}).limit(50));
   }
+  qs.push(sb.from("user_badges").select("user_id,badge").limit(5000));
+  qs.push(sb.from("transfers").select("id,from_id,to_id,from_name,to_name,amount,created_at").order("id",{ascending:false}).limit(10));
   qs.push(sb.from("settings").select("min_bet,max_bet,updated_at").eq("id",1).maybeSingle());
   var rr=await Promise.all(qs);
-  var sr=rr[rr.length-1];
+  var sr=rr[rr.length-1],tr=rr[rr.length-2],br=rr[rr.length-3];
+  if(br&&!br.error&&br.data){
+    var bm={};br.data.forEach(function(x){(bm[x.user_id]=bm[x.user_id]||[]).push(x.badge)});st.badges=bm;
+    var mineB=bm[st.user.id]||[];
+    if(st.myB===null)st.myB=mineB.slice();
+    else{
+      var nw=mineB.filter(function(k){return st.myB.indexOf(k)<0&&BADGES[k]});
+      if(nw.length){st.myB=mineB.slice();notifyText("🏅 Neues Abzeichen: "+nw.map(function(k){return BADGES[k][0]+" "+BADGES[k][1]}).join(", "))}
+    }
+  }
+  if(tr&&!tr.error&&tr.data){
+    st.tlist=tr.data;
+    var maxId=tr.data.reduce(function(m,x){return Math.max(m,x.id)},0);
+    if(st.tseen===null)st.tseen=maxId;
+    else{
+      tr.data.filter(function(x){return x.id>st.tseen&&x.to_id===st.user.id}).sort(function(a,b){return a.id-b.id}).forEach(function(x){notifyText("💸 "+x.from_name+" hat dir "+fmt(x.amount)+" Punkte geschickt")});
+      st.tseen=Math.max(st.tseen,maxId);
+    }
+  }
   if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at}
   var r=rr[0],f=rr[1];
   if(r.error){st.err=r.error.message;return}
@@ -295,9 +327,32 @@ function betLabel(g,b){
   if(g==="dice"||g==="duel")return COLORS[+b]?COLORS[+b][0]:"?";
   if(g==="wheel")return {D:"Dark",L:"light",S:"Stern"}[b]||"?";
   if(g==="mines"){var p=String(b).split("|");return p[0]+" Minen, "+p[1]+" Diamanten"}
+  if(g==="plinko")return "Risiko "+(PL_NAME[b]||"?");
   return {K:"Kopf",Z:"Zahl"}[b]||"?";
 }
-var GAMES={dice:"Farbwürfel",wheel:"Glücksrad",coin:"Münzwurf",duel:"1 gegen 1",mines:"Minen"};
+var GAMES={dice:"Farbwürfel",wheel:"Glücksrad",coin:"Münzwurf",duel:"1 gegen 1",mines:"Minen",plinko:"Plinko"};
+var PL_MULT={L:[9,2.8,1.6,1.3,1.1,0.9,0.5,0.9,1.1,1.3,1.6,2.8,9],M:[32,10,3.8,1.9,1.1,0.5,0.3,0.5,1.1,1.9,3.8,10,32],H:[140,22,7,2.2,0.7,0.2,0.2,0.2,0.7,2.2,7,22,140]};
+var PL_NAME={L:"niedrig",M:"mittel",H:"hoch"};
+var BADGES={
+  first:["🎲","Frischling","Das erste Spiel gespielt"],
+  games100:["🔥","Dauerspieler","100 Spiele gespielt"],
+  games500:["🎰","Stammgast","500 Spiele gespielt"],
+  bigwin:["💰","Großgewinn","Einen Gewinn von mindestens 5.000 Punkten erzielt"],
+  jackpot:["🤑","Jackpot","Mindestens 20.000 Punkte auf einmal ausgezahlt bekommen"],
+  highroller:["🎩","Highroller","2.000 Punkte in einem einzigen Spiel gesetzt"],
+  whale:["🐋","Wal","Insgesamt 100.000 Punkte gesetzt"],
+  star:["⭐","Sternenfänger","Beim Glücksrad auf Stern gewonnen"],
+  mines10:["💎","Minenräumer","Bei Minen mit mindestens 10 Diamanten ausgezahlt"],
+  plinko10:["🎯","Volltreffer","Bei Plinko mindestens ×10 getroffen"],
+  duelist:["⚔️","Duellant","5 Duelle gewonnen"],
+  donor:["🤝","Spender","Insgesamt 1.000 Punkte an andere überwiesen"]
+};
+var BORDER=["whale","jackpot","bigwin","highroller","plinko10","mines10","star","duelist","donor","games500","games100","first"];
+function badgeIcons(uid,max){
+  var have=st.badges[uid]||[];if(!have.length)return "";
+  var out=BORDER.filter(function(k){return have.indexOf(k)>=0}).slice(0,max||3);
+  return out.map(function(k){return '<span class="bdg" title="'+esc(BADGES[k][1])+': '+esc(BADGES[k][2])+'">'+BADGES[k][0]+'</span>'}).join("");
+}
 function logLine(l){
   var a='<b>'+esc(l.actor_name)+'</b>',t='<b>'+esc(l.target_name||"Spieler")+'</b>',d=l.detail;
   if(l.action==="give"){var n=parseInt(d);return a+(n<0?' zog '+t+' <b class="loss">'+fmt(-n)+'</b> Punkte ab':' gab '+t+' <b class="win">+'+fmt(n)+'</b> Punkte')}
@@ -323,7 +378,7 @@ function feedHtml(){
   return st.feed.map(function(f){
     var net=f.payout-f.stake,cls=net>0?"win":(net===0?"even":"loss");
     var t=new Date(f.created_at).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
-    return '<div class="feed-i"><span><b>'+esc(st.names[f.user_id]||"Spieler")+'</b> · '+esc(GL[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+f.stake+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
+    return '<div class="feed-i"><span><b>'+esc(st.names[f.user_id]||"Spieler")+'</b>'+badgeIcons(f.user_id,3)+' · '+esc(GL[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+f.stake+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
   }).join("");
 }
 
@@ -344,6 +399,10 @@ function duelResText(r){
 }
 function outcome(net,payout,stake,delayMs){
   setTimeout(function(){SFX.play(net>0?"win":(net===0?"even":"lose"),payout>=stake*3)},delayMs||300);
+}
+function notifyText(t){
+  var active=st.toast&&Date.now()<st.toastUntil;
+  st.toast=active?st.toast+" · "+t:t;st.toastUntil=Date.now()+20000;SFX.play("ding");
 }
 function notifyDuel(x){
   var won=x.winner_id===st.user.id,opp=st.names[x.joiner_id]||"Ein Spieler";
@@ -397,6 +456,23 @@ function duelHtml(me,canPlay,mx){
   return h+'</div>';
 }
 
+var PL={dx:26,top:30,rh:22,W:348};
+function plSlotColor(m){return m>=50?"#d32f2f":m>=10?"#ef6c00":m>=3?"#f9a825":m>=1?"#43a047":"#5c6bc0"}
+function plFmt(m){return (m>=10?String(Math.round(m)):String(m).replace(".",","))}
+function plinkoHtml(me,canPlay,mx){
+  var cx=PL.W/2,mults=PL_MULT[st.pr],sv='<svg viewBox="0 0 '+PL.W+' '+(PL.top+12*PL.rh+54)+'" id="plsvg">';
+  for(var r=0;r<12;r++)for(var j=0;j<=r;j++)sv+='<circle cx="'+(cx+(2*j-r)*PL.dx/2)+'" cy="'+(PL.top+r*PL.rh)+'" r="2.8" fill="#cfd3ff" opacity=".85"/>';
+  var sy=PL.top+12*PL.rh+4;
+  for(var k=0;k<13;k++){
+    var x=cx+(k-6)*PL.dx,m=mults[k],hit=st.plSlot===k;
+    sv+='<g class="plslot" data-slot="'+k+'"'+(hit?' style="filter:drop-shadow(0 0 6px #fff)"':'')+'><rect x="'+(x-PL.dx/2+1.5)+'" y="'+sy+'" width="'+(PL.dx-3)+'" height="26" rx="5" fill="'+plSlotColor(m)+'"'+(hit?' stroke="#fff" stroke-width="2.5"':'')+' opacity="'+(st.plSlot===null||hit?1:.55)+'"/><text x="'+x+'" y="'+(sy+17)+'" text-anchor="middle" font-size="'+(m>=10?8.5:9.5)+'" font-weight="800" fill="#fff">'+plFmt(m)+'</text></g>';
+  }
+  sv+='<circle id="pball" cx="'+cx+'" cy="'+(PL.top-18)+'" r="5.5" fill="#ffd54f" stroke="#fff" stroke-width="1.5" style="visibility:hidden"/></svg>';
+  var h='<div class="muted" style="margin-top:10px">Risiko:</div><div class="picker">'+["L","M","H"].map(function(k){return '<button class="pc'+(k===st.pr?' sel':'')+'" data-act="plr" data-v="'+k+'" style="background:#2f6f8f;font-size:1rem">'+({L:"Niedrig",M:"Mittel",H:"Hoch"})[k]+'</button>'}).join("")+'</div>';
+  h+=stakeRow(mx);
+  h+='<div class="plwrap">'+sv+'</div><div class="msg">'+esc(st.pmsg)+'</div><button data-act="pdrop"'+(canPlay?'':' disabled')+'>Kugel fallen lassen</button></div>';
+  return h;
+}
 function minesHtml(me,canPlay,mx){
   var g=st.mines,act=g&&g.status==="active",done=g&&!act,h="";
   if(!act){
@@ -424,10 +500,42 @@ function minesHtml(me,canPlay,mx){
   }
   return h+'</div>';
 }
+function tlistHtml(){
+  var q=st.tsearch.trim().toLowerCase();
+  var l=st.list.filter(function(p){return p.id!==st.user.id&&!p.banned&&(!q||p.name.toLowerCase().indexOf(q)>=0)});
+  l.sort(function(a,b){var qa=q&&a.name.toLowerCase().indexOf(q)===0?0:1,qb=q&&b.name.toLowerCase().indexOf(q)===0?0:1;return qa-qb||a.name.localeCompare(b.name,"de")});
+  if(!l.length)return '<p class="muted">Kein Spieler gefunden.</p>';
+  return l.slice(0,6).map(function(p){return '<div class="opt'+(p.id===st.tsel?' sel':'')+'" data-act="tsel" data-v="'+esc(p.id)+'"><span>'+esc(p.name)+badgeIcons(p.id,3)+'</span></div>'}).join("")+(l.length>6?'<p class="muted" style="margin:6px 0 0">… und '+(l.length-6)+' weitere. Tippe mehr vom Namen, um zu suchen.</p>':'');
+}
+function transferHtml(){
+  var sel=st.list.find(function(p){return p.id===st.tsel});if(!sel)st.tsel=null;
+  var h='<h2 style="margin:14px 0 6px">💸 Punkte überweisen</h2>';
+  h+='<input id="tsearch" type="search" placeholder="Spieler suchen …" value="'+esc(st.tsearch)+'" style="width:100%;margin-bottom:8px"><div id="tlist">'+tlistHtml()+'</div>';
+  h+='<p class="muted" style="margin:8px 0">'+(sel?'Empfänger: <b>'+esc(sel.name)+'</b>':'Tippe auf einen Spieler, um ihn auszuwählen.')+'</p>';
+  h+='<div class="row"><input id="tamt" type="number" min="100" max="10000" step="100" value="'+esc(st.tamt)+'"><button data-act="tsend"'+(sel?'':' disabled')+'>Senden</button></div>';
+  h+='<p class="muted" style="margin:6px 0 0">100 bis 10.000 Punkte pro Überweisung, höchstens 50.000 in 24 Stunden.</p>';
+  if(st.tmsg)h+='<div class="msg">'+esc(st.tmsg)+'</div>';
+  if(st.tlist.length){
+    h+='<div class="muted" style="margin:10px 0 4px">Letzte Überweisungen</div>'+st.tlist.slice(0,5).map(function(x){
+      var out=x.from_id===st.user.id,t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+      return '<div class="feed-i"><span>'+(out?'An <b>'+esc(x.to_name)+'</b>':'Von <b>'+esc(x.from_name)+'</b>')+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+(out?'loss':'win')+'">'+(out?'−':'+')+fmt(x.amount)+'</span></div>';
+    }).join("");
+  }
+  return h;
+}
+function badgesHtml(){
+  var have=st.badges[st.user.id]||[],keys=Object.keys(BADGES);
+  var h='<h2 style="margin:14px 0 6px">🏅 Abzeichen ('+have.length+'/'+keys.length+')</h2><div class="bgrid">';
+  keys.sort(function(a,b){return (have.indexOf(b)>=0)-(have.indexOf(a)>=0)||BORDER.indexOf(a)-BORDER.indexOf(b)}).forEach(function(k){
+    var b=BADGES[k];h+='<div class="bitem'+(have.indexOf(k)>=0?'':' lock')+'"><span class="e">'+b[0]+'</span><span><b>'+esc(b[1])+'</b>'+esc(b[2])+'</span></div>';
+  });
+  return h+'</div>';
+}
 function menuHtml(){
   var h='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">👤 Mein Menü</h2><button class="tab off" data-act="menu">'+(st.menuOpen?'Schließen':'Öffnen')+'</button></div>';
   if(!st.menuOpen)return h+'<p class="muted" style="margin:8px 0 0">Deine persönliche Statistik und deine Spiele-Logs. Nur du siehst sie hier.</p></div>';
-  var order=["dice","wheel","coin","duel","mines"],byG={};
+  h+=transferHtml()+badgesHtml();
+  var order=["dice","wheel","coin","duel","mines","plinko"],byG={};
   st.stats.forEach(function(x){byG[x.game]=x});
   var tn=0,tw=0,tp=0;
   var rows=order.filter(function(g){return byG[g]}).map(function(g){
@@ -465,11 +573,11 @@ function render(){
   var b=me.balance,canPlay=b>=MINS&&!me.banned;
   var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
 
-  var h=toastHtml()+'<div class="card"><div class="row" style="justify-content:space-between"><span class="muted">Angemeldet als <b>'+esc(me.name)+'</b></span><span><button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button> <button class="tab off" data-act="logout">Abmelden</button></span></div>';
+  var h=toastHtml()+'<div class="card"><div class="row" style="justify-content:space-between"><span class="muted">Angemeldet als <b>'+esc(me.name)+'</b>'+badgeIcons(me.id,6)+'</span><span><button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button> <button class="tab off" data-act="logout">Abmelden</button></span></div>';
   h+='<div class="muted" style="margin-top:8px">Dein Punktestand</div><div class="bal">'+b+'</div>';
   if(me.banned)h+='<p class="msg">Du wurdest gesperrt.</p>';
   else if(b<MINS)h+='<p class="muted">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
-  h+='<div class="row" style="margin:10px 0 4px"><button class="tab'+(st.game==="dice"?'':' off')+'" data-act="tab" data-v="dice">🎲 Farbwürfel</button><button class="tab'+(st.game==="wheel"?'':' off')+'" data-act="tab" data-v="wheel">🎡 Glücksrad</button><button class="tab'+(st.game==="coin"?'':' off')+'" data-act="tab" data-v="coin">🪙 Münzwurf</button><button class="tab'+(st.game==="duel"?'':' off')+'" data-act="tab" data-v="duel">⚔️ 1 gegen 1</button><button class="tab'+(st.game==="mines"?'':' off')+'" data-act="tab" data-v="mines">💣 Minen</button></div>';
+  h+='<div class="row" style="margin:10px 0 4px"><button class="tab'+(st.game==="dice"?'':' off')+'" data-act="tab" data-v="dice">🎲 Farbwürfel</button><button class="tab'+(st.game==="wheel"?'':' off')+'" data-act="tab" data-v="wheel">🎡 Glücksrad</button><button class="tab'+(st.game==="coin"?'':' off')+'" data-act="tab" data-v="coin">🪙 Münzwurf</button><button class="tab'+(st.game==="duel"?'':' off')+'" data-act="tab" data-v="duel">⚔️ 1 gegen 1</button><button class="tab'+(st.game==="mines"?'':' off')+'" data-act="tab" data-v="mines">💣 Minen</button><button class="tab'+(st.game==="plinko"?'':' off')+'" data-act="tab" data-v="plinko">🔻 Plinko</button></div>';
 
   if(st.game==="dice"){
     h+='<div class="picker">'+COLORS.map(function(c,i){return '<button class="pc'+(i===st.pick?' sel':'')+'" data-act="pc" data-v="'+i+'" style="background:'+c[1]+'">'+c[0]+'</button>'}).join("")+'</div>';
@@ -485,6 +593,8 @@ function render(){
     h+=coinHtml()+'<div class="msg">'+esc(st.cmsg)+'</div><button data-act="coin"'+(canPlay?'':' disabled')+'>Münze werfen auf '+(st.cpick==="K"?'Kopf':'Zahl')+'</button></div>';
   }else if(st.game==="mines"){
     h+=minesHtml(me,canPlay,mx);
+  }else if(st.game==="plinko"){
+    h+=plinkoHtml(me,canPlay,mx);
   }else{
     h+=duelHtml(me,canPlay,mx);
   }
@@ -492,7 +602,7 @@ function render(){
   h+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
 
   var top=st.list.filter(function(p){return !p.banned}).slice(0,50);
-  h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+esc(p.name)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
+  h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+esc(p.name)+badgeIcons(p.id,4)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
 
   if(me.is_admin&&!me.banned){
     var sel=st.list.find(function(p){return p.id===st.osel})||null;
@@ -531,6 +641,10 @@ app.addEventListener("click",function(e){
   else if(a==="ban")toggleBan();
   else if(a==="limits")saveLimits();
   else if(a==="mn"){st.mn=+v;render()}
+  else if(a==="plr"){st.pr=v;st.plSlot=null;render()}
+  else if(a==="pdrop")plinkoDrop();
+  else if(a==="tsel"){st.tsel=v;render()}
+  else if(a==="tsend")sendPoints();
   else if(a==="mstart")minesStart();
   else if(a==="mcell")minesReveal(+v);
   else if(a==="mcash")minesCash();
@@ -549,6 +663,8 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
+  else if(t.id==="tamt")st.tamt=t.value;
+  else if(t.id==="tsearch"){st.tsearch=t.value;document.getElementById("tlist").innerHTML=tlistHtml()}
   else if(t.id==="lmin")st.lminIn=t.value;
   else if(t.id==="lmax")st.lmaxIn=t.value;
   else if(t.id==="osearch"){st.osearch=t.value;document.getElementById("olist").innerHTML=olist()}
@@ -674,6 +790,56 @@ async function adminCall(fn,args){
 }
 function selected(){return st.list.find(function(p){return p.id===st.osel})||null}
 function give(){var amt=parseInt(st.oamt);if(!st.osel||!amt)return;adminCall("give_points",{p_target:st.osel,p_amount:amt})}
+function plinkoAnim(path){
+  return new Promise(function(resolve){
+    var ball=document.getElementById("pball");if(!ball){resolve();return}
+    var cx=PL.W/2,pts=[],R=0,i;
+    pts.push([cx,PL.top-18]);
+    for(i=0;i<=12;i++){
+      if(i>0)R+=path[i-1];
+      var y=i<12?PL.top+i*PL.rh-9:PL.top+12*PL.rh+17;
+      pts.push([cx+(2*R-i)*PL.dx/2,y]);
+    }
+    ball.style.visibility="visible";
+    var hop=150,k=0,t0=null;
+    function frame(ts){
+      if(t0===null)t0=ts;
+      var el=ts-t0,seg=Math.floor(el/hop);
+      if(seg>=pts.length-1){ball.setAttribute("cx",pts[pts.length-1][0]);ball.setAttribute("cy",pts[pts.length-1][1]);resolve();return}
+      if(seg>k){k=seg;SFX.play("peg",Math.min(seg,12))}
+      var f=(el-seg*hop)/hop,a=pts[seg],b=pts[seg+1];
+      ball.setAttribute("cx",a[0]+(b[0]-a[0])*f);
+      ball.setAttribute("cy",a[1]+(b[1]-a[1])*f-Math.sin(Math.PI*f)*7);
+      requestAnimationFrame(frame);
+    }
+    SFX.play("peg",0);requestAnimationFrame(frame);
+  });
+}
+async function plinkoDrop(){
+  if(st.rolling||!st.me)return;
+  var bad=checkStake();if(bad){st.pmsg=bad;render();return}
+  st.rolling=true;st.pmsg="";st.plSlot=null;
+  var btn=document.querySelector('[data-act="pdrop"]');if(btn)btn.disabled=true;
+  var r=await sb.rpc("play_plinko",{p_stake:st.stake,p_risk:st.pr});
+  if(r.error){st.rolling=false;st.pmsg=r.error.message;SFX.play("lose");await load();render();return}
+  var d=r.data;
+  await plinkoAnim(d.path);
+  var net=d.payout-d.stake;
+  st.plSlot=d.slot;
+  st.pmsg="×"+String(d.mult).replace(".",",")+" → "+(net>0?"+"+fmt(net):(net===0?"±0":fmt(net)))+" Punkte";
+  st.rolling=false;SFX.play("land");outcome(net,d.payout,d.stake,150);
+  await load();render();
+}
+async function sendPoints(){
+  if(!st.tsel)return;
+  var amt=parseInt(st.tamt);
+  if(!(amt>=100)||amt>10000){st.tmsg="Bitte 100 bis 10.000 Punkte eingeben.";render();return}
+  var to=st.names[st.tsel]||"Spieler";
+  var r=await sb.rpc("send_points",{p_target:st.tsel,p_amount:amt});
+  if(r.error){st.tmsg=r.error.message;render();return}
+  st.tmsg="✅ "+fmt(amt)+" Punkte an "+to+" geschickt.";SFX.play("ding");
+  await load();render();
+}
 async function minesStart(){
   if(st.mbusy||!st.me)return;
   var bad=checkStake();if(bad){st.mmsg=bad;render();return}
