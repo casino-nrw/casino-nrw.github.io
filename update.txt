@@ -1,25 +1,7 @@
-**🏅 Neu: Abzeichen (Erfolge)**
-Für besondere Leistungen bekommst du jetzt automatisch Abzeichen. Sie stehen hinter deinem Namen in der Rangliste und im Live-Feed. Unter „Mein Menü“ siehst du alle Abzeichen und was dir noch fehlt. Wenn du eins neu verdienst, bekommst du eine Meldung.
-
-🎲 **Frischling**: dein erstes Spiel
-🔥 **Dauerspieler**: 100 Spiele
-🎰 **Stammgast**: 500 Spiele
-💰 **Großgewinn**: ein Gewinn von mindestens 5.000 Punkten
-🤑 **Jackpot**: mindestens 20.000 Punkte auf einmal ausgezahlt
-🎩 **Highroller**: 2.000 Punkte in einem Spiel gesetzt
-🐋 **Wal**: insgesamt 100.000 Punkte gesetzt
-⭐ **Sternenfänger**: beim Glücksrad auf Stern gewonnen
-💎 **Minenräumer**: bei Minen mit mindestens 10 Diamanten ausgezahlt
-🎯 **Volltreffer**: bei Plinko mindestens ×10 getroffen
-⚔️ **Duellant**: 5 Duelle gewonnen
-🤝 **Spender**: insgesamt 1.000 Punkte an andere überwiesen
-
-Wer die Bedingungen schon erfüllt hat, hat die Abzeichen automatisch bekommen.
-
-**💸 Neu: Punkte überweisen**
-Du kannst jetzt anderen Spielern Punkte schicken. Du findest es unter „Mein Menü“:
-• Spieler suchen und auswählen, Betrag eingeben oder einen Schnellknopf nutzen
-• 100 bis 10.000 Punkte pro Überweisung, höchstens 50.000 in 24 Stunden
-• Der Empfänger bekommt eine Meldung auf der Seite
-• Deine letzten Überweisungen siehst du direkt darunter
-• Gesperrte Spieler können weder senden noch empfangen
+**👤 Neu: Spielerprofile und Profilbilder**
+• Tippe auf einen Namen in der Rangliste, im Live-Feed oder oben bei deinem Namen, um das Profil zu öffnen
+• Im Profil siehst du Abzeichen, Rang, Punkte, Anzahl Spiele, Gewinnquote, gesetzte Punkte, größten Gewinn, Lieblingsspiel und die letzten 5 Spiele
+• Du kannst dein eigenes **Profilbild** hochladen: Öffne dein Profil und tippe auf „📷 Profilbild ändern“
+• Das Bild erscheint in der Rangliste, im Live-Feed und beim Überweisen
+• Von anderen Spielern kannst du direkt im Profil Punkte überweisen
+• Bitte nur passende Bilder. Admins können unpassende Bilder entfernen

@@ -72,6 +72,21 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .duel-i{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem;flex-wrap:wrap}
 .md{display:inline-block;width:16px;height:16px;border-radius:5px;margin-right:4px;vertical-align:-3px}
 .md.hit{outline:2px solid #fff}.md.hit2{outline:2px solid #ffd54a}
+.av{position:relative;overflow:hidden}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.av.sm{width:22px;height:22px;font-size:.7rem;margin-right:5px;vertical-align:middle}
+.av.xl{width:96px;height:96px;font-size:2.4rem}
+.plink{cursor:pointer;border-bottom:1px dotted rgba(255,255,255,.4)}
+.plink:hover{color:var(--accent)}
+.modalbg{position:fixed;inset:0;background:rgba(5,5,15,.72);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(3px)}
+.pcard{position:relative;background:linear-gradient(180deg,#26254a,#17162c);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;width:100%;max-width:440px;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.pclose{position:absolute;top:10px;right:10px;padding:4px 10px;background:rgba(255,255,255,.12);color:var(--text);box-shadow:none}
+.phead{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:10px}
+.pstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:12px 0}
+.pstats div{background:rgba(0,0,0,.28);border-radius:10px;padding:8px 6px;text-align:center;font-size:.75rem;color:var(--muted)}
+.pstats b{display:block;color:var(--text);font-size:1rem}
+.pbadges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.pbadges span{background:rgba(0,0,0,.28);border-radius:20px;padding:3px 9px;font-size:.78rem}
 .xfer{background:linear-gradient(160deg,rgba(80,120,255,.18),rgba(245,179,1,.10));border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin:14px 0 6px}
 .xfer h2{margin:0 0 2px!important}
 .xhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:10px}
@@ -114,6 +129,7 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 <h1>🎲 Punkte-Spiele</h1>
 <p class="sub">Farbwürfel, Glücksrad, Münzwurf und 1 gegen 1. Punkte bekommst du von einem Admin.<br>👥 <b id="cnt">–</b> Spieler angemeldet</p>
 <div id="app"><div class="card">Lade …</div></div>
+<input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden>
 <div class="card"><div class="legend" id="legend"></div>
 <p class="muted" style="margin-bottom:0"><b>Farbwürfel:</b> Wähle eine Farbe und setze <span class="lim">500 bis 2000</span> Punkte. Kommt deine Farbe 1× vor, bekommst du das Doppelte deines Einsatzes zurück. Bei 2× bekommst du deinen Einsatz zurück. Bei 0×, 3× oder 4× ist der Einsatz verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>Glücksrad:</b> Wähle Dark oder light und setze <span class="lim">500 bis 2000</span> Punkte. Landet das Rad auf deiner Farbe, bekommst du das Doppelte deines Einsatzes. Bei der anderen Farbe oder beim Stern ★ ist der Einsatz verloren. Du kannst auch auf den Stern ★ setzen: Landet das Rad dort, bekommst du das Dreifache deines Einsatzes.</p>
@@ -122,6 +138,7 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 <p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen steigt der Multiplikator mit jedem Diamanten gleichmäßig an, bei allen 20 Diamanten ist er ×25. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p>
 <p class="muted"><b>Plinko:</b> Wähle Risiko und Einsatz und lass die Kugel fallen. Sie springt über 12 Reihen Nägel und landet in einem Feld mit einem Multiplikator. Am Rand sind die hohen Multiplikatoren, in der Mitte die niedrigen. Bei hohem Risiko sind die Randfelder viel größer, aber seltener.</p>
 <p class="muted"><b>Überweisen:</b> In „Mein Menü“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
+<p class="muted"><b>Profil:</b> Tippe auf einen Namen in der Rangliste oder im Live-Feed, um das Profil eines Spielers zu sehen: Abzeichen, Rang, Statistik und die letzten Spiele. Bei deinem eigenen Profil kannst du ein Profilbild hochladen.</p>
 <p class="muted" style="margin-bottom:0"><b>Abzeichen:</b> Für besondere Leistungen bekommst du automatisch Abzeichen. Sie erscheinen hinter deinem Namen, in „Mein Menü“ siehst du alle und was dir noch fehlt.</p></div>
 </main>
 <script>
@@ -234,7 +251,7 @@ function limTxt(){return MINS+' bis '+MAXS}
 function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.querySelectorAll('.lim'),function(e){e.textContent=limTxt()})}
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
-var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
+var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -280,7 +297,7 @@ var CH_COLS="id,creator_id,creator_color,stake,status,joiner_id,joiner_color,dic
 async function load(){
   if(Date.now()-st.lastExpire>30000){st.lastExpire=Date.now();try{sb.rpc("expire_challenges").then(function(){},function(){})}catch(e){}}
   var qs=[
-    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,banned").order("balance",{ascending:false}),
+    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,banned,avatar_url").order("balance",{ascending:false}),
     sb.from("game_log").select("id,user_id,game,bet,stake,payout,created_at").order("created_at",{ascending:false}).limit(5),
     sb.from("challenges").select(CH_COLS).eq("status","open").order("created_at",{ascending:true}).limit(50),
     sb.from("challenges").select(CH_COLS).eq("status","done").order("finished_at",{ascending:false}).limit(12)
@@ -316,7 +333,7 @@ async function load(){
   var r=rr[0],f=rr[1];
   if(r.error){st.err=r.error.message;return}
   st.err="";st.list=r.data;
-  st.names={};r.data.forEach(function(p){st.names[p.id]=p.name});
+  st.names={};st.avs={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
   if(!f.error)st.feed=f.data;
   if(!st.minesLoaded){var ms=await sb.rpc("mines_state");if(!ms.error){st.mines=ms.data||null;st.minesLoaded=true}}
@@ -376,6 +393,7 @@ function logLine(l){
   var a='<b>'+esc(l.actor_name)+'</b>',t='<b>'+esc(l.target_name||"Spieler")+'</b>',d=l.detail;
   if(l.action==="give"){var n=parseInt(d);return a+(n<0?' zog '+t+' <b class="loss">'+fmt(-n)+'</b> Punkte ab':' gab '+t+' <b class="win">+'+fmt(n)+'</b> Punkte')}
   if(l.action==="ban")return a+' sperrte '+t;
+  if(l.action==="avatar_reset")return a+' entfernte das Profilbild von '+t;
   if(l.action==="unban")return a+' entsperrte '+t;
   if(l.action==="admin_on")return a+' machte '+t+' zum Admin';
   if(l.action==="admin_off")return a+' entzog '+t+' die Admin-Rechte';
@@ -397,7 +415,7 @@ function feedHtml(){
   return st.feed.map(function(f){
     var net=f.payout-f.stake,cls=net>0?"win":(net===0?"even":"loss");
     var t=new Date(f.created_at).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
-    return '<div class="feed-i"><span><b>'+esc(st.names[f.user_id]||"Spieler")+'</b>'+badgeIcons(f.user_id,3)+' · '+esc(GL[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+f.stake+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
+    return '<div class="feed-i"><span>'+avU(f.user_id,st.names[f.user_id],"sm")+'<b>'+nameLink(f.user_id,st.names[f.user_id]||"Spieler")+'</b>'+badgeIcons(f.user_id,3)+' · '+esc(GL[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+f.stake+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
   }).join("");
 }
 
@@ -492,6 +510,65 @@ function plinkoHtml(me,canPlay,mx){
   h+='<div class="plwrap">'+sv+'</div><div class="msg">'+esc(st.pmsg)+'</div><button data-act="pdrop"'+(canPlay?'':' disabled')+'>Kugel fallen lassen</button></div>';
   return h;
 }
+function profHtml(){
+  var P=st.prof,d=P.data,me=st.me,own=d&&d.id===st.user.id;
+  var h='<div class="modalbg" data-act="profbg"><div class="pcard"><button class="pclose" data-act="profclose">✕</button>';
+  if(P.err)return h+'<p class="msg">'+esc(P.err)+'</p></div></div>';
+  if(!d)return h+'<p class="muted" style="text-align:center;padding:30px 0">Lade Profil …</p></div></div>';
+  var have=st.badges[d.id]||[],fav="",fn=0;
+  Object.keys(d.per_game||{}).forEach(function(g){if(d.per_game[g]>fn){fn=d.per_game[g];fav=g}});
+  var quote=d.games>0?Math.round(100*d.wins/d.games)+" %":"–";
+  h+='<div class="phead">'+avU(d.id,d.name,"xl")+'<div style="font-size:1.3rem;font-weight:800">'+esc(d.name)+'</div><div>'+(d.is_owner?'<span class="tag">Besitzer</span>':(d.is_admin?'<span class="tag">Admin</span>':''))+(d.banned?'<span class="tag">gesperrt</span>':'')+'</div></div>';
+  if(have.length)h+='<div class="pbadges">'+BORDER.filter(function(k){return have.indexOf(k)>=0}).map(function(k){return '<span title="'+esc(BADGES[k][2])+'">'+BADGES[k][0]+' '+esc(BADGES[k][1])+'</span>'}).join("")+'</div>';
+  else h+='<p class="muted" style="text-align:center;margin:0">Noch keine Abzeichen.</p>';
+  h+='<div class="pstats"><div><b>'+(d.rank?'#'+d.rank:'–')+'</b>Rang</div><div><b>'+fmt(d.balance)+'</b>Punkte</div><div><b>'+fmt(d.games)+'</b>Spiele</div><div><b>'+quote+'</b>Gewinnquote</div><div><b>'+fmt(d.total_wagered)+'</b>Gesetzt</div><div><b>'+(d.biggest>0?'+'+fmt(d.biggest):'–')+'</b>Größter Gewinn</div></div>';
+  h+='<p class="muted" style="margin:0 0 8px;text-align:center;font-size:.8rem">'+(fav?'Lieblingsspiel: <b>'+esc(GAMES[fav]||fav)+'</b> · ':'')+'Dabei seit '+new Date(d.created_at).toLocaleDateString("de-DE")+'</p>';
+  if(d.recent&&d.recent.length)h+='<div class="muted" style="font-size:.8rem;margin-top:6px">Letzte Spiele</div>'+d.recent.map(function(f){
+    var net=f.payout-f.stake,cls=net>0?"win":(net===0?"even":"loss"),t=new Date(f.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    return '<div class="feed-i"><span>'+esc(GAMES[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+')<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
+  }).join("");
+  h+='<div class="row" style="margin-top:14px;justify-content:center">';
+  if(own){h+='<button data-act="avpick">📷 Profilbild ändern</button>';if(st.avs[d.id])h+='<button class="tab off" data-act="avdel">Bild entfernen</button>'}
+  else if(me&&!me.banned&&!d.banned)h+='<button data-act="proftrans">💸 Punkte überweisen</button>';
+  if(!own&&me&&me.is_admin&&!me.banned&&d.avatar_url&&!d.is_owner)h+='<button class="tab off" data-act="avreset">Profilbild entfernen (Admin)</button>';
+  h+='</div>';
+  if(own&&st.avMsg)h+='<div class="msg" style="text-align:center">'+esc(st.avMsg)+'</div>';
+  if(own)h+='<p class="muted" style="text-align:center;font-size:.75rem;margin:8px 0 0">Das Bild wird quadratisch zugeschnitten und verkleinert. Alle Spieler können es sehen.</p>';
+  return h+'</div></div>';
+}
+async function loadProfile(id){
+  var r=await sb.rpc("player_profile",{p_uid:id});
+  if(!st.prof||st.prof.id!==id)return;
+  if(r.error)st.prof.err=r.error.message;else st.prof.data=r.data;
+  render();
+}
+function openProfile(id){st.prof={id:id,data:null,err:""};st.avMsg="";render();loadProfile(id)}
+function avResize(file){
+  return new Promise(function(res,rej){
+    var img=new Image(),url=URL.createObjectURL(file);
+    img.onload=function(){
+      var m=Math.min(img.width,img.height),c=document.createElement("canvas");c.width=c.height=256;
+      c.getContext("2d").drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,256,256);
+      URL.revokeObjectURL(url);
+      c.toBlob(function(b){b?res(b):rej(new Error("Das Bild konnte nicht verarbeitet werden"))},"image/jpeg",.85);
+    };
+    img.onerror=function(){URL.revokeObjectURL(url);rej(new Error("Das ist kein gültiges Bild"))};
+    img.src=url;
+  });
+}
+async function afterAvatar(){await load();if(st.prof&&st.prof.id===st.user.id)await loadProfile(st.user.id);render()}
+async function avDelete(){
+  var r=await sb.rpc("set_avatar",{p_url:null});
+  if(r.error){st.avMsg=r.error.message;render();return}
+  try{await sb.storage.from("avatars").remove([st.user.id+"/avatar.jpg"])}catch(e){}
+  st.avMsg="Profilbild entfernt.";await afterAvatar();
+}
+async function avAdminReset(id){
+  if(!confirm("Das Profilbild dieses Spielers wirklich entfernen?"))return;
+  var r=await sb.rpc("admin_reset_avatar",{p_target:id});
+  if(r.error){alert(r.error.message);return}
+  await load();await loadProfile(id);render();
+}
 function minesHtml(me,canPlay,mx){
   var g=st.mines,act=g&&g.status==="active",done=g&&!act,h="";
   if(!act){
@@ -520,13 +597,18 @@ function minesHtml(me,canPlay,mx){
   return h+'</div>';
 }
 function avColor(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%360;return "hsl("+h+",55%,42%)"}
+function avU(id,n,cls){
+  var u=st.avs&&st.avs[id];
+  return '<span class="av'+(cls?' '+cls:'')+'" style="background:'+avColor(n||"?")+'">'+esc((n||"?").charAt(0).toUpperCase())+(u?'<img src="'+esc(u)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</span>';
+}
+function nameLink(id,n){return '<span class="plink" data-act="prof" data-v="'+esc(id)+'">'+esc(n)+'</span>'}
 function avHtml(n,big){return '<span class="av'+(big?' big':'')+'" style="background:'+avColor(n)+'">'+esc((n||"?").charAt(0).toUpperCase())+'</span>'}
 function tlistHtml(){
   var q=st.tsearch.trim().toLowerCase();
   var l=st.list.filter(function(p){return p.id!==st.user.id&&!p.banned&&(!q||p.name.toLowerCase().indexOf(q)>=0)});
   l.sort(function(a,b){var qa=q&&a.name.toLowerCase().indexOf(q)===0?0:1,qb=q&&b.name.toLowerCase().indexOf(q)===0?0:1;return qa-qb||a.name.localeCompare(b.name,"de")});
   if(!l.length)return '<p class="muted">Kein Spieler gefunden.</p>';
-  return '<div class="xgrid">'+l.slice(0,8).map(function(p){return '<div class="xp'+(p.id===st.tsel?' sel':'')+'" data-act="tsel" data-v="'+esc(p.id)+'">'+avHtml(p.name)+'<span class="nm">'+esc(p.name)+badgeIcons(p.id,2)+'</span></div>'}).join("")+'</div>'+(l.length>8?'<p class="muted" style="margin:0">… und '+(l.length-8)+' weitere. Tippe mehr vom Namen, um zu suchen.</p>':'');
+  return '<div class="xgrid">'+l.slice(0,8).map(function(p){return '<div class="xp'+(p.id===st.tsel?' sel':'')+'" data-act="tsel" data-v="'+esc(p.id)+'">'+avU(p.id,p.name)+'<span class="nm">'+esc(p.name)+badgeIcons(p.id,2)+'</span></div>'}).join("")+'</div>'+(l.length>8?'<p class="muted" style="margin:0">… und '+(l.length-8)+' weitere. Tippe mehr vom Namen, um zu suchen.</p>':'');
 }
 function tAfter(){
   var amt=parseInt(st.tamt),b=st.me?st.me.balance:0;
@@ -541,7 +623,7 @@ function transferHtml(){
   var sel=st.list.find(function(p){return p.id===st.tsel});if(!sel)st.tsel=null;
   var h='<div class="xfer"><div class="xhead"><h2>💸 Punkte überweisen</h2><span class="muted">Dein Guthaben: <b>'+fmt(st.me?st.me.balance:0)+'</b></span></div>';
   h+='<input id="tsearch" type="search" placeholder="🔍 Spieler suchen …" value="'+esc(st.tsearch)+'" style="width:100%"><div id="tlist">'+tlistHtml()+'</div>';
-  h+=sel?'<div class="xto">'+avHtml(sel.name,true)+'<div><div class="muted" style="font-size:.75rem">Empfänger</div><b style="font-size:1.1rem">'+esc(sel.name)+'</b>'+badgeIcons(sel.id,3)+'</div></div>':'<div class="xto empty"><span style="font-size:1.6rem">👆</span><span class="muted">Tippe oben auf einen Spieler, um ihn auszuwählen.</span></div>';
+  h+=sel?'<div class="xto">'+avU(sel.id,sel.name,"big")+'<div><div class="muted" style="font-size:.75rem">Empfänger</div><b style="font-size:1.1rem">'+esc(sel.name)+'</b>'+badgeIcons(sel.id,3)+'</div></div>':'<div class="xto empty"><span style="font-size:1.6rem">👆</span><span class="muted">Tippe oben auf einen Spieler, um ihn auszuwählen.</span></div>';
   h+='<div class="muted" style="font-size:.8rem">Betrag</div><div class="xq" id="tq">'+[100,500,1000,5000,10000].map(function(n){return '<button data-act="tq" data-v="'+n+'" class="'+(parseInt(st.tamt)===n?'on':'')+'">'+fmt(n)+'</button>'}).join("")+'</div>';
   h+='<input id="tamt" type="number" min="100" max="10000" step="100" value="'+esc(st.tamt)+'" style="width:100%"><div class="muted" id="tafter" style="margin:6px 0 0;font-size:.85rem">'+tAfter()+'</div>';
   h+='<button class="xsend" id="tsendbtn" data-act="tsend"'+(sel?'':' disabled')+'>'+esc(tBtnText())+'</button>';
@@ -550,7 +632,7 @@ function transferHtml(){
   if(st.tlist.length){
     h+='<div class="muted" style="margin:12px 0 2px;font-size:.8rem">Letzte Überweisungen</div>'+st.tlist.slice(0,5).map(function(x){
       var out=x.from_id===st.user.id,other=out?x.to_name:x.from_name,t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
-      return '<div class="xh">'+avHtml(other)+'<div class="mid"><b>'+esc(other)+'</b><br><span class="muted" style="font-size:.78rem">'+(out?'↗ gesendet':'↙ erhalten')+' · '+t+' Uhr</span></div><b class="'+(out?'loss':'win')+'">'+(out?'−':'+')+fmt(x.amount)+'</b></div>';
+      return '<div class="xh">'+avU(out?x.to_id:x.from_id,other)+'<div class="mid"><b>'+esc(other)+'</b><br><span class="muted" style="font-size:.78rem">'+(out?'↗ gesendet':'↙ erhalten')+' · '+t+' Uhr</span></div><b class="'+(out?'loss':'win')+'">'+(out?'−':'+')+fmt(x.amount)+'</b></div>';
     }).join("");
   }
   return h+'</div>';
@@ -605,7 +687,7 @@ function render(){
   var b=me.balance,canPlay=b>=MINS&&!me.banned;
   var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
 
-  var h=toastHtml()+'<div class="card"><div class="row" style="justify-content:space-between"><span class="muted">Angemeldet als <b>'+esc(me.name)+'</b>'+badgeIcons(me.id,6)+'</span><span><button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button> <button class="tab off" data-act="logout">Abmelden</button></span></div>';
+  var h=toastHtml()+'<div class="card"><div class="row" style="justify-content:space-between"><span class="muted">'+avU(me.id,me.name,"sm")+'Angemeldet als <b>'+nameLink(me.id,me.name)+'</b>'+badgeIcons(me.id,6)+'</span><span><button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button> <button class="tab off" data-act="logout">Abmelden</button></span></div>';
   h+='<div class="muted" style="margin-top:8px">Dein Punktestand</div><div class="bal">'+b+'</div>';
   if(me.banned)h+='<p class="msg">Du wurdest gesperrt.</p>';
   else if(b<MINS)h+='<p class="muted">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
@@ -634,7 +716,7 @@ function render(){
   h+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
 
   var top=st.list.filter(function(p){return !p.banned}).slice(0,50);
-  h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+esc(p.name)+badgeIcons(p.id,4)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
+  h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+avU(p.id,p.name,"sm")+nameLink(p.id,p.name)+badgeIcons(p.id,4)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
 
   if(me.is_admin&&!me.banned){
     var sel=st.list.find(function(p){return p.id===st.osel})||null;
@@ -652,6 +734,7 @@ function render(){
   }
   if(me.is_owner&&!me.banned)h+=logHtml();
   if(st.err)h+='<p class="muted">'+esc(st.err)+'</p>';
+  if(st.prof)h+=profHtml();
   app.innerHTML=h;st.landed=false;
 }
 
@@ -673,6 +756,13 @@ app.addEventListener("click",function(e){
   else if(a==="ban")toggleBan();
   else if(a==="limits")saveLimits();
   else if(a==="mn"){st.mn=+v;render()}
+  else if(a==="prof")openProfile(v);
+  else if(a==="profbg"){if(e.target===t){st.prof=null;render()}}
+  else if(a==="profclose"){st.prof=null;render()}
+  else if(a==="avpick"){var fi=document.getElementById("avfile");if(fi)fi.click()}
+  else if(a==="avdel")avDelete();
+  else if(a==="avreset")avAdminReset(st.prof.id);
+  else if(a==="proftrans"){st.tsel=st.prof.id;st.prof=null;st.menuOpen=true;load().then(function(){render();var x=document.querySelector(".xfer");if(x)x.scrollIntoView({behavior:"smooth",block:"center"})})}
   else if(a==="plr"){st.pr=v;st.plSlot=null;render()}
   else if(a==="pdrop")plinkoDrop();
   else if(a==="tsel"){st.tsel=v;st.tmsg="";render()}
@@ -692,6 +782,23 @@ app.addEventListener("click",function(e){
   else if(a==="toastclose"){st.toastUntil=0;render()}
 });
 document.addEventListener("click",function(){SFX.unlock()});
+document.getElementById("avfile").addEventListener("change",async function(e){
+  var f=e.target.files&&e.target.files[0];e.target.value="";
+  if(!f||!st.user)return;
+  st.avMsg="Lade hoch …";render();
+  try{
+    if(f.size>15*1024*1024)throw new Error("Das Bild ist zu groß (höchstens 15 MB).");
+    var blob=await avResize(f),path=st.user.id+"/avatar.jpg";
+    var up=await sb.storage.from("avatars").upload(path,blob,{upsert:true,contentType:"image/jpeg",cacheControl:"3600"});
+    if(up.error)throw up.error;
+    var pu=sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+    var r=await sb.rpc("set_avatar",{p_url:pu+"?v="+Date.now()});
+    if(r.error)throw r.error;
+    st.avMsg="✅ Profilbild gespeichert.";
+  }catch(err){st.avMsg=(err&&err.message)||"Hochladen fehlgeschlagen."}
+  await afterAvatar();
+});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&st.prof){st.prof=null;render()}});
 app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
