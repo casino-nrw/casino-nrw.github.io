@@ -1,0 +1,58 @@
+name: Discord-Update-Nachricht
+
+# Läuft automatisch, sobald die Datei update.txt im Repository geändert oder hochgeladen wird.
+on:
+  push:
+    branches: [main]
+    paths: [update.txt]
+  workflow_dispatch:
+
+jobs:
+  nachricht:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nachricht an Discord senden
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "Es ist kein Geheimnis DISCORD_WEBHOOK hinterlegt. Siehe Anleitung."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error, datetime
+
+          text = open("update.txt", encoding="utf-8").read().strip()
+          if not text:
+              raise SystemExit("update.txt ist leer, nichts zu senden.")
+          if len(text) > 3900:
+              text = text[:3900] + "\n…"
+
+          owner, name = os.environ["REPO"].split("/", 1)
+          site = f"https://{owner}.github.io/{name}/"
+
+          payload = {
+              "username": "Casino NRW",
+              "embeds": [{
+                  "title": "🎰 Casino NRW wurde aktualisiert",
+                  "url": site,
+                  "description": text + "\n\n🔄 Es kann 1 bis 2 Minuten dauern, bis alles online ist. Lade die Seite danach mit **Strg+F5** neu.",
+                  "color": 16106752,
+                  "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              }],
+          }
+          req = urllib.request.Request(
+              os.environ["WEBHOOK"],
+              data=json.dumps(payload).encode("utf-8"),
+              headers={"Content-Type": "application/json", "User-Agent": "CasinoNRW-Update-Bot (GitHub Actions)"},
+              method="POST",
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print("Discord antwortete mit Status", r.status)
+          except urllib.error.HTTPError as e:
+              raise SystemExit(f"Discord hat abgelehnt: {e.code} {e.read().decode('utf-8', 'replace')}")
+          PY
