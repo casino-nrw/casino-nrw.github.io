@@ -158,6 +158,9 @@ main{display:none}
  .uname{display:none}.brand{font-size:1rem}.top{gap:6px;padding:8px 10px}
  .balpill{padding:6px 10px}
 }
+.opt{align-items:center}.oname{display:flex;align-items:center;gap:10px;min-width:0}.oav{cursor:zoom-in;flex:none;display:inline-flex}
+.selrow{display:flex;align-items:center;gap:14px;margin:4px 0}
+.opt .av.big{margin:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
@@ -309,7 +312,7 @@ function wheelHtml(){
 }
 
 function optHtml(p){
-  return '<div class="opt'+(p.id===st.osel?' sel':'')+'" data-act="select" data-v="'+esc(p.id)+'"><span>'+esc(p.name)+(p.is_owner?'<span class="tag">Besitzer</span>':(p.is_admin?'<span class="tag">Admin</span>':''))+(p.banned?'<span class="tag">gesperrt</span>':'')+'</span><span>'+p.balance+'</span></div>';
+  return '<div class="opt'+(p.id===st.osel?' sel':'')+'" data-act="select" data-v="'+esc(p.id)+'"><span class="oname"><span class="oav" data-act="prof" data-v="'+esc(p.id)+'" title="Profil ansehen">'+avU(p.id,p.name,"big")+'</span><span>'+esc(p.name)+(p.is_owner?'<span class="tag">Besitzer</span>':(p.is_admin?'<span class="tag">Admin</span>':''))+(p.banned?'<span class="tag">gesperrt</span>':'')+'</span></span><span>'+fmt(p.balance)+'</span></div>';
 }
 function olist(){
   var q=st.osearch.trim().toLowerCase();
@@ -764,7 +767,7 @@ function adminHtml(me){var h="";
     var sel=st.list.find(function(p){return p.id===st.osel})||null;
     if(!sel)st.osel=null;
     h+='<div class="card"><h2>Admin</h2><input id="osearch" type="search" placeholder="Spieler suchen …" value="'+esc(st.osearch)+'" style="width:100%;margin-bottom:8px"><div id="olist">'+olist()+'</div>';
-    h+='<p class="muted" style="margin:8px 0">'+(sel?'Ausgewählt: <b>'+esc(sel.name)+'</b>':'Tippe auf einen Spieler, um ihn auszuwählen.')+'</p>';
+    h+='<p class="muted" style="margin:8px 0">'+(sel?'<span class="selrow">'+avU(sel.id,sel.name,"big")+'<span>Ausgewählt:<br><b style="font-size:1.1rem">'+esc(sel.name)+'</b><br><span class="plink" data-act="prof" data-v="'+esc(sel.id)+'">Profil ansehen</span></span></span>':'Tippe auf einen Spieler, um ihn auszuwählen.')+'</p>';
     h+='<div class="row"><input id="oamt" type="number" value="'+esc(st.oamt)+'"><button data-act="give"'+(sel?'':' disabled')+'>Punkte geben</button></div><p class="muted">Negative Zahl = Punkte abziehen.</p>';
     var lmi=st.lminIn!==null?st.lminIn:MINS,lma=st.lmaxIn!==null?st.lmaxIn:MAXS;
     h+='<h2 style="margin-top:16px">Einsatz-Grenzen</h2><p class="muted" style="margin:0 0 8px">Aktuell: Mindesteinsatz <b>'+fmt(MINS)+'</b> · Höchsteinsatz <b>'+fmt(MAXS)+'</b></p>';
