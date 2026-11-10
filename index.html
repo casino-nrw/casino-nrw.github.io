@@ -121,27 +121,61 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .stt td{font-size:.85rem;padding:7px 3px;border-bottom:1px solid var(--line)}
 .stt tr.sum td{font-weight:800;border-top:2px solid var(--line)}
 .ibtn{padding:6px 10px;font-size:1rem}
+
+main{display:none}
+.loginbox{max-width:460px;margin:0 auto;padding:40px 16px}
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);grid-template-areas:"top top" "side main"}
+.top{grid-area:top;position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(14,10,34,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .brand{font-weight:800;font-size:1.15rem;cursor:pointer;background:linear-gradient(90deg,#ffd666,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.grow{flex:1}
+.burger{display:none}
+.balpill{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:rgba(245,179,1,.14);border:1px solid rgba(245,179,1,.5);color:#ffd666;white-space:nowrap}
+.balpill b{font-size:1.05rem;color:#fff}
+.uwrap{position:relative}
+.ubtn{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--line);box-shadow:none;font-weight:600;font-size:.9rem}
+.uname{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.umenu{position:absolute;right:0;top:calc(100% + 8px);width:240px;background:#1b1442;border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 14px 40px rgba(0,0,0,.55);z-index:60}
+.uhead{padding:8px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.ui{display:block;width:100%;text-align:left;background:transparent;color:var(--text);box-shadow:none;font-weight:500;font-size:.95rem;padding:10px 12px;border-radius:9px}
+.ui:hover{background:rgba(255,255,255,.1)}.ui.out{color:#ff8a8a}
+.side{grid-area:side;position:sticky;top:57px;align-self:start;height:calc(100vh - 57px);overflow:auto;padding:12px 12px 24px;border-right:1px solid var(--line);background:rgba(8,5,22,.55)}
+.sh{font-size:.7rem;letter-spacing:.12em;color:var(--muted);font-weight:700;margin:14px 8px 6px}
+.nav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:var(--text);box-shadow:none;font-weight:500;font-size:.95rem;padding:9px 10px;border-radius:10px;margin-bottom:2px}
+.nav:hover{background:rgba(255,255,255,.08)}
+.nav.on{background:linear-gradient(90deg,rgba(245,179,1,.25),rgba(245,179,1,.06));color:#ffd666;font-weight:700;box-shadow:inset 3px 0 0 var(--accent)}
+.ni{width:24px;text-align:center;font-size:1.15rem}
+.scnt{margin:18px 8px 0;color:var(--muted);font-size:.82rem}
+.sidebg{display:none}
+.content{grid-area:main;padding:16px;width:100%;max-width:760px;margin:0 auto;min-width:0}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.setrow:first-of-type{border-top:0}
+@media(max-width:860px){
+ .shell{grid-template-columns:minmax(0,1fr);grid-template-areas:"top" "main"}
+ .burger{display:inline-block}
+ .side{position:fixed;left:0;top:0;bottom:0;height:auto;width:250px;z-index:70;padding-top:16px;background:#150e36;transform:translateX(-105%);transition:transform .22s;border-right:1px solid var(--line)}
+ .side.open{transform:none}
+ .sidebg.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:65}
+ .uname{display:none}.brand{font-size:1rem}.top{gap:6px;padding:8px 10px}
+ .balpill{padding:6px 10px}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 </head>
 <body>
-<main>
-<h1>🎲 Punkte-Spiele</h1>
-<p class="sub">Farbwürfel, Glücksrad, Münzwurf und 1 gegen 1. Punkte bekommst du von einem Admin.<br>👥 <b id="cnt">–</b> Spieler angemeldet</p>
-<div id="app"><div class="card">Lade …</div></div>
+<div id="app"><div class="loginbox"><div class="card">Lade …</div></div></div>
 <input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden>
-<div class="card"><div class="legend" id="legend"></div>
+<div id="rulesholder" hidden><div class="card" id="rulescard"><h2>📖 Regeln</h2><div class="legend" id="legend"></div>
 <p class="muted" style="margin-bottom:0"><b>Farbwürfel:</b> Wähle eine Farbe und setze <span class="lim">500 bis 2000</span> Punkte. Kommt deine Farbe 1× vor, bekommst du das Doppelte deines Einsatzes zurück. Bei 2× bekommst du deinen Einsatz zurück. Bei 0×, 3× oder 4× ist der Einsatz verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>Glücksrad:</b> Wähle Dark oder light und setze <span class="lim">500 bis 2000</span> Punkte. Landet das Rad auf deiner Farbe, bekommst du das Doppelte deines Einsatzes. Bei der anderen Farbe oder beim Stern ★ ist der Einsatz verloren. Du kannst auch auf den Stern ★ setzen: Landet das Rad dort, bekommst du das Dreifache deines Einsatzes.</p>
 <p class="muted" style="margin-bottom:0"><b>Münzwurf:</b> Wähle Kopf oder Zahl und setze <span class="lim">500 bis 2000</span> Punkte. Trifft deine Seite (50 %), bekommst du das 1,9-fache deines Einsatzes zurück, sonst ist er verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>1 gegen 1:</b> Du wählst eine Farbe und deinen Einsatz (<span class="lim">500 bis 2000</span>) und erstellst eine Herausforderung. Ein anderer Spieler tritt mit einer anderen Farbe bei und setzt denselben Einsatz. Dann wird mit 4 Würfeln gewürfelt: Wessen Farbe öfter fällt, gewinnt den ganzen Pott (doppelter Einsatz). Bei Gleichstand wird automatisch neu gewürfelt. Findet sich 15 Minuten lang kein Gegner, bekommst du deinen Einsatz zurück. Du kannst die Herausforderung auch selbst abbrechen.</p>
 <p class="muted" style="margin-bottom:0"><b>Minen:</b> Wähle die Anzahl der Minen und deinen Einsatz. Auf dem 5×5-Feld deckst du Felder auf: Ein Diamant 💎 erhöht deinen Multiplikator, eine Bombe 💣 beendet das Spiel und der Einsatz ist weg. Du kannst jederzeit auszahlen und bekommst Einsatz × Multiplikator. Je mehr Minen, desto schneller steigt der Multiplikator, aber desto riskanter ist es. Deckst du alle Diamanten auf, wirst du automatisch ausgezahlt. Bei 5 Minen steigt der Multiplikator mit jedem Diamanten gleichmäßig an, bei allen 20 Diamanten ist er ×25. Ein laufendes Spiel bleibt gespeichert, auch wenn du die Seite verlässt.</p>
 <p class="muted"><b>Plinko:</b> Wähle Risiko und Einsatz und lass die Kugel fallen. Sie springt über 12 Reihen Nägel und landet in einem Feld mit einem Multiplikator. Am Rand sind die hohen Multiplikatoren, in der Mitte die niedrigen. Bei hohem Risiko sind die Randfelder viel größer, aber seltener.</p>
-<p class="muted"><b>Überweisen:</b> In „Mein Menü“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
+<p class="muted"><b>Überweisen:</b> Unter „Überweisen“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
 <p class="muted"><b>Profil:</b> Tippe auf einen Namen in der Rangliste oder im Live-Feed, um das Profil eines Spielers zu sehen: Abzeichen, Rang, Statistik und die letzten Spiele. Bei deinem eigenen Profil kannst du ein Profilbild hochladen.</p>
 <p class="muted" style="margin-bottom:0"><b>Abzeichen:</b> Für besondere Leistungen bekommst du automatisch Abzeichen. Sie erscheinen hinter deinem Namen, in „Mein Menü“ siehst du alle und was dir noch fehlt.</p></div>
-</main>
+</div></div>
 <script>
 // Die Supabase-Daten stehen in der Datei config.js (siehe ANLEITUNG.md)
 var cfg = window.APP_CONFIG || {};
@@ -252,7 +286,7 @@ function limTxt(){return MINS+' bis '+MAXS}
 function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.querySelectorAll('.lim'),function(e){e.textContent=limTxt()})}
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
-var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
+var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -579,7 +613,7 @@ function minesHtml(me,canPlay,mx){
     h+='<div class="muted" style="margin-top:10px">Anzahl Minen:</div><div class="picker">'+[1,3,5,10,15,24].map(function(n){return '<button class="pc'+(n===st.mn?' sel':'')+'" data-act="mn" data-v="'+n+'" style="background:#7a2e2a">'+n+'</button>'}).join("")+'</div>';
     h+=stakeRow(mx);
   }
-  var revealed=g?g.revealed:[],bombs=g&&g.bombs?g.bombs:[];
+  var revealed=g&&g.revealed?g.revealed:[],bombs=g&&g.bombs?g.bombs:[];
   var cells="";
   for(var i=0;i<25;i++){
     var cls="mcell",txt="",dis=true;
@@ -649,10 +683,8 @@ function badgesHtml(){
   });
   return h+'</div>';
 }
-function menuHtml(){
-  var h='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">👤 Mein Menü</h2><button class="tab off" data-act="menu">'+(st.menuOpen?'Schließen':'Öffnen')+'</button></div>';
-  if(!st.menuOpen)return h+'<p class="muted" style="margin:8px 0 0">Deine persönliche Statistik und deine Spiele-Logs. Nur du siehst sie hier.</p></div>';
-  h+=transferHtml()+badgesHtml();
+function statsBody(){
+  var h="";
   var order=["dice","wheel","coin","duel","mines","plinko"],byG={};
   st.stats.forEach(function(x){byG[x.game]=x});
   var tn=0,tw=0,tp=0;
@@ -673,30 +705,35 @@ function menuHtml(){
     var t=new Date(f.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
     return '<div class="feed-i"><span><b>'+esc(GAMES[f.game]||f.game)+'</b> ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+fmt(f.stake)+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+fmt(net):(net===0?"±0":fmt(net)))+'</span></div>';
   }).join("");
-  return h+'</div>';
+  return h;
 }
-
 function stakeRow(mx){
   return '<div class="row" style="margin-top:10px">Einsatz: <input id="stake" type="number" min="'+MINS+'" max="'+Math.max(MINS,mx)+'" step="50" value="'+st.stake+'"><span class="muted">(Mindesteinsatz '+fmt(MINS)+' · Höchsteinsatz '+fmt(MAXS)+')</span></div>';
 }
 
-function render(){
-  if(st.rolling)return;
-  if(!st.user){
-    app.innerHTML='<div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button></div>';
-    return;
+
+var GPAGES=["dice","wheel","coin","duel","mines","plinko"];
+function navBtn(id,ico,txt){return '<button class="nav'+(st.page===id?' on':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+ico+'</span>'+txt+'</button>'}
+function sideHtml(me){
+  var h='<div class="sidebg'+(st.sideOpen?' open':'')+'" data-act="sidebg"></div><aside class="side'+(st.sideOpen?' open':'')+'">';
+  h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko");
+  h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
+  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("log","🔒","Admin-Log")}
+  h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
+  return h;
+}
+function topHtml(me){
+  var h='<header class="top"><button class="tab off ibtn burger" data-act="side" aria-label="Menü">☰</button><span class="brand" data-act="nav" data-v="dice">🎲 Punkte-Spiele</span><span class="grow"></span>';
+  h+='<span class="balpill" title="Dein Punktestand">🪙 <b>'+fmt(me.balance)+'</b></span>';
+  h+='<button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button>';
+  h+='<div class="uwrap"><button class="ubtn" data-act="umenu">'+avU(me.id,me.name,"sm")+'<span class="uname">'+esc(me.name)+'</span> ▾</button>';
+  if(st.userMenuOpen){
+    h+='<div class="umenu"><div class="uhead">'+esc(me.name)+(me.is_owner?' <span class="tag">Besitzer</span>':(me.is_admin?' <span class="tag">Admin</span>':''))+'<br><span class="muted">🪙 '+fmt(me.balance)+' Punkte</span></div>';
+    h+='<button class="ui" data-act="myprof">👤 Mein Profil</button><button class="ui" data-act="nav" data-v="transfer">💸 Überweisen</button><button class="ui" data-act="nav" data-v="stats">📊 Meine Statistik</button><button class="ui" data-act="nav" data-v="badges">🏅 Abzeichen</button><button class="ui" data-act="nav" data-v="settings">⚙️ Einstellungen</button><button class="ui out" data-act="logout">⎋ Abmelden</button></div>';
   }
-  var me=st.me;
-  if(!me){app.innerHTML='<div class="card">Lade …'+(st.err?'<p class="muted">'+esc(st.err)+'</p>':'')+'</div>';return}
-  var b=me.balance,canPlay=b>=MINS&&!me.banned;
-  var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
-
-  var h=toastHtml()+'<div class="card"><div class="row" style="justify-content:space-between"><span class="muted">'+avU(me.id,me.name,"sm")+'Angemeldet als <b>'+nameLink(me.id,me.name)+'</b>'+badgeIcons(me.id,6)+'</span><span><button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button> <button class="tab off" data-act="logout">Abmelden</button></span></div>';
-  h+='<div class="muted" style="margin-top:8px">Dein Punktestand</div><div class="bal">'+b+'</div>';
-  if(me.banned)h+='<p class="msg">Du wurdest gesperrt.</p>';
-  else if(b<MINS)h+='<p class="muted">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
-  h+='<div class="row" style="margin:10px 0 4px"><button class="tab'+(st.game==="dice"?'':' off')+'" data-act="tab" data-v="dice">🎲 Farbwürfel</button><button class="tab'+(st.game==="wheel"?'':' off')+'" data-act="tab" data-v="wheel">🎡 Glücksrad</button><button class="tab'+(st.game==="coin"?'':' off')+'" data-act="tab" data-v="coin">🪙 Münzwurf</button><button class="tab'+(st.game==="duel"?'':' off')+'" data-act="tab" data-v="duel">⚔️ 1 gegen 1</button><button class="tab'+(st.game==="mines"?'':' off')+'" data-act="tab" data-v="mines">💣 Minen</button><button class="tab'+(st.game==="plinko"?'':' off')+'" data-act="tab" data-v="plinko">🔻 Plinko</button></div>';
-
+  return h+'</div></header>';
+}
+function gameBody(me,canPlay,mx){var h="";
   if(st.game==="dice"){
     h+='<div class="picker">'+COLORS.map(function(c,i){return '<button class="pc'+(i===st.pick?' sel':'')+'" data-act="pc" data-v="'+i+'" style="background:'+c[1]+'">'+c[0]+'</button>'}).join("")+'</div>';
     h+=stakeRow(mx);
@@ -716,12 +753,13 @@ function render(){
   }else{
     h+=duelHtml(me,canPlay,mx);
   }
-  h+=menuHtml();
-  h+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
-
+  return h}
+function rankHtml(me){var h="";
   var top=st.list.filter(function(p){return !p.banned}).slice(0,50);
   h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+avU(p.id,p.name,"sm")+nameLink(p.id,p.name)+badgeIcons(p.id,4)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
 
+  return h}
+function adminHtml(me){var h="";
   if(me.is_admin&&!me.banned){
     var sel=st.list.find(function(p){return p.id===st.osel})||null;
     if(!sel)st.osel=null;
@@ -736,19 +774,77 @@ function render(){
     if(me.is_owner)h+='<button class="tab off" data-act="admin"'+(sel&&!sel.is_owner?'':' disabled')+'>'+(sel&&sel.is_admin?'Admin entfernen':'Zum Admin machen')+'</button>';
     h+='<button class="tab off" data-act="ban"'+(sel&&!sel.is_owner&&sel.id!==me.id&&(!sel.is_admin||me.is_owner)?'':' disabled')+'>'+(sel&&sel.banned?'Entsperren':'Sperren')+'</button></div></div>';
   }
-  if(me.is_owner&&!me.banned)h+=logHtml();
-  if(st.err)h+='<p class="muted">'+esc(st.err)+'</p>';
+  return h}
+function statsHtml(){
+  var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
+  return h+statsBody()+'</div>';
+}
+function settingsHtml(me){
+  var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
+  h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
+  h+='<div class="setrow"><span><b>Profil & Profilbild</b><br><span class="muted">Eigenes Bild hochladen oder entfernen.</span></span><button data-act="myprof">Bearbeiten</button></div>';
+  h+='<div class="setrow"><span><b>Ton</b><br><span class="muted">Sounds bei Spielen und Gewinnen.</span></span><button class="tab off" data-act="mute">'+(SFX.isMuted()?'🔇 Aus':'🔊 An')+'</button></div>';
+  h+='<div class="setrow"><span><b>Abmelden</b><br><span class="muted">Von diesem Gerät abmelden.</span></span><button class="tab off" data-act="logout">Abmelden</button></div></div>';
+  return h;
+}
+function render(){
+  if(st.rolling)return;
+  if(!st.user){
+    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button><p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p></div></div>';
+    return;
+  }
+  var me=st.me;
+  if(!me){app.innerHTML='<div class="card">Lade …'+(st.err?'<p class="muted">'+esc(st.err)+'</p>':'')+'</div>';return}
+  var b=me.balance,canPlay=b>=MINS&&!me.banned;
+  var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
+  var pg=st.page;
+  if((pg==="admin"&&!(me.is_admin&&!me.banned))||(pg==="log"&&!(me.is_owner&&!me.banned)))pg=st.page="dice";
+  var c=toastHtml();
+  if(GPAGES.indexOf(pg)>=0){
+    st.game=pg;
+    c+='<div class="card">';
+    if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
+    else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
+    c+='<h2 style="margin:0">'+esc(GAMES[pg])+'</h2>';
+    c+=gameBody(me,canPlay,mx);
+    c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
+  }else if(pg==="ranking")c+=rankHtml(me);
+  else if(pg==="feed")c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
+  else if(pg==="badges")c+='<div class="card">'+badgesHtml()+'</div>';
+  else if(pg==="transfer")c+='<div class="card">'+transferHtml()+'</div>';
+  else if(pg==="stats")c+=statsHtml();
+  else if(pg==="settings")c+=settingsHtml(me);
+  else if(pg==="rules")c+='<div id="rulesslot"></div>';
+  else if(pg==="admin")c+=adminHtml(me);
+  else if(pg==="log")c+=logHtml();
+  if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
+  var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
   if(st.prof)h+=profHtml();
+  var holder=document.getElementById("rulesholder"),rc=document.getElementById("rulescard");
+  if(rc&&holder&&rc.parentNode!==holder)holder.appendChild(rc);
   app.innerHTML=h;
+  if(pg==="rules"&&rc){var sl=document.getElementById("rulesslot");if(sl)sl.appendChild(rc)}
   if(st.balls.length)plDraw(performance.now());st.landed=false;
+}
+function go(p){
+  st.page=p;st.sideOpen=false;st.userMenuOpen=false;st.menuOpen=(p==="stats");
+  if(p==="stats")st.mylog=st.mylog||[];
+  var pr=st.menuOpen?load():Promise.resolve();
+  return pr.then(function(){render();window.scrollTo(0,0)});
 }
 
 app.addEventListener("click",function(e){
+  if(st.userMenuOpen&&!e.target.closest(".uwrap")){st.userMenuOpen=false;render()}
   var t=e.target.closest("[data-act]");if(!t||t.disabled)return;
   var a=t.dataset.act,v=t.dataset.v;
   if(a==="login")login();
   else if(a==="logout")logout();
   else if(a==="tab"){st.game=v;render()}
+  else if(a==="nav")go(v);
+  else if(a==="side"){st.sideOpen=!st.sideOpen;render()}
+  else if(a==="sidebg"){st.sideOpen=false;render()}
+  else if(a==="umenu"){st.userMenuOpen=!st.userMenuOpen;render()}
+  else if(a==="myprof"){st.userMenuOpen=false;openProfile(st.user.id)}
   else if(a==="pc"){st.pick=+v;render()}
   else if(a==="pw"){st.wpick=v;render()}
   else if(a==="pk"){st.cpick=v;render()}
@@ -767,7 +863,7 @@ app.addEventListener("click",function(e){
   else if(a==="avpick"){var fi=document.getElementById("avfile");if(fi)fi.click()}
   else if(a==="avdel")avDelete();
   else if(a==="avreset")avAdminReset(st.prof.id);
-  else if(a==="proftrans"){st.tsel=st.prof.id;st.prof=null;st.menuOpen=true;load().then(function(){render();var x=document.querySelector(".xfer");if(x)x.scrollIntoView({behavior:"smooth",block:"center"})})}
+  else if(a==="proftrans"){st.tsel=st.prof.id;st.prof=null;go("transfer")}
   else if(a==="plr"){st.pr=v;render()}
   else if(a==="pdrop")plinkoDrop();
   else if(a==="tsel"){st.tsel=v;st.tmsg="";render()}
@@ -782,7 +878,6 @@ app.addEventListener("click",function(e){
   else if(a==="dcancel")duelCancel(+v);
   else if(a==="djoin")duelJoin(+v,false);
   else if(a==="djoinr")duelJoin(null,true);
-  else if(a==="menu")toggleMenu();
   else if(a==="mute"){SFX.setMuted(!SFX.isMuted());SFX.unlock();render()}
   else if(a==="toastclose"){st.toastUntil=0;render()}
 });
@@ -921,11 +1016,6 @@ async function duelJoin(id,random){
     SFX.play("land");outcome(won?1:-1,won?d.pot:0,d.stake,420);
   }
   st.rolling=false;await load();render();
-}
-async function toggleMenu(){
-  st.menuOpen=!st.menuOpen;
-  if(st.menuOpen)await load();
-  render();
 }
 
 async function adminCall(fn,args){
@@ -1083,7 +1173,7 @@ function toggleBan(){var s=selected();if(s)adminCall("set_banned",{p_target:s.id
 sb.auth.onAuthStateChange(function(ev,session){
   st.user=session?session.user:null;
   setTimeout(async function(){
-    if(st.user)await load();else{st.me=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;loadCount()}
+    if(st.user)await load();else{st.me=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
     render();
   },0);
 });
