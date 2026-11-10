@@ -336,7 +336,7 @@ async function load(){
   if(Date.now()-st.lastExpire>30000){st.lastExpire=Date.now();try{sb.rpc("expire_challenges").then(function(){},function(){})}catch(e){}}
   var qs=[
     sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,banned,avatar_url").order("balance",{ascending:false}),
-    sb.from("game_log").select("id,user_id,game,bet,stake,payout,created_at").order("created_at",{ascending:false}).limit(5),
+    sb.from("game_log").select("id,user_id,game,bet,stake,payout,created_at").order("created_at",{ascending:false}).limit(st.page==="feed"?100:5),
     sb.from("challenges").select(CH_COLS).eq("status","open").order("created_at",{ascending:true}).limit(50),
     sb.from("challenges").select(CH_COLS).eq("status","done").order("finished_at",{ascending:false}).limit(12)
   ];
@@ -448,12 +448,12 @@ function logHtml(){
     return '<div class="feed-i"><span>'+logLine(l)+'<br><span class="muted">'+ts+' Uhr</span></span></div>';
   }).join("")+'</div>'+btn+'</div>';
 }
-function feedHtml(){
+function feedHtml(full){
   if(!st.feed.length)return '<p class="muted">Noch keine Spiele gespielt.</p>';
   var GL=GAMES;
-  return st.feed.map(function(f){
+  return st.feed.slice(0,full?100:5).map(function(f){
     var net=f.payout-f.stake,cls=net>0?"win":(net===0?"even":"loss");
-    var t=new Date(f.created_at).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
+    var t=full?new Date(f.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):new Date(f.created_at).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
     return '<div class="feed-i"><span>'+avU(f.user_id,st.names[f.user_id],"sm")+'<b>'+nameLink(f.user_id,st.names[f.user_id]||"Spieler")+'</b>'+badgeIcons(f.user_id,3)+' · '+esc(GL[f.game]||f.game)+' ('+esc(betLabel(f.game,f.bet))+') · Einsatz '+f.stake+'<br><span class="muted">'+t+' Uhr</span></span><span class="'+cls+'">'+(net>0?"+"+net:(net===0?"±0":net))+'</span></div>';
   }).join("");
 }
@@ -812,7 +812,7 @@ function render(){
     c+=gameBody(me,canPlay,mx);
     c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
   }else if(pg==="ranking")c+=rankHtml(me);
-  else if(pg==="feed")c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
+  else if(pg==="feed")c+='<div class="card"><h2>📡 Live-Feed <span class="tag">letzte 100 Spiele</span></h2>'+feedHtml(true)+'</div>';
   else if(pg==="badges")c+='<div class="card">'+badgesHtml()+'</div>';
   else if(pg==="transfer")c+='<div class="card">'+transferHtml()+'</div>';
   else if(pg==="stats")c+=statsHtml();
@@ -830,9 +830,9 @@ function render(){
   if(st.balls.length)plDraw(performance.now());st.landed=false;
 }
 function go(p){
-  st.page=p;st.sideOpen=false;st.userMenuOpen=false;st.menuOpen=(p==="stats");
+  st.page=p;st.sideOpen=false;st.userMenuOpen=false;st.menuOpen=(p==="stats");st.feed=p==="feed"?st.feed:st.feed.slice(0,5);
   if(p==="stats")st.mylog=st.mylog||[];
-  var pr=st.menuOpen?load():Promise.resolve();
+  var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   return pr.then(function(){render();window.scrollTo(0,0)});
 }
 
