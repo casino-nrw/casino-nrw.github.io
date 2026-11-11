@@ -33,7 +33,7 @@ jobs:
               text = text[:3900] + "\n…"
 
           owner, name = os.environ["REPO"].split("/", 1)
-          site = f"https://{owner}.github.io/{name}/"
+          site = f"https://{owner}.github.io/" if name.lower() == f"{owner}.github.io".lower() else f"https://{owner}.github.io/{name}/"
 
           payload = {
               "username": "Casino NRW",
