@@ -1,6 +1,5 @@
-🧭 Komplett neues Layout!
-• Links die neue Seitenleiste: Spiele (Farbwürfel, Glücksrad, Münzwurf, 1 gegen 1, Minen, Plinko) und Community (Rangliste, Live-Feed, Abzeichen, Überweisen, Regeln)
-• Oben rechts dein Benutzermenü: Mein Profil, Überweisen, Meine Statistik, Abzeichen, Einstellungen und Abmelden
-• Dein Punktestand steht jetzt oben in der Leiste, immer sichtbar
-• Neue Einstellungen-Seite (Profilbild, Ton, Abmelden)
-• Auf dem Handy öffnet man die Seitenleiste mit dem ☰-Knopf
+🎰 Neu: Spiel des Tages + Rubbellos!
+• 4 neue Spiele: 🚀 Crash, 🃏 Hi-Lo, 🔢 Keno und 👑 Baccarat
+• Jeden Tag um Mitternacht ist genau eins davon offen, danach das nächste (mit Countdown in der Seitenleiste)
+• 🎟️ Rubbellos: immer verfügbar. Rubbele 9 Felder mit Maus oder Finger richtig frei, 3 gleiche Symbole gewinnen bis zu ×250
+• Heute: Hi-Lo
