@@ -334,6 +334,7 @@ function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}
 if(SUPABASE_URL.indexOf("HIER")>=0||SUPABASE_KEY.indexOf("HIER")>=0){
   app.innerHTML='<div class="card">Die Seite ist noch nicht eingerichtet. Lege bei GitHub die Datei config.js mit deinen Supabase-Daten an (siehe ANLEITUNG.md).</div>';return}
 var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+var URL_ERR=(function(){try{var q=new URLSearchParams(location.search),h=new URLSearchParams(location.hash.replace(/^#/,""));return q.get("error_description")||h.get("error_description")||""}catch(e){return ""}})();
 
 var COLORS=[["Rot","#e53935"],["Orange","#fb8c00"],["Gelb","#e0a800"],["Grün","#2e9e4f"],["Blau","#1e6fe0"],["Lila","#8e44ad"],["Pink","#d81b7a"]];
 var SEGS=["D","L","D","S","L","D","L"];
@@ -342,7 +343,7 @@ function limTxt(){return MINS+' bis '+MAXS}
 function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.querySelectorAll('.lim'),function(e){e.textContent=limTxt()})}
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
-var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
+var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -1222,7 +1223,7 @@ function settingsHtml(me){
 function render(){
   if(st.rolling)return;
   if(!st.user){
-    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button><p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p></div></div>';
+    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button>'+(/[?&]neu=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="login2">Test: Discord ohne E-Mail</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
     return;
   }
   var me=st.me;
@@ -1284,6 +1285,7 @@ app.addEventListener("click",function(e){
   var t=e.target.closest("[data-act]");if(!t||t.disabled)return;
   var a=t.dataset.act,v=t.dataset.v;
   if(a==="login")login();
+  else if(a==="login2")login2();
   else if(a==="logout")logout();
   else if(a==="tab"){st.game=v;render()}
   else if(a==="nav")go(v);
@@ -1370,6 +1372,10 @@ app.addEventListener("input",function(e){
   else if(t.id==="osearch"){st.osearch=t.value;document.getElementById("olist").innerHTML=olist()}
 });
 
+async function login2(){
+  var r=await sb.auth.signInWithOAuth({provider:"custom:discord",options:{redirectTo:location.origin+location.pathname}});
+  if(r.error){st.err=r.error.message;render()}
+}
 async function login(){
   var r=await sb.auth.signInWithOAuth({provider:"discord",options:{redirectTo:location.origin+location.pathname,scopes:"identify"}});
   if(r.error)alert(r.error.message);
