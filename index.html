@@ -1223,7 +1223,7 @@ function settingsHtml(me){
 function render(){
   if(st.rolling)return;
   if(!st.user){
-    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button>'+(/[?&]neu=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="login2">Test: Discord ohne E-Mail</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
+    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
     return;
   }
   var me=st.me;
@@ -1285,7 +1285,7 @@ app.addEventListener("click",function(e){
   var t=e.target.closest("[data-act]");if(!t||t.disabled)return;
   var a=t.dataset.act,v=t.dataset.v;
   if(a==="login")login();
-  else if(a==="login2")login2();
+  else if(a==="loginalt")loginAlt();
   else if(a==="logout")logout();
   else if(a==="tab"){st.game=v;render()}
   else if(a==="nav")go(v);
@@ -1372,13 +1372,13 @@ app.addEventListener("input",function(e){
   else if(t.id==="osearch"){st.osearch=t.value;document.getElementById("olist").innerHTML=olist()}
 });
 
-async function login2(){
+async function login(){
   var r=await sb.auth.signInWithOAuth({provider:"custom:discord",options:{redirectTo:location.origin+location.pathname}});
   if(r.error){st.err=r.error.message;render()}
 }
-async function login(){
+async function loginAlt(){
   var r=await sb.auth.signInWithOAuth({provider:"discord",options:{redirectTo:location.origin+location.pathname,scopes:"identify"}});
-  if(r.error)alert(r.error.message);
+  if(r.error){st.err=r.error.message;render()}
 }
 async function logout(){await sb.auth.signOut()}
 
