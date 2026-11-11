@@ -342,7 +342,7 @@ function limTxt(){return MINS+' bis '+MAXS}
 function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.querySelectorAll('.lim'),function(e){e.textContent=limTxt()})}
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
-var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
+var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:"",cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -399,7 +399,7 @@ async function load(){
   }
   qs.push(sb.from("user_badges").select("user_id,badge").limit(5000));
   qs.push(sb.from("transfers").select("id,from_id,to_id,from_name,to_name,amount,created_at").order("id",{ascending:false}).limit(10));
-  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at").eq("id",1).maybeSingle());
+  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games").eq("id",1).maybeSingle());
   var rr=await Promise.all(qs);
   var sr=rr[rr.length-1],tr=rr[rr.length-2],br=rr[rr.length-3];
   if(br&&!br.error&&br.data){
@@ -420,7 +420,7 @@ async function load(){
       st.tseen=Math.max(st.tseen,maxId);
     }
   }
-  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at}
+  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[]}
   var r=rr[0],f=rr[1];
   if(r.error){st.err=r.error.message;return}
   st.err="";st.list=r.data;
@@ -491,6 +491,8 @@ function badgeIcons(uid,max){
 function logLine(l){
   var a='<b>'+esc(l.actor_name)+'</b>',t='<b>'+esc(l.target_name||"Spieler")+'</b>',d=l.detail;
   if(l.action==="give"){var n=parseInt(d);return a+(n<0?' zog '+t+' <b class="loss">'+fmt(-n)+'</b> Punkte ab':' gab '+t+' <b class="win">+'+fmt(n)+'</b> Punkte')}
+  if(l.action==="game_lock")return a+' sperrte das Spiel <b>'+esc(GAMES[d]||d)+'</b> (Wartung)';
+  if(l.action==="game_unlock")return a+' gab das Spiel <b>'+esc(GAMES[d]||d)+'</b> wieder frei';
   if(l.action==="ban")return a+' sperrte '+t;
   if(l.action==="avatar_reset")return a+' entfernte das Profilbild von '+t;
   if(l.action==="unban")return a+' entsperrte '+t;
@@ -982,6 +984,38 @@ async function kenoPlay(){
   st.kbusy=false;await load();render();
 }
 
+
+/* --- Spiele sperren (Inhaber) --- */
+var ALLG=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat"];
+function isLocked(g){return st.locked&&st.locked.indexOf(g)>=0}
+function hasRound(g){
+  if(g==="mines")return !!(st.mines&&st.mines.status==="active");
+  if(g==="crash")return !!(st.crash&&st.crash.status==="active");
+  if(g==="hilo")return !!(st.hl&&st.hl.status==="active");
+  if(g==="scratch")return !!(st.scard&&!st.scard.done);
+  return false;
+}
+function maintHtml(pg){
+  return '<div class="lockbox"><div class="lockico">🔧</div><h3>'+esc(GAMES[pg])+' ist gerade in Wartung</h3><p class="muted">Das Spiel wird überarbeitet und ist vorübergehend gesperrt. Probier in der Zwischenzeit ein anderes Spiel aus.</p></div></div>';
+}
+function lockPanelHtml(){
+  var h='<div class="card"><h2>🔧 Spiele sperren</h2><p class="muted" style="margin:0 0 8px">Nur du als Besitzer siehst das. Gesperrte Spiele können andere nicht mehr starten (laufende Runden dürfen sie noch beenden). Du selbst kannst gesperrte Spiele weiter spielen, um sie zu testen.</p>';
+  h+=ALLG.map(function(g){
+    var l=isLocked(g);
+    return '<div class="setrow"><span><b>'+esc(GAMES[g])+'</b> '+(l?'<span class="tag" style="background:#7a2e2a;color:#fff">gesperrt</span>':'<span class="tag">offen</span>')+'</span><button class="'+(l?'':'tab off')+'" data-act="glock" data-v="'+g+'"'+(st.glbusy?' disabled':'')+'>'+(l?'Freigeben':'Sperren')+'</button></div>';
+  }).join("");
+  return h+'<div class="msg">'+esc(st.glmsg)+'</div></div>';
+}
+async function toggleLock(g){
+  if(st.glbusy)return;
+  var lock=!isLocked(g);
+  st.glbusy=true;st.glmsg="";
+  var r=await sb.rpc("set_game_locked",{p_game:g,p_locked:lock});
+  st.glbusy=false;
+  if(r.error){st.glmsg=r.error.message;render();return}
+  st.glmsg=GAMES[g]+(lock?" ist jetzt gesperrt.":" ist wieder freigegeben.");
+  await load();render();
+}
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
 function pendingSc(){return st.scard&&!st.scard.done}
@@ -1109,11 +1143,11 @@ async function loadDayStates(){
 }
 
 var GPAGES=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat"];
-function navBtn(id,ico,txt){return '<button class="nav'+(st.page===id?' on':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+ico+'</span>'+txt+'</button>'}
+function navBtn(id,ico,txt){var lk=isLocked(id);return '<button class="nav'+(st.page===id?' on':'')+(lk?' lock':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+(lk?'🔧':ico)+'</span>'+txt+(lk?'<small>Wartung</small>':'')+'</button>'}
 function sideHtml(me){
   var h='<div class="sidebg'+(st.sideOpen?' open':'')+'" data-act="sidebg"></div><aside class="side'+(st.sideOpen?' open':'')+'">';
   h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos");
-  if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.forEach(function(g){var ac=st.daily.active===g,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(ac?DAYICO[g]:'🔒')+'</span>'+GAMES[g]+(ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
+  if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.forEach(function(g){var ac=st.daily.active===g,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
   if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("log","🔒","Admin-Log")}
   h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
@@ -1204,7 +1238,11 @@ function render(){
     if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
     else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
     c+='<h2 style="margin:0">'+esc(GAMES[pg])+'</h2>';
-    c+=(DAYG.indexOf(pg)>=0?dayBody(pg,me,canPlay,mx):gameBody(me,canPlay,mx));
+    if(isLocked(pg)&&!me.is_owner&&!hasRound(pg))c+=maintHtml(pg);
+    else{
+      if(isLocked(pg))c+='<div class="dayban">🔧 <b>Gesperrt (Wartung)</b> · '+(me.is_owner?'Nur du kannst dieses Spiel gerade spielen.':'Du kannst deine laufende Runde noch beenden.')+'</div>';
+      c+=(DAYG.indexOf(pg)>=0?dayBody(pg,me,canPlay,mx):gameBody(me,canPlay,mx));
+    }
     c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
   }else if(pg==="ranking")c+=rankHtml(me);
   else if(pg==="feed")c+='<div class="card"><h2>📡 Live-Feed <span class="tag">letzte 100 Spiele</span></h2>'+feedHtml(true)+'</div>';
@@ -1213,7 +1251,7 @@ function render(){
   else if(pg==="stats")c+=statsHtml();
   else if(pg==="settings")c+=settingsHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
-  else if(pg==="admin")c+=adminHtml(me);
+  else if(pg==="admin")c+=adminHtml(me)+(me.is_owner?lockPanelHtml():"");
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -1249,6 +1287,7 @@ app.addEventListener("click",function(e){
   else if(a==="logout")logout();
   else if(a==="tab"){st.game=v;render()}
   else if(a==="nav")go(v);
+  else if(a==="glock")toggleLock(v);
   else if(a==="scbuy")scBuy();
   else if(a==="sc")scReveal(+v);
   else if(a==="scall"){var cc=st.scard;if(cc&&!cc.done){for(var q=0;q<9;q++){cc.rev[q]=true;var e2=document.querySelector('[data-sc="'+q+'"]');if(e2)e2.classList.add("on")}SFX.play("ding");scDone()}}
@@ -1594,7 +1633,7 @@ function toggleBan(){var s=selected();if(s)adminCall("set_banned",{p_target:s.id
 sb.auth.onAuthStateChange(function(ev,session){
   st.user=session?session.user:null;
   setTimeout(async function(){
-    if(st.user)await load();else{st.me=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
+    if(st.user)await load();else{st.me=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.locked=[];st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
     render();
   },0);
 });
