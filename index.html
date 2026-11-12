@@ -438,6 +438,7 @@ async function load(){
   st.err="";st.list=r.data;
   st.names={};st.avs={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
+  if(st.me&&!st.me.banned&&Date.now()-(st.fwAt||0)>4000){st.fwAt=Date.now();sb.rpc("flush_wins").then(function(){},function(){})}
   if(st.me&&st.me.is_owner&&!st.me.banned&&Date.now()-st.alAt>60000){st.alAt=Date.now();loadAlerts()}
   if(st.me&&!st.refTried){
     st.refTried=true;var rc=null;
