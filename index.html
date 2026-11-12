@@ -170,6 +170,7 @@ main{display:none}
 .live{margin-left:auto;font-size:.62rem;font-weight:800;letter-spacing:.06em;background:#2e9e4f;color:#fff;border-radius:6px;padding:2px 6px}
 .cdline{margin:8px 8px 0;font-size:.82rem;color:var(--muted)}.cdline b{color:#ffd666;font-variant-numeric:tabular-nums}
 .dayban{background:linear-gradient(90deg,rgba(245,179,1,.22),rgba(245,179,1,.05));border:1px solid rgba(245,179,1,.4);border-radius:12px;padding:8px 12px;margin:8px 0;font-size:.9rem}
+.annc{display:flex;align-items:center;gap:8px;justify-content:space-between;background:linear-gradient(90deg,rgba(80,140,255,.25),rgba(80,140,255,.06));border:1px solid rgba(80,140,255,.5);border-radius:12px;padding:8px 12px;margin:8px 0;font-size:.95rem}
 .dayban .cd{font-variant-numeric:tabular-nums;color:#ffd666}
 .plan{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}.pl{font-size:.78rem;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--muted)}.pl.now{background:rgba(245,179,1,.2);color:#ffd666}
 .lockbox{text-align:center;padding:14px 6px}.lockico{font-size:3rem}.lockbox .cd{font-variant-numeric:tabular-nums;color:#ffd666}
@@ -334,6 +335,7 @@ function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}
 if(SUPABASE_URL.indexOf("HIER")>=0||SUPABASE_KEY.indexOf("HIER")>=0){
   app.innerHTML='<div class="card">Die Seite ist noch nicht eingerichtet. Lege bei GitHub die Datei config.js mit deinen Supabase-Daten an (siehe ANLEITUNG.md).</div>';return}
 var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+(function(){try{var m=location.search.match(/[?&]ref=([A-Za-z0-9]{4,16})/);if(m)localStorage.setItem("pref",m[1].toLowerCase())}catch(e){}})();
 var URL_ERR=(function(){try{var q=new URLSearchParams(location.search),h=new URLSearchParams(location.hash.replace(/^#/,""));return q.get("error_description")||h.get("error_description")||""}catch(e){return ""}})();
 
 var COLORS=[["Rot","#e53935"],["Orange","#fb8c00"],["Gelb","#e0a800"],["Grün","#2e9e4f"],["Blau","#1e6fe0"],["Lila","#8e44ad"],["Pink","#d81b7a"]];
@@ -344,6 +346,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -400,9 +403,11 @@ async function load(){
   }
   qs.push(sb.from("user_badges").select("user_id,badge").limit(5000));
   qs.push(sb.from("transfers").select("id,from_id,to_id,from_name,to_name,amount,created_at").order("id",{ascending:false}).limit(10));
-  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games").eq("id",1).maybeSingle());
+  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games,banner,banner_at,invite_bonus_inviter,invite_bonus_new,invite_max").eq("id",1).maybeSingle());
+  qs.push(sb.from("events").select("id,title,game,factor,starts_at,ends_at").gt("ends_at",new Date().toISOString()).order("starts_at",{ascending:true}).limit(20));
+  qs.push(sb.from("invites").select("invitee_id,inviter_id,invitee_name,bonus_inviter").order("created_at",{ascending:false}).limit(100));
   var rr=await Promise.all(qs);
-  var sr=rr[rr.length-1],tr=rr[rr.length-2],br=rr[rr.length-3];
+  var ir=rr[rr.length-1],er=rr[rr.length-2],sr=rr[rr.length-3],tr=rr[rr.length-4],br=rr[rr.length-5];
   if(br&&!br.error&&br.data){
     var bm={};br.data.forEach(function(x){(bm[x.user_id]=bm[x.user_id]||[]).push(x.badge)});st.badges=bm;
     var mineB=bm[st.user.id]||[];
@@ -421,12 +426,23 @@ async function load(){
       st.tseen=Math.max(st.tseen,maxId);
     }
   }
-  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[]}
+  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[];st.banner=sr.data.banner||"";st.bannerAt=sr.data.banner_at;st.invCfg={inviter:sr.data.invite_bonus_inviter,nw:sr.data.invite_bonus_new,max:sr.data.invite_max}}
+  if(er&&!er.error&&er.data)st.events=er.data;
+  if(ir&&!ir.error&&ir.data){
+    var mineI=ir.data.filter(function(x){return x.inviter_id===st.user.id});
+    if(st.iseen===null){st.iseen={};mineI.forEach(function(x){st.iseen[x.invitee_id]=1})}
+    else mineI.forEach(function(x){if(!st.iseen[x.invitee_id]){st.iseen[x.invitee_id]=1;notifyText("🎁 "+x.invitee_name+" ist über deinen Link beigetreten: +"+fmt(x.bonus_inviter)+" Punkte")}});
+  }
   var r=rr[0],f=rr[1];
   if(r.error){st.err=r.error.message;return}
   st.err="";st.list=r.data;
   st.names={};st.avs={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
+  if(st.me&&!st.refTried){
+    st.refTried=true;var rc=null;
+    try{rc=localStorage.getItem("pref");localStorage.removeItem("pref")}catch(e){}
+    if(rc)sb.rpc("redeem_invite",{p_code:rc}).then(function(x){if(!x.error&&x.data){notifyText("🎁 Willkommensbonus: +"+fmt(x.data.bonus)+" Punkte (eingeladen von "+x.data.inviter+")");load().then(render)}},function(){});
+  }
   if(st.me&&st.plHold)st.me.balance-=st.plHold;
   if(!f.error)st.feed=f.data;
   try{var di=await sb.rpc("daily_info");if(!di.error&&di.data){st.daily=di.data;st.dailyAt=Date.now()}else st.daily=null}catch(e){}
@@ -494,6 +510,11 @@ function logLine(l){
   if(l.action==="give"){var n=parseInt(d);return a+(n<0?' zog '+t+' <b class="loss">'+fmt(-n)+'</b> Punkte ab':' gab '+t+' <b class="win">+'+fmt(n)+'</b> Punkte')}
   if(l.action==="game_lock")return a+' sperrte das Spiel <b>'+esc(GAMES[d]||d)+'</b> (Wartung)';
   if(l.action==="game_unlock")return a+' gab das Spiel <b>'+esc(GAMES[d]||d)+'</b> wieder frei';
+  if(l.action==="banner_set")return a+' setzte den Banner: <span class="muted">«'+esc(d)+'»</span>';
+  if(l.action==="banner_off")return a+' entfernte den Banner';
+  if(l.action==="event_add"){var ev=String(d||"").split("|");return a+' legte das Event <b>'+esc(ev[0])+'</b> an ('+esc(evName(ev[1]))+' ×'+fnum(ev[2])+')'}
+  if(l.action==="event_del"){var ed=String(d||"").split("|");return a+' löschte das Event <b>'+esc(ed[0])+'</b>'}
+  if(l.action==="invite_cfg"){var ic=String(d||"").split("|");return a+' änderte den Einladungsbonus: Einlader '+fmt(ic[0])+', Neuer '+fmt(ic[1])+', max. '+ic[2]}
   if(l.action==="ban")return a+' sperrte '+t;
   if(l.action==="avatar_reset")return a+' entfernte das Profilbild von '+t;
   if(l.action==="unban")return a+' entsperrte '+t;
@@ -1017,6 +1038,121 @@ async function toggleLock(g){
   st.glmsg=GAMES[g]+(lock?" ist jetzt gesperrt.":" ist wieder freigegeben.");
   await load();render();
 }
+/* --- Banner, Events, Inhaber-Statistik, Einladungen --- */
+function fnum(x){return String(parseFloat(x)).replace(".",",")}
+function evActive(e){var n=Date.now();return new Date(e.starts_at).getTime()<=n&&new Date(e.ends_at).getTime()>n}
+function evTime(iso){var d=new Date(iso);return d.toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"})+" "+d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}
+function evName(g){return g==="all"?"Alle Spiele":(GAMES[g]||g)}
+function noticeHtml(){
+  var h="",dis="";
+  try{dis=localStorage.getItem("bnx")||""}catch(e){}
+  if(st.banner&&dis!==String(st.bannerAt))h+='<div class="annc"><span>📢 '+esc(st.banner)+'</span><button class="tab off ibtn" data-act="bnx" title="Ausblenden">✕</button></div>';
+  (st.events||[]).filter(function(e){return new Date(e.ends_at).getTime()>Date.now()}).slice(0,5).forEach(function(e){
+    h+=evActive(e)
+      ?'<div class="dayban">🎉 <b>'+esc(e.title)+'</b> · '+esc(evName(e.game))+': dein Gewinn zählt <b>×'+fnum(e.factor)+'</b> · bis '+evTime(e.ends_at)+' Uhr</div>'
+      :'<div class="dayban" style="opacity:.8">📅 Bald: <b>'+esc(e.title)+'</b> · '+esc(evName(e.game))+' ×'+fnum(e.factor)+' · ab '+evTime(e.starts_at)+' Uhr</div>';
+  });
+  return h;
+}
+function bannerPanelHtml(){
+  var v=st.banIn!==null?st.banIn:(st.banner||"");
+  return '<div class="card"><h2>📢 Ankündigungs-Banner</h2><p class="muted" style="margin:0 0 8px">Der Text erscheint oben für alle Spieler. Jeder kann ihn mit ✕ ausblenden, ein neuer Text erscheint wieder.</p>'
+    +'<input id="bantxt" type="text" maxlength="200" placeholder="z. B. Heute Abend Wartung ab 20 Uhr" value="'+esc(v)+'" style="width:100%;margin-bottom:8px">'
+    +'<div class="row"><button data-act="banset">Anzeigen</button><button class="tab off" data-act="banoff"'+(st.banner?'':' disabled')+'>Entfernen</button></div><div class="msg">'+esc(st.bmsg)+'</div></div>';
+}
+async function setBanner(txt){
+  var r=await sb.rpc("set_banner",{p_text:txt});
+  if(r.error){st.bmsg=r.error.message;render();return}
+  st.bmsg=txt?"Banner ist jetzt sichtbar.":"Banner entfernt.";st.banIn=null;
+  await load();render();
+}
+function locIso(d){return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
+function evDefaults(){var s=new Date(Date.now()+10*60000);s.setSeconds(0,0);return {title:"",game:"plinko",factor:"2",start:locIso(s),end:locIso(new Date(s.getTime()+2*3600000))}}
+function eventsPanelHtml(){
+  if(!st.evf)st.evf=evDefaults();
+  var f=st.evf;
+  var h='<div class="card"><h2>🎉 Events planen</h2><p class="muted" style="margin:0 0 8px">Im Zeitraum zählt der <b>Nettogewinn</b> (Auszahlung minus Einsatz) mehrfach. Beispiel: ×2 bei 1.000 Einsatz und 1.800 Auszahlung = 800 Gewinn, dazu kommen 800 Bonus. Duelle sind ausgenommen.</p>';
+  h+='<div class="row"><input id="evtitle" type="text" maxlength="60" placeholder="Titel, z. B. Plinko-Abend" value="'+esc(f.title)+'" style="flex:1;min-width:150px"></div>';
+  h+='<div class="row" style="margin-top:6px"><label class="muted">Spiel <select id="evgame"><option value="all"'+(f.game==="all"?' selected':'')+'>Alle Spiele</option>'+ALLG.filter(function(g){return g!=="duel"}).map(function(g){return '<option value="'+g+'"'+(f.game===g?' selected':'')+'>'+esc(GAMES[g])+'</option>'}).join("")+'</select></label>';
+  h+='<label class="muted">Faktor <select id="evfactor">'+["1.25","1.5","2","3","5"].map(function(x){return '<option value="'+x+'"'+(String(f.factor)===x?' selected':'')+'>×'+fnum(x)+'</option>'}).join("")+'</select></label></div>';
+  h+='<div class="row" style="margin-top:6px"><label class="muted">Start <input id="evstart" type="datetime-local" value="'+esc(f.start)+'" style="min-width:215px"></label></div><div class="row" style="margin-top:6px"><label class="muted">Ende&nbsp; <input id="evend" type="datetime-local" value="'+esc(f.end)+'" style="min-width:215px"></label></div>';
+  h+='<div class="row" style="margin-top:8px"><button data-act="evadd">Event anlegen</button></div><div class="msg">'+esc(st.evmsg)+'</div>';
+  var ev=(st.events||[]).filter(function(e){return new Date(e.ends_at).getTime()>Date.now()});
+  h+='<h3 style="margin:12px 0 4px">Aktiv und geplant</h3>';
+  if(!ev.length)h+='<p class="muted">Keine Events.</p>';
+  ev.forEach(function(e){h+='<div class="setrow"><span><b>'+esc(e.title)+'</b> '+(evActive(e)?'<span class="tag">läuft</span>':'<span class="tag" style="background:#444">geplant</span>')+'<br><span class="muted">'+esc(evName(e.game))+' · ×'+fnum(e.factor)+' · '+evTime(e.starts_at)+' bis '+evTime(e.ends_at)+'</span></span><button class="tab off" data-act="evdel" data-v="'+e.id+'">Löschen</button></div>'});
+  return h+'</div>';
+}
+async function addEvent(){
+  var f=st.evf,s=new Date(f.start),e=new Date(f.end);
+  if(isNaN(s)||isNaN(e)){st.evmsg="Bitte Start und Ende wählen.";render();return}
+  var r=await sb.rpc("create_event",{p_title:f.title,p_game:f.game,p_factor:parseFloat(f.factor),p_start:s.toISOString(),p_end:e.toISOString()});
+  if(r.error){st.evmsg=r.error.message;render();return}
+  st.evmsg="Event angelegt.";st.evf=evDefaults();
+  await load();render();
+}
+async function delEvent(id){
+  var r=await sb.rpc("delete_event",{p_id:parseInt(id)});
+  st.evmsg=r.error?r.error.message:"Event gelöscht.";
+  await load();render();
+}
+function invPanelHtml(){
+  var c=st.icf||{i:st.invCfg.inviter,n:st.invCfg.nw,m:st.invCfg.max};
+  return '<div class="card"><h2>🎁 Einladungsbonus</h2><p class="muted" style="margin:0 0 8px">Jeder Spieler hat einen eigenen Einladungslink. Neue Konten (höchstens 48 Stunden alt), die darüber kommen, bekommen den Bonus, und der Einlader auch.</p>'
+    +'<div class="row"><label class="muted">Einlader <input id="ibi" type="number" min="0" max="100000" value="'+esc(c.i)+'"></label><label class="muted">Neuer Spieler <input id="ibn" type="number" min="0" max="100000" value="'+esc(c.n)+'"></label><label class="muted">Max. Einladungen <input id="imx" type="number" min="0" max="100" value="'+esc(c.m)+'"></label></div>'
+    +'<div class="row" style="margin-top:8px"><button data-act="invsave">Speichern</button></div><div class="msg">'+esc(st.imsg)+'</div></div>';
+}
+async function saveInvCfg(){
+  var c=st.icf;if(!c)return;
+  var r=await sb.rpc("set_invite_settings",{p_inviter:parseInt(c.i)||0,p_new:parseInt(c.n)||0,p_max:parseInt(c.m)||0});
+  st.imsg=r.error?r.error.message:"Gespeichert.";if(!r.error)st.icf=null;
+  await load();render();
+}
+function inviteHtml(me){
+  var v=st.inv;
+  var h='<div class="card"><h2>🎁 Freunde einladen</h2>';
+  if(!v)return h+'<p class="muted">Lade …</p></div>';
+  var link=location.origin+location.pathname+"?ref="+v.code;
+  h+='<p class="muted" style="margin:0 0 8px">Schick deinen Link an Freunde. Wenn sich ein neuer Spieler darüber anmeldet, bekommst du <b>'+fmt(v.bonus_inviter)+'</b> Punkte und er <b>'+fmt(v.bonus_new)+'</b> Punkte (bis zu '+v.max+' Einladungen).</p>';
+  h+='<div class="row"><input id="invlink" type="text" readonly value="'+esc(link)+'" style="flex:1;min-width:200px"><button data-act="copyinv">Kopieren</button></div>';
+  h+='<p style="margin:10px 0 4px">Eingeladen: <b>'+v.count+' / '+v.max+'</b> · Verdient: <b class="win">+'+fmt(v.earned)+'</b></p>';
+  if(v.invited_by)h+='<p class="muted" style="margin:0">Du wurdest von <b>'+esc(v.invited_by)+'</b> eingeladen.</p>';
+  if(v.invitees&&v.invitees.length)h+='<div style="margin-top:6px">'+v.invitees.slice(0,10).map(function(x){return '<div class="feed-i"><span>'+esc(x.name)+' <span class="muted">· '+new Date(x.at).toLocaleDateString("de-DE")+'</span></span></div>'}).join("")+'</div>';
+  return h+'</div>';
+}
+async function loadInvite(){var r=await sb.rpc("my_invite");if(!r.error)st.inv=r.data;render()}
+function copyInvite(){
+  var el=document.getElementById("invlink");if(!el)return;
+  el.focus();el.select();
+  try{navigator.clipboard.writeText(el.value).then(function(){notifyText("📋 Link kopiert");render()},function(){})}catch(e){}
+}
+async function loadOstats(){
+  var r=await sb.rpc("owner_stats");
+  if(r.error){st.ostatsErr=r.error.message}else{st.ostats=r.data;st.ostatsErr=""}
+  render();
+}
+function pct(x){return (x*100).toFixed(1).replace(".",",")+" %"}
+function ostatsHtml(){
+  var h='<div class="card"><h2>📈 Inhaber-Statistik <span class="tag">nur Besitzer</span></h2>';
+  if(st.ostatsErr)return h+'<p class="msg">'+esc(st.ostatsErr)+'</p></div>';
+  var o=st.ostats;if(!o)return h+'<p class="muted">Lade …</p></div>';
+  var W=st.ostW,sfx=W==="all"?"":(W==="7"?"7":"1");
+  h+='<div class="row" style="margin-bottom:8px">'+[["all","Gesamt"],["7","7 Tage"],["1","24 Stunden"]].map(function(x){return '<button class="'+(W===x[0]?'':'tab off')+'" data-act="owin" data-v="'+x[0]+'">'+x[1]+'</button>'}).join("")+'<button class="tab off" data-act="ostref">↻</button></div>';
+  h+='<div class="row" style="margin-bottom:8px"><span class="tag">👥 '+o.players+' Spieler</span><span class="tag">🔥 '+o.active7+' aktiv (7 Tage)</span><span class="tag">🪙 '+fmt(o.balance)+' Punkte im Umlauf</span></div>';
+  var tn=0,ts=0,tp=0;
+  var rows=o.games.map(function(g){
+    var n=g["n"+sfx],s=g["stake"+sfx],p=g["payout"+sfx],rtp=s?p/s:0,bank=s-p;
+    if(g.game!=="duel"){tn+=n;ts+=s;tp+=p}
+    var warn=g.game!=="duel"&&n>=30&&rtp>1;
+    return '<tr><td>'+esc(GAMES[g.game]||g.game)+'</td><td>'+fmt(n)+'</td><td>'+fmt(s)+'</td><td>'+fmt(p)+'</td><td>'+(g.game==="duel"?'–':'<b class="'+(warn?'loss':'')+'">'+pct(rtp)+'</b>'+(warn?' ⚠️':''))+'</td><td class="'+(g.game==="duel"?'':(bank>=0?'win':'loss'))+'">'+(g.game==="duel"?'–':(bank>=0?'+':'')+fmt(bank))+'</td></tr>';
+  }).join("");
+  h+='<div style="overflow-x:auto;font-size:.85rem"><table style="min-width:440px"><tr><th>Spiel</th><th>Runden</th><th>Einsatz</th><th>Ausgezahlt</th><th>Rück&shy;zahlung</th><th>Bank</th></tr>'+rows
+    +'<tr><td><b>Zusammen</b></td><td><b>'+fmt(tn)+'</b></td><td><b>'+fmt(ts)+'</b></td><td><b>'+fmt(tp)+'</b></td><td><b>'+pct(ts?tp/ts:0)+'</b></td><td class="'+(ts-tp>=0?'win':'loss')+'"><b>'+(ts-tp>=0?'+':'')+fmt(ts-tp)+'</b></td></tr></table></div>';
+  h+='<p class="muted">Rückzahlung = Ausgezahlt ÷ Einsatz. Bank = was die Seite behalten hat (negativ = Spieler haben gewonnen). Bei wenigen Runden schwankt das stark. ⚠️ erscheint ab 30 Runden, wenn die Spieler mehr bekommen als sie setzen. Event-Boni sind in „Ausgezahlt“ enthalten. Duelle sind Spieler gegen Spieler und zählen nicht mit.</p>';
+  function top(list,t){return '<h3 style="margin:12px 0 4px">'+t+' <span class="muted">(7 Tage, ohne Duelle)</span></h3>'+(list.length?list.map(function(x){return '<div class="feed-i"><span><b>'+esc(x.name)+'</b> <span class="muted">· '+x.n+' Runden</span></span><span class="'+(x.net>=0?'win':'loss')+'">'+(x.net>=0?'+':'')+fmt(x.net)+'</span></div>'}).join(""):'<p class="muted">Keine Daten.</p>')}
+  h+=top(o.winners,"Größte Gewinner")+top(o.losers,"Größte Verlierer");
+  return h+'</div>';
+}
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
 function pendingSc(){return st.scard&&!st.scard.done}
@@ -1150,7 +1286,7 @@ function sideHtml(me){
   h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos");
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.forEach(function(g){var ac=st.daily.active===g,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
-  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("log","🔒","Admin-Log")}
+  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("ostats","📈","Statistik")+navBtn("log","🔒","Admin-Log")}
   h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
   return h;
 }
@@ -1223,7 +1359,7 @@ function settingsHtml(me){
 function render(){
   if(st.rolling)return;
   if(!st.user){
-    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p><button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
+    app.innerHTML='<div class="loginbox"><h1>🎲 Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p>'+(function(){try{return localStorage.getItem("pref")?'<p class="msg" style="margin-top:0">🎁 Du wurdest eingeladen! Nach der Anmeldung bekommst du Bonuspunkte.</p>':""}catch(e){return ""}})()+'<button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
     return;
   }
   var me=st.me;
@@ -1231,8 +1367,8 @@ function render(){
   var b=me.balance,canPlay=b>=MINS&&!me.banned;
   var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
   var pg=st.page;
-  if((pg==="admin"&&!(me.is_admin&&!me.banned))||(pg==="log"&&!(me.is_owner&&!me.banned)))pg=st.page="dice";
-  var c=toastHtml();
+  if((pg==="admin"&&!(me.is_admin&&!me.banned))||((pg==="log"||pg==="ostats")&&!(me.is_owner&&!me.banned)))pg=st.page="dice";
+  var c=toastHtml()+noticeHtml();
   if(GPAGES.indexOf(pg)>=0){
     st.game=pg;
     c+='<div class="card">';
@@ -1250,9 +1386,10 @@ function render(){
   else if(pg==="badges")c+='<div class="card">'+badgesHtml()+'</div>';
   else if(pg==="transfer")c+='<div class="card">'+transferHtml()+'</div>';
   else if(pg==="stats")c+=statsHtml();
-  else if(pg==="settings")c+=settingsHtml(me);
+  else if(pg==="settings")c+=settingsHtml(me)+inviteHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
-  else if(pg==="admin")c+=adminHtml(me)+(me.is_owner?lockPanelHtml():"");
+  else if(pg==="ostats")c+=ostatsHtml();
+  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.is_owner?eventsPanelHtml()+invPanelHtml()+lockPanelHtml():"");
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -1270,6 +1407,8 @@ function go(p){
   if(p==="stats")st.mylog=st.mylog||[];
   var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   if(p==="crash"||p==="hilo")pr=pr.then(function(){return loadDayStates()});
+  if(p==="ostats")loadOstats();
+  if(p==="settings")loadInvite();
   return pr.then(function(){render();window.scrollTo(0,0)});
 }
 
@@ -1290,6 +1429,15 @@ app.addEventListener("click",function(e){
   else if(a==="tab"){st.game=v;render()}
   else if(a==="nav")go(v);
   else if(a==="glock")toggleLock(v);
+  else if(a==="bnx"){try{localStorage.setItem("bnx",String(st.bannerAt))}catch(e){}render()}
+  else if(a==="banset")setBanner(st.banIn!==null?st.banIn:st.banner);
+  else if(a==="banoff")setBanner("");
+  else if(a==="evadd")addEvent();
+  else if(a==="evdel")delEvent(v);
+  else if(a==="copyinv")copyInvite();
+  else if(a==="invsave")saveInvCfg();
+  else if(a==="owin"){st.ostW=v;render()}
+  else if(a==="ostref")loadOstats();
   else if(a==="scbuy")scBuy();
   else if(a==="sc")scReveal(+v);
   else if(a==="scall"){var cc=st.scard;if(cc&&!cc.done){for(var q=0;q<9;q++){cc.rev[q]=true;var e2=document.querySelector('[data-sc="'+q+'"]');if(e2)e2.classList.add("on")}SFX.play("ding");scDone()}}
@@ -1365,6 +1513,9 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
+  else if(t.id==="bantxt")st.banIn=t.value;
+  else if(t.id==="evtitle"||t.id==="evgame"||t.id==="evfactor"||t.id==="evstart"||t.id==="evend"){if(!st.evf)st.evf=evDefaults();st.evf[({evtitle:"title",evgame:"game",evfactor:"factor",evstart:"start",evend:"end"})[t.id]]=t.value}
+  else if(t.id==="ibi"||t.id==="ibn"||t.id==="imx"){if(!st.icf)st.icf={i:st.invCfg.inviter,n:st.invCfg.nw,m:st.invCfg.max};st.icf[({ibi:"i",ibn:"n",imx:"m"})[t.id]]=t.value}
   else if(t.id==="tamt"){st.tamt=t.value;var tb=document.getElementById("tsendbtn"),ta=document.getElementById("tafter");if(tb)tb.textContent=tBtnText();if(ta)ta.innerHTML=tAfter();Array.prototype.forEach.call(document.querySelectorAll("#tq button"),function(b){b.className=(parseInt(t.value)===+b.dataset.v)?"on":""})}
   else if(t.id==="tsearch"){st.tsearch=t.value;document.getElementById("tlist").innerHTML=tlistHtml()}
   else if(t.id==="lmin")st.lminIn=t.value;

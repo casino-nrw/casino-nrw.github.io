@@ -1,4 +1,6 @@
-Discord-Anmeldung ohne E-Mail
+Neu auf Casino NRW
 
-Die Seite fragt bei der Anmeldung mit Discord jetzt nur noch nach deinem Profil (Name, Avatar) und nicht mehr nach deiner E-Mail-Adresse.
-Du meldest dich weiter mit demselben Knopf an, deine Punkte bleiben erhalten.
+🎁 Freunde einladen: Unter Einstellungen findest du jetzt deinen eigenen Einladungslink. Meldet sich ein neuer Spieler darüber an, bekommt er 500 Punkte und du 1.000 Punkte.
+🎉 Events: Ab und zu zählt dein Gewinn bei einem Spiel mehrfach. Laufende und geplante Events siehst du oben auf der Seite.
+📢 Neuigkeiten: Wichtige Hinweise erscheinen jetzt oben auf der Seite.
+🔐 Anmeldung: Beim Login mit Discord wird deine E-Mail-Adresse nicht mehr abgefragt.
