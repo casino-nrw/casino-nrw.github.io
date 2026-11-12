@@ -346,7 +346,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -438,6 +438,7 @@ async function load(){
   st.err="";st.list=r.data;
   st.names={};st.avs={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
+  if(st.me&&st.me.is_owner&&!st.me.banned&&Date.now()-st.alAt>60000){st.alAt=Date.now();loadAlerts()}
   if(st.me&&!st.refTried){
     st.refTried=true;var rc=null;
     try{rc=localStorage.getItem("pref");localStorage.removeItem("pref")}catch(e){}
@@ -510,6 +511,7 @@ function logLine(l){
   if(l.action==="give"){var n=parseInt(d);return a+(n<0?' zog '+t+' <b class="loss">'+fmt(-n)+'</b> Punkte ab':' gab '+t+' <b class="win">+'+fmt(n)+'</b> Punkte')}
   if(l.action==="game_lock")return a+' sperrte das Spiel <b>'+esc(GAMES[d]||d)+'</b> (Wartung)';
   if(l.action==="game_unlock")return a+' gab das Spiel <b>'+esc(GAMES[d]||d)+'</b> wieder frei';
+  if(l.action==="discord_cfg")return a+' änderte die Discord-Meldung (<span class="muted">'+esc(d)+'</span>)';
   if(l.action==="banner_set")return a+' setzte den Banner: <span class="muted">«'+esc(d)+'»</span>';
   if(l.action==="banner_off")return a+' entfernte den Banner';
   if(l.action==="event_add"){var ev=String(d||"").split("|");return a+' legte das Event <b>'+esc(ev[0])+'</b> an ('+esc(evName(ev[1]))+' ×'+fnum(ev[2])+')'}
@@ -1133,7 +1135,7 @@ async function loadOstats(){
 }
 function pct(x){return (x*100).toFixed(1).replace(".",",")+" %"}
 function ostatsHtml(){
-  var h='<div class="card"><h2>📈 Inhaber-Statistik <span class="tag">nur Besitzer</span></h2>';
+  var h=alertsHtml()+'<div class="card"><h2>📈 Inhaber-Statistik <span class="tag">nur Besitzer</span></h2>';
   if(st.ostatsErr)return h+'<p class="msg">'+esc(st.ostatsErr)+'</p></div>';
   var o=st.ostats;if(!o)return h+'<p class="muted">Lade …</p></div>';
   var W=st.ostW,sfx=W==="all"?"":(W==="7"?"7":"1");
@@ -1152,6 +1154,54 @@ function ostatsHtml(){
   function top(list,t){return '<h3 style="margin:12px 0 4px">'+t+' <span class="muted">(7 Tage, ohne Duelle)</span></h3>'+(list.length?list.map(function(x){return '<div class="feed-i"><span><b>'+esc(x.name)+'</b> <span class="muted">· '+x.n+' Runden</span></span><span class="'+(x.net>=0?'win':'loss')+'">'+(x.net>=0?'+':'')+fmt(x.net)+'</span></div>'}).join(""):'<p class="muted">Keine Daten.</p>')}
   h+=top(o.winners,"Größte Gewinner")+top(o.losers,"Größte Verlierer");
   return h+'</div>';
+}
+/* --- Discord-Meldung + Auffälligkeiten (Besitzer) --- */
+async function loadInteg(){
+  var r=await sb.rpc("get_integrations");
+  if(!r.error){st.integ=r.data;if(!st.intf)st.intf=null}
+  render();
+}
+function integPanelHtml(){
+  var v=st.integ,f=st.intf||(v?{url:"",on:v.enabled,thr:v.threshold}:null);
+  var h='<div class="card"><h2>📡 Discord-Meldung bei großen Gewinnen</h2>';
+  if(!v)return h+'<p class="muted">Lade …</p></div>';
+  h+='<p class="muted" style="margin:0 0 8px">Ab einem Gewinn in Höhe der Schwelle schickt die Seite eine Nachricht in einen Discord-Kanal (ohne Pings, höchstens eine alle 3 Sekunden). Duelle zählen nicht.</p>';
+  if(!v.pg_net)h+='<p class="msg">⚠️ Die Supabase-Erweiterung „pg_net“ ist nicht aktiv. Schalte sie unter Database → Extensions ein.</p>';
+  h+='<p style="margin:0 0 6px">Webhook: <b class="'+(v.has_webhook?'win':'loss')+'">'+(v.has_webhook?'gespeichert':'nicht eingetragen')+'</b></p>';
+  h+='<input id="whurl" type="password" autocomplete="off" placeholder="'+(v.has_webhook?'Neue Webhook-Adresse (leer lassen = behalten)':'Discord-Webhook-Adresse einfügen')+'" value="'+esc(f.url)+'" style="width:100%;margin-bottom:8px">';
+  h+='<div class="row"><label class="muted"><input id="whon" type="checkbox"'+(f.on?' checked':'')+'> Meldungen aktiv</label><label class="muted">Schwelle (Gewinn) <input id="whthr" type="number" min="1000" max="100000000" step="1000" value="'+esc(f.thr)+'" style="width:120px"></label></div>';
+  h+='<div class="row" style="margin-top:8px"><button data-act="integsave">Speichern</button><button class="tab off" data-act="integtest"'+(v.has_webhook?'':' disabled')+'>Test senden</button><button class="tab off" data-act="integdel"'+(v.has_webhook?'':' disabled')+'>Webhook entfernen</button></div>';
+  return h+'<div class="msg">'+esc(st.integMsg||"")+'</div></div>';
+}
+async function saveInteg(){
+  var f=st.intf||{url:"",on:st.integ.enabled,thr:st.integ.threshold};
+  var r=await sb.rpc("set_integrations",{p_webhook:f.url||null,p_clear:false,p_enabled:!!f.on,p_threshold:parseInt(f.thr)||0});
+  if(r.error){st.integMsg=r.error.message;render();return}
+  st.integMsg="Gespeichert.";st.intf=null;await loadInteg();
+}
+async function testInteg(){
+  st.integMsg="Sende Test … (dauert ca. 2 Sekunden)";render();
+  var r=await sb.rpc("test_webhook");
+  if(r.error)st.integMsg=r.error.message;
+  else if(r.data&&r.data.ok)st.integMsg="Test gesendet. Schau in deinen Discord-Kanal.";
+  else st.integMsg=(r.data&&r.data.msg)||("Discord hat nicht bestätigt"+(r.data&&r.data.status?" (Status "+r.data.status+")":"")+". Prüf die Webhook-Adresse.");
+  render();
+}
+async function delInteg(){
+  var r=await sb.rpc("set_integrations",{p_webhook:null,p_clear:true,p_enabled:false,p_threshold:(st.integ&&st.integ.threshold)||20000});
+  st.integMsg=r.error?r.error.message:"Webhook entfernt.";st.intf=null;
+  await loadInteg();
+}
+async function loadAlerts(){
+  var r=await sb.rpc("owner_alerts");
+  if(!r.error&&r.data){var before=(st.alerts||[]).length;st.alerts=r.data;st.alAt=Date.now();if(before!==r.data.length)render()}
+}
+function alertsHtml(){
+  var a=st.alerts;
+  var h='<div class="card"><h2>⚠️ Auffälligkeiten <span class="muted" style="font-size:.8rem;font-weight:400">(letzte 24 Stunden)</span></h2>';
+  if(!a)return h+'<p class="muted">Lade …</p></div>';
+  if(!a.length)return h+'<p>Alles unauffällig ✅</p></div>';
+  return h+a.map(function(x){return '<div class="setrow"><span>'+(x.level==="warn"?'⚠️':'ℹ️')+' <b>'+esc(x.kind)+'</b><br>'+esc(x.title)+'<br><span class="muted">'+esc(x.detail)+'</span></span></div>'}).join("")+'<p class="muted" style="margin-top:8px">Das sind nur Hinweise. Hinter einem Treffer muss nicht Betrug stecken, schau dir die Spieler im Live-Feed und Admin-Log an.</p></div>';
 }
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
@@ -1286,7 +1336,7 @@ function sideHtml(me){
   h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos");
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.forEach(function(g){var ac=st.daily.active===g,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
-  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("ostats","📈","Statistik")+navBtn("log","🔒","Admin-Log")}
+  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.is_owner)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
   h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
   return h;
 }
@@ -1389,7 +1439,7 @@ function render(){
   else if(pg==="settings")c+=settingsHtml(me)+inviteHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
   else if(pg==="ostats")c+=ostatsHtml();
-  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.is_owner?eventsPanelHtml()+invPanelHtml()+lockPanelHtml():"");
+  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.is_owner?eventsPanelHtml()+invPanelHtml()+integPanelHtml()+lockPanelHtml():"");
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -1407,7 +1457,8 @@ function go(p){
   if(p==="stats")st.mylog=st.mylog||[];
   var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   if(p==="crash"||p==="hilo")pr=pr.then(function(){return loadDayStates()});
-  if(p==="ostats")loadOstats();
+  if(p==="ostats"){loadOstats();loadAlerts()}
+  if(p==="admin"&&st.me&&st.me.is_owner)loadInteg();
   if(p==="settings")loadInvite();
   return pr.then(function(){render();window.scrollTo(0,0)});
 }
@@ -1437,6 +1488,9 @@ app.addEventListener("click",function(e){
   else if(a==="copyinv")copyInvite();
   else if(a==="invsave")saveInvCfg();
   else if(a==="owin"){st.ostW=v;render()}
+  else if(a==="integsave")saveInteg();
+  else if(a==="integtest")testInteg();
+  else if(a==="integdel")delInteg();
   else if(a==="ostref")loadOstats();
   else if(a==="scbuy")scBuy();
   else if(a==="sc")scReveal(+v);
@@ -1514,6 +1568,7 @@ app.addEventListener("input",function(e){
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
   else if(t.id==="bantxt")st.banIn=t.value;
+  else if(t.id==="whurl"||t.id==="whon"||t.id==="whthr"){if(!st.intf)st.intf={url:"",on:st.integ.enabled,thr:st.integ.threshold};if(t.id==="whurl")st.intf.url=t.value;else if(t.id==="whon")st.intf.on=t.checked;else st.intf.thr=t.value}
   else if(t.id==="evtitle"||t.id==="evgame"||t.id==="evfactor"||t.id==="evstart"||t.id==="evend"){if(!st.evf)st.evf=evDefaults();st.evf[({evtitle:"title",evgame:"game",evfactor:"factor",evstart:"start",evend:"end"})[t.id]]=t.value}
   else if(t.id==="ibi"||t.id==="ibn"||t.id==="imx"){if(!st.icf)st.icf={i:st.invCfg.inviter,n:st.invCfg.nw,m:st.invCfg.max};st.icf[({ibi:"i",ibn:"n",imx:"m"})[t.id]]=t.value}
   else if(t.id==="tamt"){st.tamt=t.value;var tb=document.getElementById("tsendbtn"),ta=document.getElementById("tafter");if(tb)tb.textContent=tBtnText();if(ta)ta.innerHTML=tAfter();Array.prototype.forEach.call(document.querySelectorAll("#tq button"),function(b){b.className=(parseInt(t.value)===+b.dataset.v)?"on":""})}
