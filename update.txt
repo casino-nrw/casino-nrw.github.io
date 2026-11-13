@@ -1,6 +1,5 @@
-Neu auf Casino NRW
+❄️ Winter-Update
 
-🎁 Freunde einladen: Unter Einstellungen findest du jetzt deinen eigenen Einladungslink. Meldet sich ein neuer Spieler darüber an, bekommt er 500 Punkte und du 1.000 Punkte.
-🎉 Events: Ab und zu zählt dein Gewinn bei einem Spiel mehrfach. Laufende und geplante Events siehst du oben auf der Seite.
-📢 Neuigkeiten: Wichtige Hinweise erscheinen jetzt oben auf der Seite.
-🔐 Anmeldung: Beim Login mit Discord wird deine E-Mail-Adresse nicht mehr abgefragt.
+Casino NRW hat jetzt ein Winter-Design: Schneefall, eisige Farben und verschneite Karten.
+Der Schnee stört dich? Unter Einstellungen kannst du ihn für dich ausschalten.
+Schöne Winterzeit und viel Glück! 🎄
