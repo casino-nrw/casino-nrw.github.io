@@ -1531,7 +1531,10 @@ function render(){
   if(st.prof)h+=profHtml();
   var holder=document.getElementById("rulesholder"),rc=document.getElementById("rulescard");
   if(rc&&holder&&rc.parentNode!==holder)holder.appendChild(rc);
+  var oldSide=app.querySelector(".side"),keepSide=oldSide?oldSide.scrollTop:0,keepY=window.pageYOffset;
   app.innerHTML=h;
+  var newSide=app.querySelector(".side");if(newSide&&keepSide)newSide.scrollTop=keepSide;
+  if(keepY&&Math.abs(window.pageYOffset-keepY)>2)window.scrollTo(0,keepY);
   if(pg==="rules"&&rc){var sl=document.getElementById("rulesslot");if(sl)sl.appendChild(rc)}
   if(st.balls.length)plDraw(performance.now());st.landed=false;
   if(pg==="crash"&&st.crash&&st.crash.status==="active")crLoop();
