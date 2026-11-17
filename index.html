@@ -235,6 +235,22 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
  background:radial-gradient(circle at 9px 9px,#fff 5px,transparent 5.5px) 0 0/18px 9px repeat-x,linear-gradient(#fff,#fff) 0 7px/100% 2px no-repeat;
  border-radius:6px 6px 0 0;filter:drop-shadow(0 0 4px rgba(170,225,255,.6))}
 .winter .loginbox h1{text-align:center}
+#tycard .tytap,#tycard .tyup,#tycard .tybub{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.tybarbox{display:flex;align-items:center;gap:10px;margin:8px 0}
+.tybar{flex:1;height:16px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
+.tyfill{height:100%;background:linear-gradient(90deg,#3ddc84,#ffd43d);border-radius:9px;transition:width .12s linear}
+.tyarea{position:relative;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0}
+.tybank{font-size:1.3rem;min-width:170px}
+.tytap{flex:1;min-width:200px;padding:18px 12px;font-size:1.05rem;border-radius:16px}
+.tytap:active{transform:scale(.97)}
+.tyups{display:grid;gap:8px}
+.tyup{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;background:rgba(255,255,255,.07);color:var(--text,#fff);border:1px solid rgba(255,255,255,.14);box-shadow:none;font-weight:500;font-size:.95rem}
+.tyup:disabled{opacity:.45}
+.tyup .tyi{font-size:1.6rem}.tyup .tyn{flex:1}.tyup .tyc{font-weight:800;color:#ffd43d}
+.tybub{position:absolute;width:54px;height:54px;border-radius:50%;padding:0;font-size:1.6rem;background:radial-gradient(circle,#fff6b0,#ffc400);box-shadow:0 0 18px #ffd43d;animation:tybp .8s ease-in-out infinite alternate}
+@keyframes tybp{from{transform:scale(.9)}to{transform:scale(1.12)}}
+.tywin{text-align:center;padding:12px;margin-bottom:10px;border-radius:12px;background:rgba(61,220,132,.14);border:1px solid rgba(61,220,132,.5)}
+.tybig{font-size:1.8rem;font-weight:800;color:#3ddc84}
 #snowcv{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
 @media(max-width:860px){.winter .card::before{left:12px;right:12px}.winter .top .brand{font-size:.88rem}.winter .balpill{padding:5px 8px}}
 </style>
@@ -368,7 +384,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -425,7 +441,7 @@ async function load(){
   }
   qs.push(sb.from("user_badges").select("user_id,badge").limit(5000));
   qs.push(sb.from("transfers").select("id,from_id,to_id,from_name,to_name,amount,created_at").order("id",{ascending:false}).limit(10));
-  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games,banner,banner_at,invite_bonus_inviter,invite_bonus_new,invite_max,theme").eq("id",1).maybeSingle());
+  qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games,banner,banner_at,invite_bonus_inviter,invite_bonus_new,invite_max,theme,tycoon_enabled,tycoon_min,tycoon_max,tycoon_cooldown,tycoon_daily").eq("id",1).maybeSingle());
   qs.push(sb.from("events").select("id,title,game,factor,starts_at,ends_at").gt("ends_at",new Date().toISOString()).order("starts_at",{ascending:true}).limit(20));
   qs.push(sb.from("invites").select("invitee_id,inviter_id,invitee_name,bonus_inviter").order("created_at",{ascending:false}).limit(100));
   var rr=await Promise.all(qs);
@@ -448,7 +464,8 @@ async function load(){
       st.tseen=Math.max(st.tseen,maxId);
     }
   }
-  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[];st.banner=sr.data.banner||"";if(sr.data.theme){st.theme=sr.data.theme;try{localStorage.setItem("theme",st.theme)}catch(e){}}st.bannerAt=sr.data.banner_at;st.invCfg={inviter:sr.data.invite_bonus_inviter,nw:sr.data.invite_bonus_new,max:sr.data.invite_max}}
+  if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[];st.banner=sr.data.banner||"";if(sr.data.tycoon_min!==undefined)st.tyCfg={on:sr.data.tycoon_enabled,min:sr.data.tycoon_min,max:sr.data.tycoon_max,cd:sr.data.tycoon_cooldown,day:sr.data.tycoon_daily};
+    if(sr.data.theme){st.theme=sr.data.theme;try{localStorage.setItem("theme",st.theme)}catch(e){}}st.bannerAt=sr.data.banner_at;st.invCfg={inviter:sr.data.invite_bonus_inviter,nw:sr.data.invite_bonus_new,max:sr.data.invite_max}}
   if(er&&!er.error&&er.data)st.events=er.data;
   if(ir&&!ir.error&&ir.data){
     var mineI=ir.data.filter(function(x){return x.inviter_id===st.user.id});
@@ -539,6 +556,7 @@ function logLine(l){
   if(l.action==="coowner_on")return a+' machte '+t+' zum Co-Besitzer';
   if(l.action==="coowner_off")return a+' entzog '+t+' die Co-Besitzer-Rolle';
   if(l.action==="theme_set")return a+' stellte das Design auf <b>'+esc(d)+'</b>';
+  if(l.action==="tycoon_cfg")return a+' änderte den Mini-Tycoon (<span class="muted">'+esc(d)+'</span>)';
   if(l.action==="banner_set")return a+' setzte den Banner: <span class="muted">«'+esc(d)+'»</span>';
   if(l.action==="banner_off")return a+' entfernte den Banner';
   if(l.action==="event_add"){var ev=String(d||"").split("|");return a+' legte das Event <b>'+esc(ev[0])+'</b> an ('+esc(evName(ev[1]))+' ×'+fnum(ev[2])+')'}
@@ -1285,6 +1303,168 @@ function themePanelHtml(){
   return '<div class="card"><h2>🎨 Design</h2><p class="muted" style="margin:0 0 8px">Gilt für alle Spieler. Im Winter-Design schneit es, jeder kann den Schnee in den Einstellungen für sich abschalten.</p>'
     +'<div class="row"><button class="'+(st.theme==="winter"?'':'tab off')+'" data-act="theme" data-v="winter">❄️ Winter</button><button class="'+(st.theme==="winter"?'tab off':'')+'" data-act="theme" data-v="standard">🎲 Standard</button></div><div class="msg">'+esc(st.themeMsg||"")+'</div></div>';
 }
+/* --- Mini-Tycoon: jedes Mal ein anderes Aufbauspiel, bei 100 % gibt es Gratis-Punkte --- */
+var TYTHEMES=[
+ {n:"Eisdiele",ico:"🍦",res:"Eiskugeln",tap:"Eis verkaufen",t:[["Waffelmaschine","🧇"],["Eiswagen","🚚"],["Zweite Filiale","🏪"],["Eisfabrik","🏭"],["Eis-Imperium","🏰"]]},
+ {n:"Raumstation",ico:"🚀",res:"Energie",tap:"Solarzelle ausrichten",t:[["Solarpanel","☀️"],["Reaktor","⚛️"],["Asteroiden-Bohrer","☄️"],["Mondbasis","🌙"],["Dyson-Sphäre","🪐"]]},
+ {n:"Goldmine",ico:"⛏️",res:"Gold",tap:"Schürfen",t:[["Spitzhacke","⛏️"],["Loren","🚃"],["Bagger","🚜"],["Sprengteam","🧨"],["Tiefbohrung","🕳️"]]},
+ {n:"Pizzeria",ico:"🍕",res:"Pizzen",tap:"Pizza backen",t:[["Steinofen","🔥"],["Lieferroller","🛵"],["Pizzakoch","👨‍🍳"],["Zweiter Laden","🏪"],["Pizza-Fabrik","🏭"]]},
+ {n:"Pinguin-Hafen",ico:"🐧",res:"Fische",tap:"Fisch fangen",t:[["Angel","🎣"],["Eisloch","🕳️"],["Fischkutter","🚤"],["Kühlhaus","🧊"],["Fischflotte","🚢"]]},
+ {n:"Zaubertrank-Labor",ico:"🧪",res:"Tränke",tap:"Trank brauen",t:[["Kessel","🫕"],["Kräutergarten","🌿"],["Hexenlehrling","🧙"],["Drachenfeuer","🐉"],["Zauberturm","🗼"]]},
+ {n:"Zirkus",ico:"🎪",res:"Tickets",tap:"Ticket verkaufen",t:[["Popcorn-Stand","🍿"],["Clown","🤡"],["Jongleur","🤹"],["Löwen-Show","🦁"],["Große Manege","🎠"]]},
+ {n:"Gewächshaus",ico:"🌱",res:"Ernte",tap:"Pflücken",t:[["Gießkanne","🚿"],["Beet","🌱"],["Bienenstock","🐝"],["Traktor","🚜"],["Biofarm","🏡"]]},
+ {n:"Nordpol-Werkstatt",ico:"🎁",res:"Geschenke",tap:"Geschenk packen",t:[["Wichtel","🧝"],["Schlitten","🛷"],["Rentiere","🦌"],["Werkhalle","🏭"],["Weihnachtsmann","🎅"]]},
+ {n:"Schneemann-Fabrik",ico:"⛄",res:"Schneebälle",tap:"Schneeball rollen",t:[["Schaufel","🪣"],["Schneekanone","❄️"],["Eisbär-Helfer","🐻‍❄️"],["Eiswerk","🏭"],["Gletscher","🏔️"]]},
+ {n:"Kino",ico:"🎬",res:"Besucher",tap:"Karte verkaufen",t:[["Popcorn","🍿"],["Zweiter Saal","🎞️"],["3D-Brillen","🕶️"],["Premiere","🌟"],["Multiplex","🏢"]]},
+ {n:"Weltraum-Farm",ico:"👽",res:"Mondkäse",tap:"Käse ernten",t:[["Melkroboter","🤖"],["Kuh-Ufo","🛸"],["Käserei","🧀"],["Kometen-Lager","☄️"],["Galaxie-Handel","🌌"]]}
+];
+var TYTWIST=[
+ {k:"rabatt",t:"💸 Rabatt-Tag: Alle Gebäude sind 20 % günstiger"},
+ {k:"turbo",t:"🌬️ Rückenwind: Alle Einnahmen +30 %"},
+ {k:"ansturm",t:"🎉 Ansturm: Jeder Tipp zählt doppelt"},
+ {k:"gold",t:"✨ Goldene Blasen: Tippe sie schnell an für einen Bonus"}
+];
+function tyRng(seed){var a=seed>>>0;return function(){a=(a+0x6D2B79F5)>>>0;var t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+function tyCost(u,tw){return Math.max(1,Math.round(u.base*Math.pow(1.14,u.owned)*(tw==="rabatt"?0.8:1)))}
+function tyBuild(seed){
+  var R=tyRng(seed),ri=function(a,b){return a+Math.floor(R()*(b-a+1))},rf=function(a,b){return a+R()*(b-a)};
+  var th=TYTHEMES[ri(0,TYTHEMES.length-1)],tw=TYTWIST[ri(0,TYTWIST.length-1)].k;
+  var pool=th.t.slice();pool.splice(ri(0,4),1);
+  var c0=ri(10,16),g=rf(3.0,4.1),tapIdx=ri(0,1),tv=ri(1,2);
+  var tiers=pool.map(function(p,k){
+    var base=Math.round(c0*Math.pow(g,k)),pb=rf(12,22);
+    return {n:p[0],ico:p[1],kind:k===tapIdx?"tap":"inc",base:base,inc:k===tapIdx?0:Math.max(0.2,Math.round(base/pb*10)/10),tapAdd:k===tapIdx?Math.max(1,Math.round(base/pb*3/3)):0,owned:0};
+  });
+  var T=tySim(tiers,tv,tw);
+  return {theme:th,twist:tw,tiers:tiers,tv:tv,T:T};
+}
+function tySim(tiers0,tv,tw){
+  var u=tiers0.map(function(x){return {base:x.base,inc:x.inc,tapAdd:x.tapAdd,kind:x.kind,owned:0}});
+  var bank=0,earned=0,dt=0.5,inM=tw==="turbo"?1.3:1,tapM=tw==="ansturm"?2:1;
+  for(var s=0;s<140;s++){
+    var tapv=(tv+u.reduce(function(a,x){return a+x.tapAdd*x.owned},0))*tapM,inc=u.reduce(function(a,x){return a+x.inc*x.owned},0)*inM;
+    var gain=(tapv*3+inc)*dt;bank+=gain;earned+=gain;
+    var best=-1,bv=0;
+    u.forEach(function(x,i){var c=tyCost(x,tw);if(c<=bank){var b=x.kind==="tap"?x.tapAdd*tapM*3:x.inc*inM;if(b/c>bv){bv=b/c;best=i}}});
+    if(best>=0){bank-=tyCost(u[best],tw);u[best].owned++}
+  }
+  return Math.max(300,Math.round(earned*0.9/10)*10);
+}
+function tyFmt(x){return x>=1000?(Math.round(x/10)/100).toString().replace(".",",")+" k":(x>=100?String(Math.floor(x)):(Math.round(x*10)/10).toString().replace(".",","))}
+function tyTapVal(){var y=st.ty;return (y.tv+y.tiers.reduce(function(a,x){return a+x.tapAdd*x.owned},0))*(y.twist==="ansturm"?2:1)}
+function tyIncome(){var y=st.ty;return y.tiers.reduce(function(a,x){return a+x.inc*x.owned},0)*(y.twist==="turbo"?1.3:1)}
+function tyWaitLeft(){var s=st.tys;if(!s)return 0;return Math.max(0,Math.ceil(s.wait-(Date.now()-s.at)/1000))}
+function tyMMSS(n){return Math.floor(n/60)+":"+("0"+(n%60)).slice(-2)}
+async function loadTycoon(){
+  var r=await sb.rpc("tycoon_status");
+  if(!r.error&&r.data){st.tys={enabled:r.data.enabled,wait:r.data.wait,at:Date.now(),today:r.data.today,daily:r.data.daily,min:r.data.min,max:r.data.max,cooldown:r.data.cooldown}}
+  render();
+}
+async function tyStart(){
+  if(st.tybusy)return;st.tybusy=true;st.tymsg="";
+  var r=await sb.rpc("tycoon_start");
+  st.tybusy=false;
+  if(r.error){st.tymsg=r.error.message;await loadTycoon();return}
+  var b=tyBuild(r.data.seed);
+  st.ty={phase:"play",run:r.data.run,seed:r.data.seed,theme:b.theme,twist:b.twist,tiers:b.tiers,tv:b.tv,T:b.T,bank:0,earned:0,t0:Date.now(),last:Date.now(),bub:null,nextBub:Date.now()+6000+Math.random()*5000};
+  render();tyLoop();
+}
+function tyLoop(){
+  if(st.tyiv)return;
+  st.tyiv=setInterval(function(){
+    var y=st.ty;
+    if(!y||y.phase!=="play"){clearInterval(st.tyiv);st.tyiv=0;return}
+    var now=Date.now(),dt=Math.min(0.3,(now-y.last)/1000);y.last=now;
+    if(st.page!=="tycoon")return;
+    var g=tyIncome()*dt;y.bank+=g;y.earned+=g;
+    if(y.twist==="gold"){
+      if(!y.bub&&now>y.nextBub){y.bub={x:10+Math.random()*70,y:10+Math.random()*60,until:now+5000}}
+      else if(y.bub&&now>y.bub.until){y.bub=null;y.nextBub=now+6000+Math.random()*6000}
+    }
+    tyUpdate();
+    if(y.earned>=y.T)tyFinish();
+  },100);
+}
+function tyUpdate(){
+  var y=st.ty;if(!y||y.phase!=="play")return;
+  var pct=Math.min(100,Math.floor(y.earned/y.T*100)),el;
+  if(el=document.getElementById("tyfill"))el.style.width=Math.min(100,y.earned/y.T*100)+"%";
+  if(el=document.getElementById("typct"))el.textContent=pct+" %";
+  if(el=document.getElementById("tybank"))el.textContent=tyFmt(Math.floor(y.bank));
+  if(el=document.getElementById("tyinc"))el.textContent="+"+tyFmt(tyIncome())+" pro Sekunde";
+  if(el=document.getElementById("tytapv"))el.textContent="+"+tyFmt(tyTapVal());
+  y.tiers.forEach(function(u,i){
+    var c=tyCost(u,y.twist),b=document.getElementById("tyb"+i);
+    if(b){b.disabled=y.bank<c;var s=b.querySelector(".tyc");if(s)s.textContent=tyFmt(c);var o=b.querySelector(".tyo");if(o)o.textContent=u.owned}
+  });
+  var bub=document.getElementById("tybub");
+  if(y.bub&&!bub){var host=document.getElementById("tyarea");if(host){var d=document.createElement("button");d.id="tybub";d.className="tybub";d.setAttribute("data-act","tybub");d.textContent="✨";d.style.left=y.bub.x+"%";d.style.top=y.bub.y+"%";host.appendChild(d)}}
+  else if(!y.bub&&bub)bub.remove();
+}
+function tyTap(){var y=st.ty;if(!y||y.phase!=="play")return;var v=tyTapVal();y.bank+=v;y.earned+=v;tyUpdate();if(y.earned>=y.T)tyFinish()}
+function tyBuy(i){
+  var y=st.ty;if(!y||y.phase!=="play")return;
+  var u=y.tiers[i],c=tyCost(u,y.twist);if(y.bank<c)return;
+  y.bank-=c;u.owned++;SFX.play("peg");tyUpdate();
+}
+function tyBub(){var y=st.ty;if(!y||!y.bub)return;var v=y.T*0.06;y.bank+=v;y.earned+=v;y.bub=null;y.nextBub=Date.now()+6000+Math.random()*6000;SFX.play("ding");tyUpdate();if(y.earned>=y.T)tyFinish()}
+async function tyFinish(){
+  var y=st.ty;if(!y||y.phase!=="play")return;
+  y.phase="claim";y.earned=y.T;tyUpdate();render();
+  var wait=21000-(Date.now()-y.t0);if(wait>0)await new Promise(function(r){setTimeout(r,wait)});
+  var r=await sb.rpc("tycoon_claim",{p_run:y.run});
+  if(r.error){y.phase="done";y.err=r.error.message;await loadTycoon();return}
+  y.phase="done";y.reward=r.data.reward;
+  notifyText("🏭 Mini-Tycoon geschafft: +"+r.data.reward+" Punkte gratis");
+  st.tys=Object.assign(st.tys||{},{wait:r.data.wait,at:Date.now()});
+  await load();render();
+}
+function tycoonHtml(me){
+  var y=st.ty,s=st.tys,h='<div class="card" id="tycard"><h2>🏭 Mini-Tycoon <span class="tag">gratis</span></h2>';
+  if(y&&y.phase==="play"){
+    var th=y.theme,tw=TYTWIST.filter(function(x){return x.k===y.twist})[0];
+    h+='<div class="dayban" style="margin-top:0"><b>'+th.ico+' '+esc(th.n)+'</b> · '+esc(tw.t)+'</div>';
+    h+='<div class="tybarbox"><div class="tybar"><div class="tyfill" id="tyfill" style="width:'+Math.min(100,y.earned/y.T*100)+'%"></div></div><b id="typct">'+Math.floor(y.earned/y.T*100)+' %</b></div>';
+    h+='<div id="tyarea" class="tyarea"><div class="tybank">'+th.ico+' <b id="tybank">'+tyFmt(Math.floor(y.bank))+'</b> <span class="muted">'+esc(th.res)+'</span><br><span class="muted" id="tyinc">+'+tyFmt(tyIncome())+' pro Sekunde</span></div>';
+    h+='<button class="tytap" data-act="tytap">'+th.ico+'<br>'+esc(th.tap)+' <b id="tytapv">+'+tyFmt(tyTapVal())+'</b></button></div>';
+    h+='<div class="tyups">'+y.tiers.map(function(u,i){
+      var c=tyCost(u,y.twist);
+      return '<button class="tyup" id="tyb'+i+'" data-act="tybuy" data-v="'+i+'"'+(y.bank<c?' disabled':'')+'><span class="tyi">'+u.ico+'</span><span class="tyn"><b>'+esc(u.n)+'</b><br><span class="muted">'+(u.kind==="tap"?'+'+u.tapAdd+' pro Tipp':'+'+tyFmt(u.inc)+' pro Sekunde')+' · du hast <span class="tyo">'+u.owned+'</span></span></span><span class="tyc">'+tyFmt(c)+'</span></button>';
+    }).join("")+'</div>';
+    h+='<p class="muted" style="margin:8px 0 0">Tippe auf den großen Knopf und kaufe Gebäude. Bei 100 % bekommst du deine Gratis-Punkte.</p>';
+    return h+'</div>';
+  }
+  if(y&&y.phase==="claim")return h+'<p>🎉 <b>100 % geschafft!</b> Deine Belohnung wird gebucht …</p></div>';
+  if(y&&y.phase==="done"){
+    if(y.err)h+='<p class="msg">'+esc(y.err)+'</p>';
+    else h+='<div class="tywin">🎉 <b>Geschafft!</b><br><span class="tybig">+'+y.reward+' Punkte</span><br><span class="muted">gratis für deinen '+esc(y.theme.n)+'</span></div>';
+  }
+  if(!s)return h+'<p class="muted">Lade …</p></div>';
+  var left=tyWaitLeft();
+  if(!y||y.phase!=="done")h+='<p style="margin-top:0">Jedes Mal ein <b>neues Aufbauspiel</b> mit anderem Thema, anderen Gebäuden und einer Sonderregel. Erreiche <b>100 %</b>, dann gibt es <b>'+s.min+' bis '+s.max+' Punkte</b> gratis. Danach ist '+tyMMSS(s.cooldown)+' Minuten Pause.</p>';
+  if(!s.enabled)h+='<p class="msg">Der Mini-Tycoon ist gerade nicht verfügbar.</p>';
+  else if(me.banned)h+='<p class="msg">Du wurdest gesperrt.</p>';
+  else if(s.daily>0&&s.today>=s.daily)h+='<p class="muted">Du hast das Tageslimit von '+s.daily+' Durchgängen erreicht. Morgen geht es weiter.</p>';
+  else if(left>0)h+='<button disabled id="tywaitbtn">Nächster Tycoon in <span id="tywait">'+tyMMSS(left)+'</span></button>';
+  else h+='<button data-act="tystart"'+(st.tybusy?' disabled':'')+'>🏭 Tycoon starten</button>';
+  if(st.tymsg)h+='<div class="msg">'+esc(st.tymsg)+'</div>';
+  if(s.daily>0)h+='<p class="muted" style="margin:10px 0 0">Heute geschafft: '+s.today+' / '+s.daily+'</p>';
+  return h+'</div>';
+}
+function tycoonPanelHtml(){
+  var c=st.tyf||st.tyCfg;
+  return '<div class="card"><h2>🏭 Mini-Tycoon (Einstellungen)</h2><p class="muted" style="margin:0 0 8px">Gratis-Punkte pro geschafftem Durchgang. Die Wartezeit gilt pro Spieler.</p>'
+    +'<div class="row"><label class="muted"><input id="tyon" type="checkbox"'+(c.on?' checked':'')+'> Aktiv</label></div>'
+    +'<div class="row" style="margin-top:6px"><label class="muted">Mindestens <input id="tymin" type="number" min="0" max="100000" value="'+esc(c.min)+'" style="width:90px"></label><label class="muted">Höchstens <input id="tymax" type="number" min="0" max="100000" value="'+esc(c.max)+'" style="width:90px"></label></div>'
+    +'<div class="row" style="margin-top:6px"><label class="muted">Wartezeit (Sekunden) <input id="tycd" type="number" min="30" max="86400" value="'+esc(c.cd)+'" style="width:100px"></label><label class="muted">Tageslimit (0 = keins) <input id="tyday" type="number" min="0" max="10000" value="'+esc(c.day)+'" style="width:90px"></label></div>'
+    +'<div class="row" style="margin-top:8px"><button data-act="tysave">Speichern</button></div><div class="msg">'+esc(st.tycmsg||"")+'</div></div>';
+}
+async function saveTycoonCfg(){
+  var c=st.tyf;if(!c)return;
+  var r=await sb.rpc("set_tycoon_settings",{p_enabled:!!c.on,p_min:parseInt(c.min)||0,p_max:parseInt(c.max)||0,p_cooldown:parseInt(c.cd)||0,p_daily:parseInt(c.day)||0});
+  st.tycmsg=r.error?r.error.message:"Gespeichert.";if(!r.error)st.tyf=null;
+  await load();render();
+}
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
 function pendingSc(){return st.scard&&!st.scard.done}
@@ -1415,7 +1595,7 @@ var GPAGES=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hil
 function navBtn(id,ico,txt){var lk=isLocked(id);return '<button class="nav'+(st.page===id?' on':'')+(lk?' lock':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+(lk?'🔧':ico)+'</span>'+txt+(lk?'<small>Wartung</small>':'')+'</button>'}
 function sideHtml(me){
   var h='<div class="sidebg'+(st.sideOpen?' open':'')+'" data-act="sidebg"></div><aside class="side'+(st.sideOpen?' open':'')+'">';
-  h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos");
+  h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos")+navBtn("tycoon","🏭","Mini-Tycoon<span class=\"live\">GRATIS</span>");
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.filter(function(g){return st.daily.active===g}).forEach(function(g){var ac=true,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
   if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
@@ -1516,7 +1696,8 @@ function render(){
       c+=(DAYG.indexOf(pg)>=0?dayBody(pg,me,canPlay,mx):gameBody(me,canPlay,mx));
     }
     c+='<div class="card"><h2>📡 Live-Feed</h2>'+feedHtml()+'</div>';
-  }else if(pg==="ranking")c+=rankHtml(me);
+  }else if(pg==="tycoon")c+=tycoonHtml(me);
+  else if(pg==="ranking")c+=rankHtml(me);
   else if(pg==="feed")c+='<div class="card"><h2>📡 Live-Feed <span class="tag">letzte 100 Spiele</span></h2>'+feedHtml(true)+'</div>';
   else if(pg==="badges")c+='<div class="card">'+badgesHtml()+'</div>';
   else if(pg==="transfer")c+='<div class="card">'+transferHtml()+'</div>';
@@ -1524,7 +1705,7 @@ function render(){
   else if(pg==="settings")c+=settingsHtml(me)+inviteHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
   else if(pg==="ostats")c+=ostatsHtml();
-  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.own?themePanelHtml()+eventsPanelHtml()+invPanelHtml()+integPanelHtml()+lockPanelHtml():"");
+  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.own?themePanelHtml()+tycoonPanelHtml()+eventsPanelHtml()+invPanelHtml()+integPanelHtml()+lockPanelHtml():"");
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -1545,6 +1726,7 @@ function go(p){
   if(p==="stats")st.mylog=st.mylog||[];
   var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   if(p==="crash"||p==="hilo")pr=pr.then(function(){return loadDayStates()});
+  if(p==="tycoon")loadTycoon();
   if(p==="ostats"){loadOstats();loadAlerts()}
   if(p==="admin"&&st.me&&st.me.own)loadInteg();
   if(p==="settings")loadInvite();
@@ -1577,6 +1759,11 @@ app.addEventListener("click",function(e){
   else if(a==="invsave")saveInvCfg();
   else if(a==="owin"){st.ostW=v;render()}
   else if(a==="snow")toggleSnow();
+  else if(a==="tystart")tyStart();
+  else if(a==="tytap")tyTap();
+  else if(a==="tybuy")tyBuy(parseInt(v));
+  else if(a==="tybub")tyBub();
+  else if(a==="tysave")saveTycoonCfg();
   else if(a==="theme")setTheme(v);
   else if(a==="integsave")saveInteg();
   else if(a==="integtest")testInteg();
@@ -1659,6 +1846,7 @@ app.addEventListener("input",function(e){
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
   else if(t.id==="bantxt")st.banIn=t.value;
+  else if(t.id==="tyon"||t.id==="tymin"||t.id==="tymax"||t.id==="tycd"||t.id==="tyday"){if(!st.tyf)st.tyf=Object.assign({},st.tyCfg);if(t.id==="tyon")st.tyf.on=t.checked;else st.tyf[({tymin:"min",tymax:"max",tycd:"cd",tyday:"day"})[t.id]]=t.value}
   else if(t.id==="whurl"||t.id==="whon"||t.id==="whthr"){if(!st.intf)st.intf={url:"",on:st.integ.enabled,thr:st.integ.threshold};if(t.id==="whurl")st.intf.url=t.value;else if(t.id==="whon")st.intf.on=t.checked;else st.intf.thr=t.value}
   else if(t.id==="evtitle"||t.id==="evgame"||t.id==="evfactor"||t.id==="evstart"||t.id==="evend"){if(!st.evf)st.evf=evDefaults();st.evf[({evtitle:"title",evgame:"game",evfactor:"factor",evstart:"start",evend:"end"})[t.id]]=t.value}
   else if(t.id==="ibi"||t.id==="ibn"||t.id==="imx"){if(!st.icf)st.icf={i:st.invCfg.inviter,n:st.invCfg.nw,m:st.invCfg.max};st.icf[({ibi:"i",ibn:"n",imx:"m"})[t.id]]=t.value}
@@ -1943,12 +2131,13 @@ sb.auth.onAuthStateChange(function(ev,session){
 });
 
 setInterval(async function(){
-  if(!st.user||st.rolling||st.plPend||st.kbusy||st.bbusy||(st.page==="scratch"&&st.scard&&!st.scard.done)||(st.balls&&st.balls.length)||(st.page==="crash"&&st.crash&&st.crash.status==="active"))return;
+  if(!st.user||st.rolling||st.plPend||st.kbusy||st.bbusy||(st.page==="scratch"&&st.scard&&!st.scard.done)||(st.balls&&st.balls.length)||(st.page==="tycoon"&&st.ty&&(st.ty.phase==="play"||st.ty.phase==="claim"))||(st.page==="crash"&&st.crash&&st.crash.status==="active"))return;
   var ae=document.activeElement;
   if(ae&&ae.tagName==="INPUT"&&app.contains(ae))return;
   await load();render();
 },5000);
 setInterval(function(){
+  if(st.user&&st.page==="tycoon"&&st.tys){var w=document.getElementById("tywait");if(w){var l=tyWaitLeft();if(l<=0)render();else w.textContent=tyMMSS(l)}}
   if(!st.user||!st.daily)return;
   var left=leftSecs(),t=fmtLeft(left);
   document.querySelectorAll(".cd").forEach(function(e){e.textContent=t});
