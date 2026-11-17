@@ -1416,8 +1416,8 @@ async function tyFinish(){
   if(r.error){y.phase="done";y.err=r.error.message;await loadTycoon();return}
   y.phase="done";y.reward=r.data.reward;
   notifyText("🏭 Mini-Tycoon geschafft: +"+r.data.reward+" Punkte gratis");
-  st.tys=Object.assign(st.tys||{},{wait:r.data.wait,at:Date.now()});
-  await load();render();
+  st.tys=Object.assign(st.tys||{},{wait:r.data.wait,at:Date.now(),today:((st.tys&&st.tys.today)||0)+1});
+  await load();await loadTycoon();
 }
 function tycoonHtml(me){
   var y=st.ty,s=st.tys,h='<div class="card" id="tycard"><h2>🏭 Mini-Tycoon <span class="tag">gratis</span></h2>';
