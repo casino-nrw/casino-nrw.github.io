@@ -1688,7 +1688,7 @@ function render(){
     st.game=pg;
     c+='<div class="card">';
     if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
-    else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Bitte einen Admin um Punkte.</p>';
+    else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Punkte bekommst du von einem Admin auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</p>';
     c+='<h2 style="margin:0">'+esc(GAMES[pg])+'</h2>';
     if(isLocked(pg)&&!me.own&&!hasRound(pg))c+=maintHtml(pg);
     else{
