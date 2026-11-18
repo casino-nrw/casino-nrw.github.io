@@ -403,7 +403,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -608,6 +608,7 @@ function logLine(l){
   if(l.action==="coupon_delete")return a+' löschte den Gutschein <b>'+esc(d)+'</b>';
   if(l.action==="report_cfg")return a+' änderte den Wochenbericht ('+esc(d)+')';
   if(l.action==="report_send")return a+' schickte den Wochenbericht ab';
+  if(l.action==="sync_key")return a+' erzeugte einen neuen Schlüssel für den Discord-Rollen-Abgleich';
   if(l.action==="vip_on")return a+' machte '+t+' zum VIP';
   if(l.action==="vip_off")return a+' entzog '+t+' die VIP-Rolle';
   if(l.action==="tycoon_cfg")return a+' änderte den Mini-Tycoon (<span class="muted">'+esc(d)+'</span>)';
@@ -1677,6 +1678,24 @@ async function slotPlay(){
   outcome(net,d.payout,stake,50);
   st.sbusy=false;await delay(400);await load();render();
 }
+/* Discord-Rolle -> VIP */
+async function loadSync(){var r=await sb.rpc("get_sync_status");if(!r.error)st.sync=r.data;render()}
+function syncPanelHtml(){
+  var v=st.sync,h='<div class="card"><h2>💜 VIP über Discord-Rolle</h2>';
+  if(!v)return h+'<p class="muted">Lade …</p></div>';
+  h+='<p class="muted" style="margin:0 0 8px">Ein kleines Programm auf GitHub schaut alle paar Minuten nach, wer auf deinem Discord-Server die VIP-Rolle hat, und gibt diesen Spielern die VIP-Rolle auf der Seite. Verliert jemand die Rolle in Discord, verliert er sie hier auch. Spieler müssen sich mit demselben Discord-Konto angemeldet haben. Die Einrichtung steht in der ANLEITUNG.md.</p>';
+  h+='<p style="margin:0 0 4px">Schlüssel: <b class="'+(v.has_key?'win':'loss')+'">'+(v.has_key?'erzeugt':'noch nicht erzeugt')+'</b></p>';
+  h+='<p style="margin:0 0 4px">Letzter Abgleich: <b>'+(v.last?new Date(v.last).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+' Uhr':'noch nie')+'</b>'+(v.note?' <span class="muted">· '+esc(v.note)+'</span>':'')+'</p>';
+  h+='<p class="muted" style="margin:0 0 8px">VIPs über Discord: <b>'+v.discord_vips+'</b> · von Hand vergeben: <b>'+v.manual_vips+'</b></p>';
+  if(st.syncKey)h+='<div class="dayban"><b>Dein neuer Schlüssel (nur jetzt sichtbar):</b><br><input type="text" readonly value="'+esc(st.syncKey)+'" onclick="this.select()" style="width:100%;margin-top:6px;font-family:monospace"><br><span class="muted">Kopiere ihn bei GitHub als Geheimnis <b>SYNC_SECRET</b>. Zeige ihn niemandem.</span></div>';
+  h+='<div class="row"><button class="tab off" data-act="synckey">'+(v.has_key?'Neuen Schlüssel erzeugen':'Schlüssel erzeugen')+'</button></div>';
+  return h+'<div class="msg">'+esc(st.syncMsg||"")+'</div></div>';
+}
+async function makeSyncKey(){
+  var r=await sb.rpc("rotate_sync_secret");
+  if(r.error){st.syncMsg=r.error.message;render();return}
+  st.syncKey=r.data;st.syncMsg="Neuer Schlüssel erzeugt. Der alte ist ab jetzt ungültig.";await loadSync();
+}
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
 function pendingSc(){return st.scard&&!st.scard.done}
@@ -1925,7 +1944,7 @@ function render(){
   else if(pg==="settings")c+=settingsHtml(me)+inviteHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
   else if(pg==="ostats")c+=ostatsHtml();
-  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.own?sysPanelHtml()+couponPanelHtml()+themePanelHtml()+tycoonPanelHtml()+eventsPanelHtml()+invPanelHtml()+integPanelHtml()+reportPanelHtml()+lockPanelHtml():"");
+  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.own?sysPanelHtml()+couponPanelHtml()+themePanelHtml()+tycoonPanelHtml()+eventsPanelHtml()+invPanelHtml()+integPanelHtml()+reportPanelHtml()+syncPanelHtml()+lockPanelHtml():"");
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -1942,13 +1961,14 @@ function render(){
   if(pg==="scratch")scInit();
 }
 function go(p){
+  if(p!=="admin")st.syncKey="";
   st.page=p;st.sideOpen=false;st.userMenuOpen=false;st.menuOpen=(p==="stats");st.feed=p==="feed"?st.feed:st.feed.slice(0,5);
   if(p==="stats")st.mylog=st.mylog||[];
   var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   if(p==="crash"||p==="hilo")pr=pr.then(function(){return loadDayStates()});
   if(p==="tycoon")loadTycoon();
   if(p==="ostats"){loadOstats();loadAlerts()}
-  if(p==="admin"&&st.me&&st.me.own){loadInteg();loadReport();loadCoupons()}
+  if(p==="admin"&&st.me&&st.me.own){loadInteg();loadReport();loadCoupons();loadSync()}
   if(p==="settings")loadInvite();
   return pr.then(function(){render();window.scrollTo(0,0)});
 }
@@ -1989,6 +2009,7 @@ app.addEventListener("click",function(e){
   else if(a==="histmore"){if(st.hist&&!st.hist.busy)loadHist(true)}
   else if(a==="vip"){var sv=selected();if(sv)adminCall("set_vip",{p_target:sv.id,p_value:!sv.is_vip})}
   else if(a==="rpsave")saveReport(false);
+  else if(a==="synckey")makeSyncKey();
   else if(a==="rpclear")saveReport(true);
   else if(a==="rpsend")sendReport();
   else if(a==="slplay")slotPlay();
