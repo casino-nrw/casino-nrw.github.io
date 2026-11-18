@@ -1,6 +1,7 @@
-🏭 Neu: Mini-Tycoon
+⬆️ Neu: Level, mehr Abzeichen und Gutscheine
 
-Spiele jetzt alle 5 Minuten einen kleinen Tycoon und hol dir gratis Punkte!
-Jedes Mal ist er anders aufgebaut: anderes Thema, andere Gebäude, andere Sonderregel.
-Schaffst du 100 %, bekommst du 10 bis 20 Punkte geschenkt.
-Du findest ihn im Menü unter Spiele. Viel Spaß! 🎉
+Level: Für gesetzte Punkte, Abzeichen und den Mini-Tycoon sammelst du Erfahrung. Mit jedem neuen Level gibt es einen Bonus an Punkten. Dein Level siehst du oben neben deinem Punktestand und in den Einstellungen.
+Abzeichen: 25 neue, einige davon richtig schwer. Schau auf der Abzeichen-Seite, welche du noch holen kannst.
+Gutscheine: Unter „Gutschein“ kannst du Codes einlösen, die es bei Aktionen hier auf dem Server gibt.
+VIP: Es gibt jetzt eine VIP-Rolle mit einem eigenen Spiel, den VIP-Slots.
+Viel Spaß und viel Glück! 🎉
