@@ -413,6 +413,25 @@ var SFX=(function(){
     lose:function(c,o,t){blip(c,o,t,330,.4,"sawtooth",.28,200);blip(c,o,t+.22,247,.5,"sawtooth",.28,130)},
     even:function(c,o,t){blip(c,o,t,440,.3,"sine",.25);blip(c,o,t+.12,440,.3,"sine",.18)},
     peg:function(c,o,t,i){i=i||0;blip(c,o,t,520+i*45,.06,"triangle",.22);click(c,o,t,2400,.25,.02)},
+    card:function(c,o,t){click(c,o,t,4200,.7,.09);click(c,o,t+.05,1400,.55,.05);blip(c,o,t+.05,180,.06,"sine",.25,110)},
+    chip:function(c,o,t){click(c,o,t,3200,.7,.04);click(c,o,t+.05,4200,.6,.04);blip(c,o,t,2300,.05,"triangle",.18)},
+    rball:function(c,o,t,ms){
+      var d=(ms||5200)/1000,TURNS=7*37,i,m;
+      /* Rollgeräusch (Rauschen, wird leiser) */
+      var src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();
+      src.buffer=noise(c);src.loop=true;f.type="bandpass";f.frequency.value=1100;f.Q.value=.9;
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.25);g.gain.setValueAtTime(.35,t+d*.55);g.gain.exponentialRampToValueAtTime(.0001,t+d*.7);
+      src.connect(f);f.connect(g);g.connect(o);src.start(t);src.stop(t+d*.72);
+      /* Klackern an den Fächern, immer langsamer */
+      for(m=Math.floor(TURNS*Math.pow(.7,3));m>0;m--){
+        var tt=d*(1-Math.pow(m/TURNS,1/3));
+        click(c,o,t+tt,1800+Math.random()*1400,.32+.25*(tt/d),.025);
+      }
+      /* Aufsetzen und Hüpfen im Fach */
+      [.62+.38/6,.62+.38/2,.62+.38*5/6,.97].forEach(function(p,k){
+        var tt=t+d*p;click(c,o,tt,2200,.85-k*.15,.05);blip(c,o,tt,900-k*150,.08,"triangle",.3,500);
+      });
+    },
     ding:function(c,o,t){blip(c,o,t,880,.45,"sine",.3);blip(c,o,t+.14,1320,.55,"sine",.28)}
   };
   return {
@@ -1853,6 +1872,7 @@ async function roulettePlay(){
   if(r.error){st.rbusy=false;st.rmsg=r.error.message;await load();render();return}
   var d=r.data;
   st.rres=null;render();
+  SFX.play("rball",5200);
   await rlAnimate(d.number,5200);
   var cn={red:"Rot",black:"Schwarz",green:"Grün"}[d.color];
   st.rres={number:d.number,color:d.color};
@@ -1926,10 +1946,12 @@ async function bjCall(fn,args){
   var prev=st.bj,r=await sb.rpc(fn,args||{});
   if(r.error){st.bjbusy=false;st.bjmsg=r.error.message;if(fn==="bj_deal")st.bj=null;await load();render();return}
   var d=r.data;
+  if(fn==="bj_deal"){SFX.play("chip");[100,380,660].forEach(function(x){setTimeout(function(){SFX.play("card")},x)})}
+  else if(fn==="bj_hit"||fn==="bj_double")SFX.play("card");
   if(d.active){st.bj=d;st.bjbusy=false;render();return}
   var start=(prev&&prev.active)?prev.dealer.length:1;
   st.bj=d;st.bjShow=Math.min(start,d.dealer.length);render();
-  for(var i=start;i<d.dealer.length;i++){await delay(i===start?850:800);st.bjShow=i+1;render()}
+  for(var i=start;i<d.dealer.length;i++){await delay(i===start?850:800);st.bjShow=i+1;SFX.play("card");render()}
   await delay(400);
   st.bjShow=null;st.bjbusy=false;
   outcome(d.payout-d.stake,d.payout,d.stake,50);await load();render();
@@ -2289,7 +2311,7 @@ app.addEventListener("click",function(e){
   else if(a==="rpclear")saveReport(true);
   else if(a==="rpsend")sendReport();
   else if(a==="slplay")slotPlay();
-  else if(a==="rlbet"){if(st.rbusy)return;st.rb=st.rb||{};if(st.rb[v])delete st.rb[v];else if(rlCount()>=10){st.rmsg="Höchstens 10 Felder."}else{st.rb[v]=true;st.rmsg=""}st.rwin={};render()}
+  else if(a==="rlbet"){if(st.rbusy)return;st.rb=st.rb||{};if(st.rb[v])delete st.rb[v];else if(rlCount()>=10){st.rmsg="Höchstens 10 Felder."}else{st.rb[v]=true;st.rmsg="";SFX.play("chip")}st.rwin={};render()}
   else if(a==="rlclear"){st.rb={};st.rwin={};st.rmsg="";render()}
   else if(a==="rlspin")roulettePlay();
   else if(a==="bjdeal")bjDeal();
