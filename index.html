@@ -236,6 +236,13 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
  border-radius:6px 6px 0 0;filter:drop-shadow(0 0 4px rgba(170,225,255,.6))}
 .winter .loginbox h1{text-align:center}
 
+.admtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.admtabs .tab{white-space:nowrap;flex:0 0 auto}
+.admdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff5a5a;margin-left:3px;vertical-align:middle}
+.admchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.admchip{font-size:.75rem;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);cursor:pointer;color:var(--muted)}
+.admchip.ok{background:rgba(61,220,132,.14);border-color:rgba(61,220,132,.45);color:#7ee8ae}
+.admchip.bad{background:rgba(255,90,90,.16);border-color:rgba(255,90,90,.5);color:#ff9a9a}
 .lvchip{display:inline-block;font-size:.66rem;font-weight:800;padding:1px 6px;border-radius:8px;background:rgba(99,179,255,.2);border:1px solid rgba(99,179,255,.5);color:#9fd0ff;vertical-align:middle}
 .vipchip{display:inline-block;font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:8px;background:linear-gradient(90deg,#b66dff,#ff7ad9);color:#fff;vertical-align:middle;margin-left:3px}
 .lvpill{cursor:pointer;font-size:.78rem;font-weight:800;padding:4px 8px;border-radius:999px;background:rgba(99,179,255,.18);border:1px solid rgba(99,179,255,.5);color:#9fd0ff;margin-left:6px;white-space:nowrap}
@@ -403,7 +410,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -1872,17 +1879,13 @@ function rankHtml(me){var h="";
   h+='<div class="card"><h2>Rangliste</h2><table>'+top.map(function(p){return '<tr class="'+(p.id===me.id?'me':'')+'"><td>'+avU(p.id,p.name,"sm")+nameLink(p.id,p.name)+' '+lvChip(p)+vipChip(p)+badgeIcons(p.id,4)+(p.id===me.id?' (du)':'')+' <span class="wag">'+fmt(p.total_wagered)+' gesetzt</span></td><td class="n">'+p.balance+'</td></tr>'}).join("")+'</table></div>';
 
   return h}
-function adminHtml(me){var h="";
+function adminPlayersHtml(me){var h="";
   if(me.is_admin&&!me.banned){
     var sel=st.list.find(function(p){return p.id===st.osel})||null;
     if(!sel)st.osel=null;
-    h+='<div class="card"><h2>Admin</h2><input id="osearch" type="search" placeholder="Spieler suchen …" value="'+esc(st.osearch)+'" style="width:100%;margin-bottom:8px"><div id="olist">'+olist()+'</div>';
+    h+='<div class="card"><h2>👥 Spieler</h2><input id="osearch" type="search" placeholder="Spieler suchen …" value="'+esc(st.osearch)+'" style="width:100%;margin-bottom:8px"><div id="olist">'+olist()+'</div>';
     h+='<p class="muted" style="margin:8px 0">'+(sel?'<span class="selrow">'+avU(sel.id,sel.name,"big")+'<span>Ausgewählt:<br><b style="font-size:1.1rem">'+esc(sel.name)+'</b><br><span class="plink" data-act="prof" data-v="'+esc(sel.id)+'">Profil ansehen</span></span></span>':'Tippe auf einen Spieler, um ihn auszuwählen.')+'</p>';
     h+='<div class="row"><input id="oamt" type="number" value="'+esc(st.oamt)+'"><button data-act="give"'+(sel?'':' disabled')+'>Punkte geben</button></div><p class="muted">Negative Zahl = Punkte abziehen.</p>';
-    var lmi=st.lminIn!==null?st.lminIn:MINS,lma=st.lmaxIn!==null?st.lmaxIn:MAXS;
-    h+='<h2 style="margin-top:16px">Einsatz-Grenzen</h2><p class="muted" style="margin:0 0 8px">Aktuell: Mindesteinsatz <b>'+fmt(MINS)+'</b> · Höchsteinsatz <b>'+fmt(MAXS)+'</b></p>';
-    h+='<div class="row"><label class="muted">Min <input id="lmin" type="number" min="1" value="'+esc(lmi)+'"></label><label class="muted">Max <input id="lmax" type="number" min="1" value="'+esc(lma)+'"></label><button data-act="limits">Speichern</button></div>';
-    h+='<p class="muted">Gilt sofort für alle Spiele. Bereits offene Duelle behalten ihren Einsatz.</p>';
     h+='<h2 style="margin-top:16px">Spieler verwalten</h2><div class="row">';
     if(me.own)h+='<button class="tab off" data-act="admin"'+(sel&&!sel.is_owner&&!sel.is_coowner?'':' disabled')+'>'+(sel&&sel.is_admin?'Admin entfernen':'Zum Admin machen')+'</button>';
     if(me.is_owner)h+='<button class="tab off" data-act="coown"'+(sel&&!sel.is_owner&&sel.id!==me.id&&!(sel.banned&&!sel.is_coowner)?'':' disabled')+'>'+(sel&&sel.is_coowner?'Co-Besitzer entfernen':'Zum Co-Besitzer machen')+'</button>';
@@ -1891,6 +1894,39 @@ function adminHtml(me){var h="";
     h+='<button class="tab off" data-act="ban"'+(sel&&!sel.is_owner&&sel.id!==me.id&&(!sel.is_admin||me.own)&&(!sel.is_coowner||me.is_owner)?'':' disabled')+'>'+(sel&&sel.banned?'Entsperren':'Sperren')+'</button></div></div>';
   }
   return h}
+function adminLimitsHtml(me){var h="";
+  if(me.is_admin&&!me.banned){
+    var lmi=st.lminIn!==null?st.lminIn:MINS,lma=st.lmaxIn!==null?st.lmaxIn:MAXS;
+    h+='<div class="card"><h2>Einsatz-Grenzen</h2><p class="muted" style="margin:0 0 8px">Aktuell: Mindesteinsatz <b>'+fmt(MINS)+'</b> · Höchsteinsatz <b>'+fmt(MAXS)+'</b></p>';
+    h+='<div class="row"><label class="muted">Min <input id="lmin" type="number" min="1" value="'+esc(lmi)+'"></label><label class="muted">Max <input id="lmax" type="number" min="1" value="'+esc(lma)+'"></label><button data-act="limits">Speichern</button></div>';
+    h+='<p class="muted">Gilt sofort für alle Spiele. Bereits offene Duelle behalten ihren Einsatz.</p></div>';
+  }
+  return h}
+
+var ADM_T=[["players","👥","Spieler"],["games","🎮","Spiele"],["promo","🎉","Aktionen"],["discord","📡","Discord"],["system","⚙️","System"]];
+function admTabList(me){return ADM_T.filter(function(t){return me.own||t[0]==="players"||t[0]==="games"||t[0]==="promo"})}
+function admStatusHtml(me){
+  if(!me.own)return "";
+  var c=[];
+  c.push('<span class="admchip '+(st.maint?'bad':'ok')+'" data-act="admtab" data-v="system">🔧 Wartung '+(st.maint?'AN':'aus')+'</span>');
+  if(st.integ)c.push('<span class="admchip '+(st.integ.enabled?'ok':'')+'" data-act="admtab" data-v="discord">📡 Gewinn-Meldung '+(st.integ.enabled?'an':'aus')+'</span>');
+  if(st.rep)c.push('<span class="admchip '+(st.rep.enabled?'ok':'')+'" data-act="admtab" data-v="discord">📊 Wochenbericht '+(st.rep.enabled?'an':'aus')+'</span>');
+  if(st.sync)c.push('<span class="admchip '+(st.sync.last?'ok':'')+'" data-act="admtab" data-v="discord">💜 VIP-Abgleich '+(st.sync.last?'zuletzt '+new Date(st.sync.last).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}):'nie')+'</span>');
+  if(st.events&&st.events.length)c.push('<span class="admchip ok" data-act="admtab" data-v="promo">🎉 '+st.events.length+' Event'+(st.events.length>1?'s':'')+'</span>');
+  return '<div class="admchips">'+c.join("")+'</div>';
+}
+function adminPageHtml(me){
+  var tabs=admTabList(me),t=st.admTab||"players";
+  if(!tabs.some(function(x){return x[0]===t}))t="players";
+  var h='<div class="admtabs">'+tabs.map(function(x){return '<button class="tab'+(x[0]===t?'':' off')+'" data-act="admtab" data-v="'+x[0]+'">'+x[1]+' '+x[2]+(x[0]==="system"&&st.maint?' <span class="admdot"></span>':'')+'</button>'}).join("")+'</div>';
+  h+=admStatusHtml(me);
+  if(t==="players")h+=adminPlayersHtml(me);
+  else if(t==="games")h+=adminLimitsHtml(me)+(me.own?lockPanelHtml()+tycoonPanelHtml():"");
+  else if(t==="promo")h+=bannerPanelHtml()+(me.own?eventsPanelHtml()+invPanelHtml()+couponPanelHtml():"");
+  else if(t==="discord")h+=integPanelHtml()+reportPanelHtml()+syncPanelHtml();
+  else if(t==="system")h+=sysPanelHtml()+themePanelHtml();
+  return h;
+}
 function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
@@ -1944,7 +1980,7 @@ function render(){
   else if(pg==="settings")c+=settingsHtml(me)+inviteHtml(me);
   else if(pg==="rules")c+='<div id="rulesslot"></div>';
   else if(pg==="ostats")c+=ostatsHtml();
-  else if(pg==="admin")c+=adminHtml(me)+bannerPanelHtml()+(me.own?sysPanelHtml()+couponPanelHtml()+themePanelHtml()+tycoonPanelHtml()+eventsPanelHtml()+invPanelHtml()+integPanelHtml()+reportPanelHtml()+syncPanelHtml()+lockPanelHtml():"");
+  else if(pg==="admin")c+=adminPageHtml(me);
   else if(pg==="log")c+=logHtml();
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
@@ -2010,6 +2046,7 @@ app.addEventListener("click",function(e){
   else if(a==="vip"){var sv=selected();if(sv)adminCall("set_vip",{p_target:sv.id,p_value:!sv.is_vip})}
   else if(a==="rpsave")saveReport(false);
   else if(a==="synckey")makeSyncKey();
+  else if(a==="admtab"){st.admTab=v;try{localStorage.setItem("admtab",v)}catch(e){}render()}
   else if(a==="rpclear")saveReport(true);
   else if(a==="rpsend")sendReport();
   else if(a==="slplay")slotPlay();
