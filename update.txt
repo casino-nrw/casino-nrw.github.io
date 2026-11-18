@@ -3,5 +3,5 @@
 Level: Für gesetzte Punkte, Abzeichen und den Mini-Tycoon sammelst du Erfahrung. Mit jedem neuen Level gibt es einen Bonus an Punkten. Dein Level siehst du oben neben deinem Punktestand und in den Einstellungen.
 Abzeichen: 25 neue, einige davon richtig schwer. Schau auf der Abzeichen-Seite, welche du noch holen kannst.
 Gutscheine: Unter „Gutschein“ kannst du Codes einlösen, die es bei Aktionen hier auf dem Server gibt.
-VIP: Es gibt jetzt eine VIP-Rolle mit einem eigenen Spiel, den VIP-Slots.
+VIP: Neu sind Roulette und Blackjack. Zusammen mit den VIP-Slots sind das die VIP-Spiele. Sehen kann sie jeder, spielen nur Spieler mit der VIP-Rolle. Die bekommst du auf dem Discord-Server über ein Ticket: https://discord.gg/BJAeQt5vTm
 Viel Spaß und viel Glück! 🎉

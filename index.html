@@ -243,6 +243,45 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
 .admchip{font-size:.75rem;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);cursor:pointer;color:var(--muted)}
 .admchip.ok{background:rgba(61,220,132,.14);border-color:rgba(61,220,132,.45);color:#7ee8ae}
 .admchip.bad{background:rgba(255,90,90,.16);border-color:rgba(255,90,90,.5);color:#ff9a9a}
+.vipnote{background:rgba(182,109,255,.16);border-color:rgba(182,109,255,.5)}
+.dealer{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;width:108px}
+.dsvg{width:96px;height:112px;animation:dbob 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
+.dbub{position:relative;background:#fff;color:#14202b;border-radius:12px;padding:6px 9px;font-size:.78rem;font-weight:700;text-align:center;line-height:1.25;max-width:200px;min-width:70px;margin-bottom:9px;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+.dbub:after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
+.dEye{fill:#5be3ff;filter:drop-shadow(0 0 3px #5be3ff);transform-box:fill-box;transform-origin:center;animation:dblink 4.2s infinite}
+.dEyeA{fill:none;stroke:#5be3ff;stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 3px #5be3ff)}
+@keyframes dbob{50%{transform:translateY(-3px)}}
+@keyframes dblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.felt{background:radial-gradient(ellipse at 50% 20%,#23995a,#0f6a38 55%,#094a27);border:6px solid #5b3a1b;border-radius:18px;box-shadow:inset 0 0 36px rgba(0,0,0,.55),0 6px 18px rgba(0,0,0,.4);padding:12px 10px;margin:8px 0}
+.bjtable{border-radius:18px 18px 50% 50%/18px 18px 70px 70px;padding-bottom:22px}
+.tbltop{display:flex;align-items:center;justify-content:center;gap:12px}
+.bjarc{text-align:center;font-size:.7rem;letter-spacing:.14em;color:rgba(255,236,160,.85);font-weight:800;margin:2px 0 6px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.bjzone{text-align:center;margin:8px 0}
+.bjzone .bjlab{color:#e9fff0;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.bjzone .bjhand{justify-content:center}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 4px;border-radius:50%;background:#c62828;border:4px dashed #fff;color:#fff;font-weight:800;font-size:.7rem;box-shadow:0 3px 8px rgba(0,0,0,.5);margin-top:6px}
+.rlwheelbox{flex:1 1 0;min-width:0;max-width:230px;text-align:center}
+.rlwheelbox svg{width:100%;height:auto;display:block}
+.rlball{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;font-size:1.2rem;font-weight:800;color:#fff;border:3px solid #d4a400;box-shadow:0 3px 10px rgba(0,0,0,.45);margin-top:4px}
+.rlball.red{background:#c62828}.rlball.black{background:#1a1a1a}.rlball.green{background:#1b8a3a}
+.rlboard{display:grid;gap:3px;margin:6px 0}
+.rlgrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr)) minmax(0,1.6fr);gap:3px}
+.rlrow3{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.rlrow6{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.rlc{padding:7px 0;font-size:.82rem;font-weight:700;border-radius:6px;border:2px solid transparent;color:#fff;box-shadow:none;min-width:0}
+.rlc.red{background:#c62828}.rlc.black{background:#222}.rlc.green{background:#1b8a3a;width:100%}.rlc.out{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);font-weight:600;font-size:.76rem;padding:9px 0}
+.rlc.on{border-color:#ffd43d;box-shadow:0 0 0 2px rgba(255,212,61,.55) inset}
+.rlc.won{animation:rlwin .6s ease-in-out 4}
+@keyframes rlwin{50%{filter:brightness(1.8)}}
+.bjrow{margin:10px 0}.bjlab{margin-bottom:4px}
+.bjhand{display:flex;gap:6px;flex-wrap:wrap;min-height:84px}
+.bjc{width:56px;height:80px;border-radius:8px;background:#fff;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.25rem;box-shadow:0 3px 10px rgba(0,0,0,.45)}
+.bjc.new{animation:bjdeal .35s ease-out both}.bjc.flip{animation:bjflip .5s ease-out both}
+.bjc.r{color:#c62828}.bjc b{font-size:1.4rem;line-height:1}.bjc i{font-style:normal;font-size:1.35rem;line-height:1}
+.bjc.back{background:repeating-linear-gradient(45deg,#2b3d9c,#2b3d9c 6px,#1d2b7a 6px,#1d2b7a 12px);border:3px solid #fff}
+@keyframes bjdeal{from{transform:translateY(-18px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes bjflip{from{transform:rotateY(90deg)}to{transform:none}}
+.bj-win,.bj-blackjack{color:#3ddc84;font-weight:700}.bj-lose,.bj-bust{color:#ff7a7a;font-weight:700}
 .lvchip{display:inline-block;font-size:.66rem;font-weight:800;padding:1px 6px;border-radius:8px;background:rgba(99,179,255,.2);border:1px solid rgba(99,179,255,.5);color:#9fd0ff;vertical-align:middle}
 .vipchip{display:inline-block;font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:8px;background:linear-gradient(90deg,#b66dff,#ff7ad9);color:#fff;vertical-align:middle;margin-left:3px}
 .lvpill{cursor:pointer;font-size:.78rem;font-weight:800;padding:4px 8px;border-radius:999px;background:rgba(99,179,255,.18);border:1px solid rgba(99,179,255,.5);color:#9fd0ff;margin-left:6px;white-space:nowrap}
@@ -293,6 +332,9 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
 <p class="muted"><b>VIP-Slots:</b> Nur für Spieler mit der VIP-Rolle. Drei Walzen drehen sich, drei gleiche Symbole gewinnen (7️⃣ ×100, 💎 ×40, 🔔 ×20, ⭐ ×10, 🍋 ×6, 🍒 ×4). Zwei Kirschen zahlen ×2, zwei gleiche andere Symbole geben deinen Einsatz zurück. Auf lange Sicht bekommst du etwa 95 % zurück.</p>
 <p class="muted"><b>Level:</b> Für gesetzte Punkte, Abzeichen und den Mini-Tycoon bekommst du Erfahrung (XP). Mit genug XP steigst du im Level auf und bekommst jedes Mal einen Bonus an Punkten. Dein Level siehst du oben neben deinem Punktestand und in den Einstellungen.</p>
 <p class="muted"><b>Gutschein:</b> Unter „Gutschein“ gibst du einen Code ein, den du zum Beispiel im Discord bekommen hast, und erhältst dafür Punkte. Jeder Code geht pro Spieler nur einmal.</p>
+<p class="muted"><b>Roulette (VIP):</b> Tippe bis zu 10 Felder an, jedes bekommt deinen Einsatz. Einzelzahl ×36, Dutzend und Reihe ×3, Rot/Schwarz, Gerade/Ungerade und 1–18/19–36 ×2. Bei der 0 gewinnen nur Wetten auf die 0. Etwa 97 % kommen auf lange Sicht zurück.</p>
+<p class="muted"><b>Blackjack (VIP):</b> Komm näher an 21 als der Geber, ohne drüber zu gehen. Gewinn 1:1, Blackjack (21 mit zwei Karten) zahlt 6:5, Verdoppeln bei den ersten zwei Karten möglich. Der Geber bleibt ab 17 stehen. Kein Teilen, keine Versicherung.</p>
+<p class="muted"><b>VIP werden:</b> Die VIP-Rolle bekommst du auf dem Discord-Server über ein Ticket: <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">https://discord.gg/BJAeQt5vTm</a></p>
 <p class="muted"><b>Überweisen:</b> Unter „Überweisen“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
 <p class="muted"><b>Profil:</b> Tippe auf einen Namen in der Rangliste oder im Live-Feed, um das Profil eines Spielers zu sehen: Abzeichen, Rang, Statistik und die letzten Spiele. Bei deinem eigenen Profil kannst du ein Profilbild hochladen.</p>
 <p class="muted" style="margin-bottom:0"><b>Abzeichen:</b> Für besondere Leistungen bekommst du automatisch Abzeichen. Sie erscheinen hinter deinem Namen, in „Mein Menü“ siehst du alle und was dir noch fehlt.</p></div>
@@ -410,7 +452,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -546,13 +588,15 @@ function betLabel(g,b){
   if(g==="plinko")return "Risiko "+(PL_NAME[b]||"?");
   if(g==="scratch")return "Los";
   if(g==="slots")return "Walzen";
+  if(g==="roulette")return "Felder";
+  if(g==="blackjack")return "Karten";
   if(g==="crash")return b==="-"?"abgestürzt":"bei ×"+Number(b).toFixed(2);
   if(g==="hilo")return b+" Runden";
   if(g==="keno")return b+" Zahlen";
   if(g==="baccarat")return {P:"Spieler",B:"Bank",T:"Unentschieden"}[b]||"?";
   return {K:"Kopf",Z:"Zahl"}[b]||"?";
 }
-var GAMES={dice:"Farbwürfel",wheel:"Glücksrad",coin:"Münzwurf",duel:"1 gegen 1",mines:"Minen",plinko:"Plinko",scratch:"Rubbellos",crash:"Crash",hilo:"Hi-Lo",keno:"Keno",baccarat:"Baccarat",slots:"VIP-Slots"};
+var GAMES={dice:"Farbwürfel",wheel:"Glücksrad",coin:"Münzwurf",duel:"1 gegen 1",mines:"Minen",plinko:"Plinko",scratch:"Rubbellos",crash:"Crash",hilo:"Hi-Lo",keno:"Keno",baccarat:"Baccarat",slots:"VIP-Slots",roulette:"Roulette",blackjack:"Blackjack"};
 var PL_MULT={L:[9,2.8,1.6,1.3,1.1,0.8,0.5,0.8,1.1,1.3,1.6,2.8,9],M:[32,10,3.8,1.9,1.1,0.5,0.3,0.5,1.1,1.9,3.8,10,32],H:[140,21,6.8,2.1,0.6,0.2,0.2,0.2,0.6,2.1,6.8,21,140]};
 var PL_NAME={L:"niedrig",M:"mittel",H:"hoch"};
 var BADGES={
@@ -592,9 +636,10 @@ var BADGES={
   inv10:["🎪","Botschafter","10 Spieler eingeladen"],
   vip:["💜","VIP","Die VIP-Rolle bekommen"],
   slot777:["🎰","Dreimal Sieben","Bei den VIP-Slots 7-7-7 getroffen"],
-  slots100:["🍀","Slot-Fan","100 Runden VIP-Slots gespielt"]
+  slots100:["🍀","Slot-Fan","100 Runden VIP-Slots gespielt"],
+  bj21:["🂡","Black Jack","Beim Blackjack mit den ersten zwei Karten 21 erreicht und gewonnen"]
 };
-var BORDER=["legend500k","mega200k","millionaire","whale3","lvl50","tycoon100","games2500","win50k","whale2","slot777","vip","streak7","mult100","crown","lvl25","games1000","inv10","tycoon10","rich100k","allround","slots100","whale","jackpot","bigwin","highroller","plinko10","mines10","star","duelist","donor","lvl10","inv3","streak7","nightowl","unlucky","games500","games100","first"].filter(function(k,i,a){return a.indexOf(k)===i});
+var BORDER=["legend500k","mega200k","millionaire","whale3","lvl50","tycoon100","games2500","win50k","whale2","slot777","vip","streak7","mult100","crown","lvl25","games1000","inv10","tycoon10","rich100k","allround","slots100","bj21","whale","jackpot","bigwin","highroller","plinko10","mines10","star","duelist","donor","lvl10","inv3","streak7","nightowl","unlucky","games500","games100","first"].filter(function(k,i,a){return a.indexOf(k)===i});
 function badgeIcons(uid,max){
   var have=st.badges[uid]||[];if(!have.length)return "";
   var out=BORDER.filter(function(k){return have.indexOf(k)>=0}).slice(0,max||3);
@@ -881,7 +926,7 @@ function badgesHtml(){
 }
 function statsBody(){
   var h="";
-  var order=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots"],byG={};
+  var order=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots","roulette","blackjack"],byG={};
   st.stats.forEach(function(x){byG[x.game]=x});
   var tn=0,tw=0,tp=0;
   var rows=order.filter(function(g){return byG[g]}).map(function(g){
@@ -1117,10 +1162,11 @@ async function kenoPlay(){
 
 
 /* --- Spiele sperren (Inhaber) --- */
-var ALLG=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots"];
+var ALLG=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots","roulette","blackjack"];
 function isLocked(g){return st.locked&&st.locked.indexOf(g)>=0}
 function hasRound(g){
   if(g==="mines")return !!(st.mines&&st.mines.status==="active");
+  if(g==="blackjack")return !!(st.bj&&st.bj.active);
   if(g==="crash")return !!(st.crash&&st.crash.status==="active");
   if(g==="hilo")return !!(st.hl&&st.hl.status==="active");
   if(g==="scratch")return !!(st.scard&&!st.scard.done);
@@ -1703,6 +1749,195 @@ async function makeSyncKey(){
   if(r.error){st.syncMsg=r.error.message;render();return}
   st.syncKey=r.data;st.syncMsg="Neuer Schlüssel erzeugt. Der alte ist ab jetzt ungültig.";await loadSync();
 }
+/* --- VIP-Spiele: Hinweis, Roulette, Blackjack --- */
+var VIPG=["slots","roulette","blackjack"];
+function isVipUser(me){return !!(me&&(me.is_vip||me.own))}
+function vipNoticeHtml(){
+  return '<div class="dayban vipnote">💜 <b>Nur für VIPs.</b> Zum Spielen brauchst du die VIP-Rolle. Du bekommst sie auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</div>';
+}
+/* Croupier (digitaler Mannequin) */
+function dealerHtml(msg,mood){
+  var eyes=mood==="h"?'<path class="dEyeA" d="M43 49 Q49 40 55 49"/><path class="dEyeA" d="M65 49 Q71 40 77 49"/>':'<ellipse class="dEye" cx="49" cy="46" rx="5.5" ry="3.8"/><ellipse class="dEye" cx="71" cy="46" rx="5.5" ry="3.8"/>';
+  return '<div class="dealer"><div class="dbub" id="dbub">'+esc(msg)+'</div>'+
+  '<svg class="dsvg" viewBox="0 0 120 140" aria-hidden="true"><defs>'+
+  '<linearGradient id="dgH" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f8fb"/><stop offset="1" stop-color="#a9b5c6"/></linearGradient>'+
+  '<linearGradient id="dgV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#262c45"/><stop offset="1" stop-color="#141827"/></linearGradient></defs>'+
+  '<path d="M6 140 C6 104 30 91 60 91 C90 91 114 104 114 140 Z" fill="url(#dgV)" stroke="#5be3ff" stroke-opacity=".35"/>'+
+  '<path d="M43 92 L60 126 L77 92 Z" fill="#f4f6fa"/>'+
+  '<path d="M43 92 L55 140 M77 92 L65 140" stroke="#0b0e18" stroke-width="2" fill="none"/>'+
+  '<circle cx="60" cy="118" r="2" fill="#d4a400"/><circle cx="60" cy="129" r="2" fill="#d4a400"/>'+
+  '<rect x="52" y="76" width="16" height="18" rx="4" fill="#8f9cb0"/>'+
+  '<path d="M60 97 L46 90 L46 104 Z M60 97 L74 90 L74 104 Z" fill="#d32f2f"/><circle cx="60" cy="97" r="3.6" fill="#a61f1f"/>'+
+  '<ellipse cx="60" cy="50" rx="25" ry="29" fill="url(#dgH)" stroke="#5be3ff" stroke-opacity=".45"/>'+
+  '<rect x="37" y="37" width="46" height="18" rx="9" fill="#08101c" stroke="#5be3ff" stroke-opacity=".8"/>'+eyes+
+  '<path d="M48 26 Q60 20 72 26" stroke="#5be3ff" stroke-opacity=".55" fill="none" stroke-width="1.5"/>'+
+  '<path d="M46 66 L52 66 M68 66 L74 66 M55 70 L65 70" stroke="#5be3ff" stroke-opacity=".5" stroke-width="1.5" stroke-linecap="round"/>'+
+  '</svg></div>';
+}
+var VIPG=["slots","roulette","blackjack"];
+function isVipUser(me){return !!(me&&(me.is_vip||me.own))}
+function vipNoticeHtml(){
+  return '<div class="dayban vipnote">💜 <b>Nur für VIPs.</b> Zum Spielen brauchst du die VIP-Rolle. Du bekommst sie auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</div>';
+}
+/* Roulette */
+var RRED=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+var RLORD=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+var RLSTEP=360/37;
+function rlColor(n){return n===0?"green":(RRED.indexOf(n)>=0?"red":"black")}
+function rlCount(){return Object.keys(st.rb||{}).length}
+function rlPol(r,deg){var a=deg*Math.PI/180;return (r*Math.sin(a)).toFixed(2)+" "+(-r*Math.cos(a)).toFixed(2)}
+function rlWheelSvg(){
+  var cols={red:"#c62828",black:"#1c1c1c",green:"#1b8a3a"},w="",t="";
+  for(var i=0;i<37;i++){
+    var n=RLORD[i],a0=i*RLSTEP-RLSTEP/2,a1=i*RLSTEP+RLSTEP/2;
+    w+='<path d="M'+rlPol(80,a0)+' A80 80 0 0 1 '+rlPol(80,a1)+' L'+rlPol(56,a1)+' A56 56 0 0 0 '+rlPol(56,a0)+' Z" fill="'+cols[rlColor(n)]+'" stroke="#d4a400" stroke-width=".6"/>';
+    t+='<text transform="rotate('+(i*RLSTEP).toFixed(2)+') translate(0,-68.5)" text-anchor="middle" dominant-baseline="central" font-size="7.2" font-weight="700" fill="#fff" font-family="sans-serif">'+n+'</text>';
+  }
+  var ang=st.rwang||0,bx=-20,by=-20,bo=0;
+  if(st.rres){var idx=RLORD.indexOf(st.rres.number),aa=(ang+idx*RLSTEP)*Math.PI/180;bx=(72*Math.sin(aa)).toFixed(2);by=(-72*Math.cos(aa)).toFixed(2);bo=1}
+  return '<svg id="rlsvg" viewBox="-110 -110 220 220" aria-hidden="true"><defs><radialGradient id="rgC"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#b8860b"/></radialGradient><linearGradient id="rgW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a5a2b"/><stop offset="1" stop-color="#4a2c10"/></linearGradient></defs>'+
+  '<circle r="108" fill="url(#rgW)"/><circle r="100" fill="#141414"/><circle r="90" fill="none" stroke="#2b2b2b" stroke-width="1"/>'+
+  '<g id="rlwheel" transform="rotate('+ang.toFixed(2)+')">'+w+t+'<circle r="56" fill="#2a1a0a" stroke="#d4a400" stroke-width="1.5"/><circle r="40" fill="url(#rgC)"/>'+
+  '<path d="M-40 0 L40 0 M0 -40 L0 40" stroke="#7a5200" stroke-width="3"/><circle r="9" fill="#e8c14a" stroke="#7a5200"/></g>'+
+  '<circle id="rlbd" cx="'+bx+'" cy="'+by+'" r="4.6" fill="#fafafa" stroke="#999" stroke-width=".6" opacity="'+bo+'"/></svg>';
+}
+function rlSay(){
+  if(st.rbusy)return "Nichts geht mehr!";
+  return st.rdm||"Machen Sie Ihr Spiel!";
+}
+function rouletteHtml(me,canPlay,mx){
+  var B=st.rb||{},W=st.rwin||{},res=st.rres,h='';
+  var cell=function(id,label,cls){return '<button class="rlc '+cls+(B[id]?' on':'')+(W[id]?' won':'')+'" data-act="rlbet" data-v="'+id+'">'+label+'</button>'};
+  h+='<div class="felt"><div class="tbltop">'+dealerHtml(rlSay(),(res&&!st.rbusy&&st.rdmood==="h")?"h":"n")+'<div class="rlwheelbox">'+rlWheelSvg()+'<span id="rlball" class="rlball '+(res&&!st.rbusy?res.color:'green')+'">'+(res&&!st.rbusy?res.number:'?')+'</span></div></div></div>';
+  h+='<div class="felt" style="padding:8px 8px"><div class="rlboard"><div class="rlzero">'+cell("n:0","0","green")+'</div><div class="rlgrid">';
+  for(var r=0;r<3;r++){
+    for(var c=0;c<12;c++){var n=3-r+3*c;h+=cell("n:"+n,n,rlColor(n))}
+    h+=cell("c"+(3-r),"2:1","out");
+  }
+  h+='</div><div class="rlrow3">'+cell("d1","1.–12.","out")+cell("d2","13.–24.","out")+cell("d3","25.–36.","out")+'</div>';
+  h+='<div class="rlrow6">'+cell("low","1–18","out")+cell("even","Gerade","out")+cell("red","Rot","red")+cell("black","Schwarz","black")+cell("odd","Ungerade","out")+cell("high","19–36","out")+'</div></div></div>';
+  h+='<p class="muted" style="margin:6px 0 0;font-size:.8rem">Tippe Felder an, jedes Feld bekommt deinen Einsatz. Zahl ×36 · Dutzend und Reihe (2:1) ×3 · Rot, Schwarz, Gerade, Ungerade, Hälften ×2. Bei der 0 gewinnt nur die 0.</p>';
+  h+=stakeRow(mx);
+  var n=rlCount(),tot=n*st.stake;
+  h+='<div class="row" style="margin-top:6px"><span class="muted">'+n+' Feld'+(n===1?'':'er')+' · Gesamteinsatz <b>'+fmt(tot)+'</b></span></div>';
+  h+='<div class="msg" id="rlmsg">'+esc(st.rmsg)+'</div><div class="row"><button data-act="rlspin"'+(canPlay&&n>0&&!st.rbusy?'':' disabled')+'>🎡 Drehen</button><button class="tab off" data-act="rlclear"'+(n>0&&!st.rbusy?'':' disabled')+'>Zurücksetzen</button></div>';
+  return h;
+}
+function rlAnimate(n,ms){
+  return new Promise(function(done){
+    var wh=document.getElementById("rlwheel"),bd=document.getElementById("rlbd");
+    if(!wh||!bd){done();return}
+    var pk=RLORD.indexOf(n)*RLSTEP,w0=st.rwang||0,total=130,turns=7,t0=performance.now();
+    bd.setAttribute("opacity","1");
+    function W(t){return w0+total*(t*(1-0.3*t))}
+    function f(now){
+      var t=Math.min(1,(now-t0)/ms),e=1-Math.pow(1-t,3),r=90;
+      if(t>0.62){var k=(t-0.62)/0.38;r=72+18*Math.pow(1-k,2)+Math.abs(Math.sin(k*Math.PI*3))*5*(1-k)}
+      var wa=W(t),a=(wa+pk+(1-e)*turns*360)*Math.PI/180;
+      wh.setAttribute("transform","rotate("+wa.toFixed(2)+")");
+      bd.setAttribute("cx",(r*Math.sin(a)).toFixed(2));bd.setAttribute("cy",(-r*Math.cos(a)).toFixed(2));
+      if(t<1)requestAnimationFrame(f);
+      else{st.rwang=W(1)%360;done()}
+    }
+    requestAnimationFrame(f);
+  });
+}
+async function roulettePlay(){
+  if(st.rbusy||!st.me)return;
+  var ids=Object.keys(st.rb||{});
+  if(!ids.length){st.rmsg="Wähle mindestens ein Feld.";render();return}
+  var tot=ids.length*st.stake;
+  if(st.stake<MINS||st.stake>MAXS||tot>st.me.balance){st.rmsg="Der Einsatz pro Feld muss zwischen "+MINS+" und "+MAXS+" liegen. Gesamt "+fmt(tot)+" darf nicht höher sein als dein Punktestand.";render();return}
+  st.rbusy=true;st.rmsg="";st.rwin={};
+  var stake=st.stake,r=await sb.rpc("play_roulette",{p_bets:ids.map(function(b){return {b:b,s:stake}})});
+  if(r.error){st.rbusy=false;st.rmsg=r.error.message;await load();render();return}
+  var d=r.data;
+  st.rres=null;render();
+  await rlAnimate(d.number,5200);
+  var cn={red:"Rot",black:"Schwarz",green:"Grün"}[d.color];
+  st.rres={number:d.number,color:d.color};
+  st.rwin={};d.wins.forEach(function(w){if(w.pay>0)st.rwin[w.b]=true});
+  var net=d.payout-d.stake;
+  st.rdm=d.number+(d.number===0?"":", "+cn)+"! "+(net>0?"Glückwunsch!":(net===0?"Einsatz zurück.":"Leider nichts dabei."));
+  st.rdmood=net<0?"h":"n";
+  st.rmsg=(net>0?"Gewonnen! ":(net===0?"Einsatz zurück. ":"Leider verloren. "))+"Die Zahl ist "+d.number+". Auszahlung "+fmt(d.payout)+" ("+(net>0?"+":"")+fmt(net)+")";
+  outcome(net,d.payout,d.stake,50);
+  st.rbusy=false;await load();render();
+}
+/* Blackjack */
+var BJS=["♠","♥","♦","♣"];
+function bjTotal(cs){var t=0,a=0;cs.forEach(function(c){if(c===1){a++;t+=11}else t+=c>10?10:c});while(t>21&&a>0){t-=10;a--}return t}
+function bjCard(rank,i,hidden,fresh){
+  if(hidden)return '<span class="bjc back"></span>';
+  var s=(rank*7+i*3)%4,lab=rank===1?"A":(rank===11?"J":(rank===12?"Q":(rank===13?"K":String(rank))));
+  return '<span class="bjc'+(s===1||s===2?' r':'')+(fresh?(fresh===2?' new flip':' new'):'')+'"><b>'+lab+'</b><i>'+BJS[s]+'</i></span>';
+}
+function bjMsg(b){
+  if(!b||b.active)return "";
+  var p=b.payout,net=p-b.stake;
+  return {blackjack:"🂡 Blackjack! +"+fmt(net),win:"Gewonnen! +"+fmt(net),push:"Unentschieden, Einsatz zurück.",lose:"Der Geber gewinnt. −"+fmt(b.stake),bust:"Überkauft! −"+fmt(b.stake)}[b.outcome]||"";
+}
+function bjSay(b){
+  if(!b)return st.bjbusy?"Karten kommen…":"Machen Sie Ihren Einsatz.";
+  if(b.active)return "Karte oder halten?";
+  if(st.bjShow!=null)return "Die Bank zieht…";
+  return {blackjack:"Blackjack! Glückwunsch!",win:"Sie gewinnen. Gut gespielt!",push:"Unentschieden.",lose:"Die Bank gewinnt.",bust:"Überkauft! Die Bank gewinnt."}[b.outcome]||"";
+}
+function blackjackHtml(me,canPlay,mx){
+  var b=st.bj,h='',mood="n";
+  h+='<div class="felt bjtable">';
+  if(b&&!b.active&&st.bjShow==null&&(b.outcome==="lose"||b.outcome==="bust"))mood="h";
+  h+='<div class="tbltop">'+dealerHtml(bjSay(b),mood)+'</div><div class="bjarc">BLACKJACK ZAHLT 6 : 5</div>';
+  if(b){
+    var fin=!b.active,anim=fin&&st.bjShow!=null,shown=anim?st.bjShow:b.dealer.length;
+    var dcs=b.dealer.slice(0,shown),dt=bjTotal(dcs);
+    var hideHole=b.active||(anim&&shown<2);
+    var dh=dcs.map(function(c,i){return bjCard(c,i,false,i>=st.bjDN?(i===1?2:1):0)}).join("")+(hideHole?bjCard(0,1,true):'');
+    st.bjDN=dcs.length;
+    var lab=(b.active||(anim&&shown<2))?(dt+'+?'):(anim?String(dt):String(b.dt));
+    h+='<div class="bjzone"><div class="bjlab">Geber <b>'+lab+'</b></div><div class="bjhand">'+dh+'</div></div>';
+    var ph=b.player.map(function(c,i){return bjCard(c,i+3,false,i>=st.bjPN?1:0)}).join("");
+    st.bjPN=b.player.length;
+    h+='<div class="bjzone"><div class="bjlab">Du <b>'+b.pt+'</b>'+(b.doubled?' (verdoppelt)':'')+'</div><div class="bjhand">'+ph+'</div><span class="chip">'+fmt(b.stake)+'</span></div>';
+  }else{
+    st.bjPN=0;st.bjDN=0;
+    h+='<div class="bjzone"><div class="bjlab">Geber</div><div class="bjhand"></div></div><div class="bjzone"><div class="bjlab">Du</div><div class="bjhand"></div></div>';
+  }
+  h+='</div>';
+  if(b&&b.active===false&&st.bjShow==null)h+='<div class="msg bj-'+esc(b.outcome||"")+'">'+esc(bjMsg(b)||st.bjmsg)+'</div>';
+  else if(!b)h+='<p class="muted" style="margin:8px 0">Schlage den Geber, ohne über 21 zu kommen. Blackjack zahlt 6:5, normaler Gewinn 1:1. Verdoppeln ist mit den ersten zwei Karten möglich.</p><div class="msg">'+esc(st.bjmsg)+'</div>';
+  else h+='<div class="msg">'+esc(st.bjmsg)+'</div>';
+  if(b&&b.active){
+    var cd=b.can_double&&st.me.balance>=b.stake;
+    h+='<div class="row"><button data-act="bjhit"'+(st.bjbusy?' disabled':'')+'>Karte</button><button data-act="bjstand"'+(st.bjbusy?' disabled':'')+'>Halten</button><button class="tab off" data-act="bjdouble"'+(cd&&!st.bjbusy?'':' disabled')+'>Verdoppeln</button></div>';
+  }else{
+    h+=stakeRow(mx)+'<div class="row"><button data-act="bjdeal"'+(canPlay&&!st.bjbusy?'':' disabled')+'>🃏 Austeilen</button></div>';
+  }
+  return h;
+}
+async function loadBj(){
+  var r=await sb.rpc("bj_current");
+  if(!r.error){if(r.data)st.bj=r.data;else if(st.bj&&st.bj.active)st.bj=null}
+  st.bjLoaded=true;render();
+}
+async function bjCall(fn,args){
+  if(st.bjbusy)return;
+  st.bjbusy=true;st.bjmsg="";
+  var prev=st.bj,r=await sb.rpc(fn,args||{});
+  if(r.error){st.bjbusy=false;st.bjmsg=r.error.message;if(fn==="bj_deal")st.bj=null;await load();render();return}
+  var d=r.data;
+  if(d.active){st.bj=d;st.bjbusy=false;render();return}
+  var start=(prev&&prev.active)?prev.dealer.length:1;
+  st.bj=d;st.bjShow=Math.min(start,d.dealer.length);render();
+  for(var i=start;i<d.dealer.length;i++){await delay(i===start?850:800);st.bjShow=i+1;render()}
+  await delay(400);
+  st.bjShow=null;st.bjbusy=false;
+  outcome(d.payout-d.stake,d.payout,d.stake,50);await load();render();
+}
+function bjDeal(){
+  var bad=checkStake();if(bad){st.bjmsg=bad;render();return}
+  st.bj=null;st.bjPN=0;st.bjDN=0;bjCall("bj_deal",{p_stake:st.stake});
+}
 /* --- Rubbellos --- */
 var SCSYM=["🍋","🍒","🔔","⭐","💎","👑"],SCMULT=[2,3,5,10,50,250];
 function pendingSc(){return st.scard&&!st.scard.done}
@@ -1829,11 +2064,11 @@ async function loadDayStates(){
   }catch(e){}
 }
 
-var GPAGES=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots"];
+var GPAGES=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hilo","keno","baccarat","slots","roulette","blackjack"];
 function navBtn(id,ico,txt){var lk=isLocked(id);return '<button class="nav'+(st.page===id?' on':'')+(lk?' lock':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+(lk?'🔧':ico)+'</span>'+txt+(lk?'<small>Wartung</small>':'')+'</button>'}
 function sideHtml(me){
   var h='<div class="sidebg'+(st.sideOpen?' open':'')+'" data-act="sidebg"></div><aside class="side'+(st.sideOpen?' open':'')+'">';
-  h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos")+((me.is_vip||me.own)?navBtn("slots","🎰","VIP-Slots <span class=\"vipchip\">VIP</span>"):"")+navBtn("tycoon","🏭","Mini-Tycoon<span class=\"live\">GRATIS</span>");
+  h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos")+navBtn("slots","🎰","VIP-Slots <span class=\"vipchip\">VIP</span>")+navBtn("roulette","🎡","Roulette <span class=\"vipchip\">VIP</span>")+navBtn("blackjack","🃏","Blackjack <span class=\"vipchip\">VIP</span>")+navBtn("tycoon","🏭","Mini-Tycoon<span class=\"live\">GRATIS</span>");
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.filter(function(g){return st.daily.active===g}).forEach(function(g){var ac=true,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("coupon","🎁","Gutschein")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
   if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
@@ -1868,6 +2103,8 @@ function gameBody(me,canPlay,mx){var h="";
     h+=minesHtml(me,canPlay,mx);
   }else if(st.game==="scratch"){h+=scratchHtml(me,canPlay,mx);h+="</div>";
   }else if(st.game==="slots"){h+=slotsHtml(me,canPlay,mx);h+="</div>";
+  }else if(st.game==="roulette"){h+=rouletteHtml(me,canPlay,mx);h+="</div>";
+  }else if(st.game==="blackjack"){h+=blackjackHtml(me,canPlay,mx);h+="</div>";
   }else if(st.game==="plinko"){
     h+=plinkoHtml(me,canPlay,mx);
   }else{
@@ -1954,7 +2191,7 @@ function render(){
   var b=me.balance,canPlay=b>=MINS&&!me.banned;
   var mx=Math.min(MAXS,b);if(st.stake>mx)st.stake=mx;if(st.stake<MINS)st.stake=MINS;
   var pg=st.page;
-  if((pg==="slots"&&!(me.is_vip||me.own))||(pg==="hist"&&!(me.is_admin&&!me.banned))||(pg==="admin"&&!(me.is_admin&&!me.banned))||((pg==="log"||pg==="ostats")&&!(me.own&&!me.banned)))pg=st.page="dice";
+  if((pg==="hist"&&!(me.is_admin&&!me.banned))||(pg==="admin"&&!(me.is_admin&&!me.banned))||((pg==="log"||pg==="ostats")&&!(me.own&&!me.banned)))pg=st.page="dice";
   var c=toastHtml()+noticeHtml();
   if(st.maint&&me.own)c+='<div class="dayban">🔧 <b>Wartungsmodus ist AN</b> · Normale Spieler sehen nur die Wartungsseite. Ausschalten unter Admin-Bereich.</div>';
   if(GPAGES.indexOf(pg)>=0){
@@ -1962,7 +2199,8 @@ function render(){
     c+='<div class="card">';
     if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
     else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Punkte bekommst du von einem Admin auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</p>';
-    c+='<h2 style="margin:0">'+esc(GAMES[pg])+'</h2>';
+    c+='<h2 style="margin:0">'+esc(GAMES[pg])+(VIPG.indexOf(pg)>=0?' <span class="vipchip">VIP</span>':'')+'</h2>';
+    if(VIPG.indexOf(pg)>=0&&!isVipUser(me)){c+=vipNoticeHtml();canPlay=false}
     if(isLocked(pg)&&!me.own&&!hasRound(pg))c+=maintHtml(pg);
     else{
       if(isLocked(pg))c+='<div class="dayban">🔧 <b>Gesperrt (Wartung)</b> · '+(me.own?'Nur Besitzer können dieses Spiel gerade spielen.':'Du kannst deine laufende Runde noch beenden.')+'</div>';
@@ -2003,6 +2241,7 @@ function go(p){
   var pr=(st.menuOpen||p==="feed")?load():Promise.resolve();
   if(p==="crash"||p==="hilo")pr=pr.then(function(){return loadDayStates()});
   if(p==="tycoon")loadTycoon();
+  if(p==="blackjack")loadBj();
   if(p==="ostats"){loadOstats();loadAlerts()}
   if(p==="admin"&&st.me&&st.me.own){loadInteg();loadReport();loadCoupons();loadSync()}
   if(p==="settings")loadInvite();
@@ -2050,6 +2289,13 @@ app.addEventListener("click",function(e){
   else if(a==="rpclear")saveReport(true);
   else if(a==="rpsend")sendReport();
   else if(a==="slplay")slotPlay();
+  else if(a==="rlbet"){if(st.rbusy)return;st.rb=st.rb||{};if(st.rb[v])delete st.rb[v];else if(rlCount()>=10){st.rmsg="Höchstens 10 Felder."}else{st.rb[v]=true;st.rmsg=""}st.rwin={};render()}
+  else if(a==="rlclear"){st.rb={};st.rwin={};st.rmsg="";render()}
+  else if(a==="rlspin")roulettePlay();
+  else if(a==="bjdeal")bjDeal();
+  else if(a==="bjhit")bjCall("bj_hit");
+  else if(a==="bjstand")bjCall("bj_stand");
+  else if(a==="bjdouble")bjCall("bj_double");
   else if(a==="tytap")tyTap();
   else if(a==="tybuy")tyBuy(parseInt(v));
   else if(a==="tybub")tyBub();
@@ -2426,7 +2672,7 @@ sb.auth.onAuthStateChange(function(ev,session){
 });
 
 setInterval(async function(){
-  if(!st.user||st.rolling||st.plPend||st.kbusy||st.bbusy||(st.page==="scratch"&&st.scard&&!st.scard.done)||(st.balls&&st.balls.length)||st.sbusy||(st.page==="tycoon"&&st.ty&&(st.ty.phase==="play"||st.ty.phase==="claim"))||(st.page==="crash"&&st.crash&&st.crash.status==="active"))return;
+  if(!st.user||st.rolling||st.plPend||st.kbusy||st.bbusy||(st.page==="scratch"&&st.scard&&!st.scard.done)||(st.balls&&st.balls.length)||st.sbusy||st.rbusy||st.bjbusy||(st.page==="tycoon"&&st.ty&&(st.ty.phase==="play"||st.ty.phase==="claim"))||(st.page==="crash"&&st.crash&&st.crash.status==="active"))return;
   var ae=document.activeElement;
   if(ae&&ae.tagName==="INPUT"&&app.contains(ae))return;
   await load();render();
