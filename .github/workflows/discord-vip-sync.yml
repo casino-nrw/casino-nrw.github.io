@@ -1,0 +1,68 @@
+name: Discord-Rolle zu VIP abgleichen
+
+# Läuft alle paar Minuten (und auf Knopfdruck unter Actions -> Run workflow).
+# Liest, wer auf deinem Discord-Server die VIP-Rolle hat, und gibt diesen Spielern auf der Seite die VIP-Rolle.
+# Wer die Rolle in Discord verliert, verliert sie auch auf der Seite (von Hand vergebene VIPs bleiben unberührt).
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  abgleich:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollen abgleichen
+        env:
+          BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+          ROLE_IDS: ${{ secrets.DISCORD_VIP_ROLE_ID }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SYNC_SECRET: ${{ secrets.SYNC_SECRET }}
+        run: |
+          python3 - <<'PY'
+          import json, os, sys, urllib.request, urllib.error
+
+          fehlt = [n for n in ("BOT_TOKEN", "GUILD_ID", "ROLE_IDS", "SUPABASE_URL", "SUPABASE_KEY", "SYNC_SECRET") if not os.environ.get(n, "").strip()]
+          if fehlt:
+              sys.exit("Es fehlen Geheimnisse: " + ", ".join(fehlt) + ". Siehe Anleitung.")
+
+          rollen = {r.strip() for r in os.environ["ROLE_IDS"].split(",") if r.strip()}
+          guild = os.environ["GUILD_ID"].strip()
+          base = os.environ["SUPABASE_URL"].strip().rstrip("/")
+
+          def discord(url):
+              req = urllib.request.Request(url, headers={"Authorization": "Bot " + os.environ["BOT_TOKEN"].strip(), "User-Agent": "CasinoNRW-VIP-Sync (github, 1.0)"})
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return json.load(r)
+              except urllib.error.HTTPError as e:
+                  hinweis = {401: "Der Bot-Token ist ungültig.",
+                             403: "Der Bot darf die Mitglieder nicht lesen. Schalte im Developer Portal beim Bot den „Server Members Intent“ ein und lade den Bot auf den Server ein.",
+                             404: "Server nicht gefunden. Stimmt die Server-ID und ist der Bot auf dem Server?"}.get(e.code, "")
+                  sys.exit("Discord hat mit Fehler %s geantwortet. %s" % (e.code, hinweis))
+
+          ids, after = [], "0"
+          while True:
+              seite = discord("https://discord.com/api/v10/guilds/%s/members?limit=1000&after=%s" % (guild, after))
+              if not seite:
+                  break
+              for m in seite:
+                  if rollen.intersection(m.get("roles", [])):
+                      ids.append(m["user"]["id"])
+              after = seite[-1]["user"]["id"]
+              if len(seite) < 1000:
+                  break
+          print("Mitglieder mit der Rolle:", len(ids))
+
+          body = json.dumps({"p_secret": os.environ["SYNC_SECRET"].strip(), "p_ids": ids}).encode()
+          key = os.environ["SUPABASE_KEY"].strip()
+          req = urllib.request.Request(base + "/rest/v1/rpc/sync_discord_roles", data=body, method="POST",
+                                       headers={"apikey": key, "Authorization": "Bearer " + key, "Content-Type": "application/json"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print("Ergebnis:", r.read().decode())
+          except urllib.error.HTTPError as e:
+              sys.exit("Die Seite hat den Abgleich abgelehnt (%s): %s" % (e.code, e.read().decode()[:300]))
+          PY
