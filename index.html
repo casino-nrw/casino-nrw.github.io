@@ -2245,13 +2245,14 @@ function render(){
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
   if(st.prof)h+=profHtml();
+  var keepY=window.pageYOffset;
   var holder=document.getElementById("rulesholder"),rc=document.getElementById("rulescard");
   if(rc&&holder&&rc.parentNode!==holder)holder.appendChild(rc);
-  var oldSide=app.querySelector(".side"),keepSide=oldSide?oldSide.scrollTop:0,keepY=window.pageYOffset;
+  var oldSide=app.querySelector(".side"),keepSide=oldSide?oldSide.scrollTop:0;
   app.innerHTML=h;
   var newSide=app.querySelector(".side");if(newSide&&keepSide)newSide.scrollTop=keepSide;
-  if(keepY&&Math.abs(window.pageYOffset-keepY)>2)window.scrollTo(0,keepY);
   if(pg==="rules"&&rc){var sl=document.getElementById("rulesslot");if(sl)sl.appendChild(rc)}
+  if(keepY&&Math.abs(window.pageYOffset-keepY)>2)window.scrollTo(0,keepY);
   if(st.balls.length)plDraw(performance.now());st.landed=false;
   if(pg==="crash"&&st.crash&&st.crash.status==="active")crLoop();
   if(pg==="scratch")scInit();
