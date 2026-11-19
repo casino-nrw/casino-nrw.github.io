@@ -473,7 +473,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.lkmin=30;st.lkpct=25;st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.sbg=null;st.sbr=null;st.sbt="";st.sbbusy=false;st.lkmin=30;st.lkpct=25;st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -681,6 +681,7 @@ function logLine(l){
   if(l.action==="coupon_delete")return a+' löschte den Gutschein <b>'+esc(d)+'</b>';
   if(l.action==="report_cfg")return a+' änderte den Wochenbericht ('+esc(d)+')';
   if(l.action==="report_send")return a+' schickte den Wochenbericht ab';
+  if(l.action==="sync_bot")return a+' änderte den VIP-Abgleich in Supabase ('+esc(d||'')+')';
   if(l.action==="sync_key")return a+' erzeugte einen neuen Schlüssel für den Discord-Rollen-Abgleich';
   if(l.action==="luck_on"){var lp=String(d||"").split("|");return a+' gab '+t+(lp[0]==="luck"?' eine 🍀 Glückssträhne':' eine 🌧️ Pechsträhne')+' ('+lp[1]+' Min, '+(lp[2]||25)+' %)'}
   if(l.action==="luck_off")return a+' beendete die Strähne von '+t;
@@ -1763,13 +1764,37 @@ async function loadSync(){var r=await sb.rpc("get_sync_status");if(!r.error)st.s
 function syncPanelHtml(){
   var v=st.sync,h='<div class="card"><h2>💜 VIP über Discord-Rolle</h2>';
   if(!v)return h+'<p class="muted">Lade …</p></div>';
-  h+='<p class="muted" style="margin:0 0 8px">Ein kleines Programm auf GitHub schaut alle paar Minuten nach, wer auf deinem Discord-Server die VIP-Rolle hat, und gibt diesen Spielern die VIP-Rolle auf der Seite. Verliert jemand die Rolle in Discord, verliert er sie hier auch. Spieler müssen sich mit demselben Discord-Konto angemeldet haben. Die Einrichtung steht in der ANLEITUNG.md.</p>';
-  h+='<p style="margin:0 0 4px">Schlüssel: <b class="'+(v.has_key?'win':'loss')+'">'+(v.has_key?'erzeugt':'noch nicht erzeugt')+'</b></p>';
+  h+='<p class="muted" style="margin:0 0 8px">Die Seite fragt alle 5 Minuten bei Discord nach, wer die VIP-Rolle hat, und gibt diesen Spielern die VIP-Rolle auf der Seite. Verliert jemand die Rolle in Discord, verliert er sie hier auch. Spieler müssen sich mit demselben Discord-Konto angemeldet haben. Die Einrichtung steht in der ANLEITUNG.md.</p>';
+  if(!v.pg_net)h+='<div class="dayban">Die Erweiterung <b>pg_net</b> ist in Supabase nicht aktiv. Schalte sie unter Database → Extensions ein.</div>';
+  var g=st.sbg!==null?st.sbg:(v.guild||""),r=st.sbr!==null?st.sbr:(v.roles||"");
+  h+='<div class="row"><label class="muted" style="flex:1">Server-ID<br><input id="sbg" type="text" inputmode="numeric" value="'+esc(g)+'" style="width:100%"></label></div>';
+  h+='<div class="row"><label class="muted" style="flex:1">Rollen-ID (mehrere mit Komma)<br><input id="sbr" type="text" value="'+esc(r)+'" style="width:100%"></label></div>';
+  h+='<div class="row"><label class="muted" style="flex:1">Bot-Token '+(v.bot?'<b class="win">(gespeichert, leer lassen zum Behalten)</b>':'')+'<br><input id="sbt" type="password" autocomplete="off" value="'+esc(st.sbt)+'" placeholder="'+(v.bot?'••••••••':'Token einfügen')+'" style="width:100%"></label></div>';
+  h+='<div class="row"><button data-act="sbsave"'+(st.sbbusy?' disabled':'')+'>Speichern und einschalten</button><button class="tab off" data-act="sbrun"'+(v.bot&&!st.sbbusy?'':' disabled')+'>Jetzt abgleichen</button>'+(v.bot?'<button class="tab off" data-act="sbdel">Token löschen und ausschalten</button>':'')+'</div>';
+  h+='<p style="margin:8px 0 4px">Status: <b class="'+(v.auto&&v.bot?'win':'loss')+'">'+(v.auto&&v.bot?(v.running?'läuft gerade …':'eingeschaltet'):'ausgeschaltet')+'</b>'+(v.cron?'':' <span class="muted">(Zeitplan pg_cron nicht aktiv: Der Abgleich läuft, solange jemand auf der Seite ist)</span>')+'</p>';
+  if(v.err)h+='<p class="loss" style="margin:0 0 4px">Fehler: '+esc(v.err)+'</p>';
   h+='<p style="margin:0 0 4px">Letzter Abgleich: <b>'+(v.last?new Date(v.last).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+' Uhr':'noch nie')+'</b>'+(v.note?' <span class="muted">· '+esc(v.note)+'</span>':'')+'</p>';
   h+='<p class="muted" style="margin:0 0 8px">VIPs über Discord: <b>'+v.discord_vips+'</b> · von Hand vergeben: <b>'+v.manual_vips+'</b></p>';
-  if(st.syncKey)h+='<div class="dayban"><b>Dein neuer Schlüssel (nur jetzt sichtbar):</b><br><input type="text" readonly value="'+esc(st.syncKey)+'" onclick="this.select()" style="width:100%;margin-top:6px;font-family:monospace"><br><span class="muted">Kopiere ihn bei GitHub als Geheimnis <b>SYNC_SECRET</b>. Zeige ihn niemandem.</span></div>';
-  h+='<div class="row"><button class="tab off" data-act="synckey">'+(v.has_key?'Neuen Schlüssel erzeugen':'Schlüssel erzeugen')+'</button></div>';
   return h+'<div class="msg">'+esc(st.syncMsg||"")+'</div></div>';
+}
+async function sbSave(){
+  var v=st.sync||{};
+  st.sbbusy=true;st.syncMsg="";render();
+  var r=await sb.rpc("set_sync_bot",{p_token:st.sbt||null,p_guild:st.sbg!==null?st.sbg:(v.guild||""),p_roles:st.sbr!==null?st.sbr:(v.roles||""),p_auto:true});
+  st.sbbusy=false;
+  if(r.error){st.syncMsg=r.error.message;render();return}
+  st.sbt="";st.sbg=null;st.sbr=null;st.syncMsg="Gespeichert. Der erste Abgleich läuft jetzt.";
+  await loadSync();setTimeout(loadSync,6000);setTimeout(loadSync,15000);
+}
+async function sbRun(){
+  var r=await sb.rpc("run_vip_sync");
+  if(r.error){st.syncMsg=r.error.message;render();return}
+  st.syncMsg="Abgleich gestartet.";await loadSync();setTimeout(loadSync,6000);setTimeout(loadSync,15000);
+}
+async function sbDel(){
+  var r=await sb.rpc("delete_sync_bot");
+  if(r.error){st.syncMsg=r.error.message;render();return}
+  st.syncMsg="Token gelöscht, der Abgleich ist ausgeschaltet.";await loadSync();
 }
 async function makeSyncKey(){
   var r=await sb.rpc("rotate_sync_secret");
@@ -2320,6 +2345,9 @@ app.addEventListener("click",function(e){
   else if(a==="vip"){var sv=selected();if(sv)adminCall("set_vip",{p_target:sv.id,p_value:!sv.is_vip})}
   else if(a==="rpsave")saveReport(false);
   else if(a==="synckey")makeSyncKey();
+  else if(a==="sbsave")sbSave();
+  else if(a==="sbrun")sbRun();
+  else if(a==="sbdel")sbDel();
   else if(a==="admtab"){st.admTab=v;try{localStorage.setItem("admtab",v)}catch(e){}render()}
   else if(a==="rpclear")saveReport(true);
   else if(a==="rpsend")sendReport();
@@ -2416,6 +2444,9 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
+  else if(t.id==="sbg")st.sbg=t.value;
+  else if(t.id==="sbr")st.sbr=t.value;
+  else if(t.id==="sbt")st.sbt=t.value;
   else if(t.id==="lkmin")st.lkmin=t.value;
   else if(t.id==="lkpct")st.lkpct=t.value;
   else if(t.id==="bantxt")st.banIn=t.value;
