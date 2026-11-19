@@ -243,6 +243,7 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
 .admchip{font-size:.75rem;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);cursor:pointer;color:var(--muted)}
 .admchip.ok{background:rgba(61,220,132,.14);border-color:rgba(61,220,132,.45);color:#7ee8ae}
 .admchip.bad{background:rgba(255,90,90,.16);border-color:rgba(255,90,90,.5);color:#ff9a9a}
+.luckchip{font-size:.8rem;margin-left:3px;vertical-align:middle}.luckbox.luck{background:rgba(61,220,132,.15);border-color:rgba(61,220,132,.5)}.luckbox.curse{background:rgba(120,150,255,.14);border-color:rgba(120,150,255,.5)}
 .vipnote{background:rgba(182,109,255,.16);border-color:rgba(182,109,255,.5)}
 .dealer{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;width:108px}
 .dsvg{width:96px;height:112px;animation:dbob 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
@@ -335,6 +336,7 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
 <p class="muted"><b>Roulette (VIP):</b> Tippe bis zu 10 Felder an, jedes bekommt deinen Einsatz. Einzelzahl ×36, Dutzend und Reihe ×3, Rot/Schwarz, Gerade/Ungerade und 1–18/19–36 ×2. Bei der 0 gewinnen nur Wetten auf die 0. Etwa 97 % kommen auf lange Sicht zurück.</p>
 <p class="muted"><b>Blackjack (VIP):</b> Komm näher an 21 als der Geber, ohne drüber zu gehen. Gewinn 1:1, Blackjack (21 mit zwei Karten) zahlt 6:5, Verdoppeln bei den ersten zwei Karten möglich. Der Geber bleibt ab 17 stehen. Kein Teilen, keine Versicherung.</p>
 <p class="muted"><b>VIP werden:</b> Die VIP-Rolle bekommst du auf dem Discord-Server über ein Ticket: <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">https://discord.gg/BJAeQt5vTm</a></p>
+<p class="muted"><b>Glücks- und Pechsträhne:</b> Der Besitzer kann einem Spieler für eine Zeit eine Strähne geben. Bei 🍀 sind seine Gewinne 25 % höher, bei 🌧️ 25 % niedriger. Verluste ändern sich nicht. Die Strähne sieht jeder an dem Symbol neben dem Namen und der Spieler selbst oben im Spiel.</p>
 <p class="muted"><b>Überweisen:</b> Unter „Überweisen“ kannst du anderen Spielern Punkte schicken (100 bis 10.000 pro Überweisung, höchstens 50.000 in 24 Stunden).</p>
 <p class="muted"><b>Profil:</b> Tippe auf einen Namen in der Rangliste oder im Live-Feed, um das Profil eines Spielers zu sehen: Abzeichen, Rang, Statistik und die letzten Spiele. Bei deinem eigenen Profil kannst du ein Profilbild hochladen.</p>
 <p class="muted" style="margin-bottom:0"><b>Abzeichen:</b> Für besondere Leistungen bekommst du automatisch Abzeichen. Sie erscheinen hinter deinem Namen, in „Mein Menü“ siehst du alle und was dir noch fehlt.</p></div>
@@ -471,7 +473,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.lkmin=30;st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -517,7 +519,7 @@ var CH_COLS="id,creator_id,creator_color,stake,status,joiner_id,joiner_color,dic
 async function load(){
   if(Date.now()-st.lastExpire>30000){st.lastExpire=Date.now();try{sb.rpc("expire_challenges").then(function(){},function(){})}catch(e){}}
   var qs=[
-    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip").order("balance",{ascending:false}),
+    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip,luck_kind,luck_until").order("balance",{ascending:false}),
     sb.from("game_log").select("id,user_id,game,bet,stake,payout,created_at").order("created_at",{ascending:false}).limit(st.page==="feed"?100:5),
     sb.from("challenges").select(CH_COLS).eq("status","open").order("created_at",{ascending:true}).limit(50),
     sb.from("challenges").select(CH_COLS).eq("status","done").order("finished_at",{ascending:false}).limit(12)
@@ -680,6 +682,8 @@ function logLine(l){
   if(l.action==="report_cfg")return a+' änderte den Wochenbericht ('+esc(d)+')';
   if(l.action==="report_send")return a+' schickte den Wochenbericht ab';
   if(l.action==="sync_key")return a+' erzeugte einen neuen Schlüssel für den Discord-Rollen-Abgleich';
+  if(l.action==="luck_on"){var lp=String(d||"").split("|");return a+' gab '+t+(lp[0]==="luck"?' eine 🍀 Glückssträhne':' eine 🌧️ Pechsträhne')+' ('+lp[1]+' Min)'}
+  if(l.action==="luck_off")return a+' beendete die Strähne von '+t;
   if(l.action==="vip_on")return a+' machte '+t+' zum VIP';
   if(l.action==="vip_off")return a+' entzog '+t+' die VIP-Rolle';
   if(l.action==="tycoon_cfg")return a+' änderte den Mini-Tycoon (<span class="muted">'+esc(d)+'</span>)';
@@ -1597,7 +1601,11 @@ function lvOf(xp){return Math.floor(Math.sqrt(Math.max(0,+xp||0)/40))+1}
 function lvXp(l){return 40*(l-1)*(l-1)}
 function lvTitle(l){return l>=50?"Legende":l>=30?"Meister":l>=20?"Experte":l>=10?"Profi":l>=5?"Spieler":"Neuling"}
 function lvChip(p){var l=lvOf(p&&p.xp);return '<span class="lvchip" title="Level '+l+' · '+lvTitle(l)+'">Lv '+l+'</span>'}
-function vipChip(p){return p&&p.is_vip?'<span class="vipchip">VIP</span>':''}
+function luckOf(p){return p&&p.luck_kind&&p.luck_until&&new Date(p.luck_until).getTime()>Date.now()?p.luck_kind:null}
+function luckLeft(p){var m=Math.ceil((new Date(p.luck_until).getTime()-Date.now())/60000);return m>=60?Math.floor(m/60)+" Std "+(m%60)+" Min":m+" Min"}
+function luckChip(p){var k=luckOf(p);return k?'<span class="luckchip '+k+'" title="'+(k==="luck"?"Glückssträhne":"Pechsträhne")+' noch '+luckLeft(p)+'">'+(k==="luck"?"🍀":"🌧️")+'</span>':''}
+function luckNoticeHtml(p){var k=luckOf(p);if(!k)return "";return '<div class="dayban luckbox '+k+'">'+(k==="luck"?'🍀 <b>Glückssträhne!</b> Der Besitzer hat dir Glück geschenkt: Deine Gewinne sind 25 % höher.':'🌧️ <b>Pechsträhne!</b> Der Besitzer hat dir Pech gegeben: Deine Gewinne sind 25 % niedriger.')+' Noch '+luckLeft(p)+'.</div>'}
+function vipChip(p){return (p&&p.is_vip?'<span class="vipchip">VIP</span>':'')+luckChip(p)}
 function lvBoxHtml(p){
   var xp=+p.xp||0,l=lvOf(xp),a=lvXp(l),b=lvXp(l+1),pc=Math.max(0,Math.min(100,Math.round((xp-a)/(b-a)*100)));
   return '<div class="lvbox"><div class="lvtop"><b>Level '+l+'</b> · '+lvTitle(l)+'</div><div class="lvbar"><i style="width:'+pc+'%"></i></div><div class="muted lvsub">'+fmt(xp)+' XP · noch '+fmt(b-xp)+' bis Level '+(l+1)+(st.lvBonus>0?' (dann +'+fmt(st.lvBonus)+' Punkte)':'')+'</div><div class="muted lvsub">XP bekommst du für gesetzte Punkte, Abzeichen und den Mini-Tycoon.</div></div>';
@@ -1686,7 +1694,7 @@ function histHtml(){
   h+='<h2 style="margin:14px 0 6px">Alle Runden</h2><div class="row"><label class="muted">Spiel <select id="hfgame"><option value="all">Alle</option>'+ALLG.map(function(g){return '<option value="'+g+'"'+(H.gf===g?' selected':'')+'>'+esc(GAMES[g])+'</option>'}).join("")+'</select></label></div>';
   h+='<div style="max-height:420px;overflow:auto;margin-top:6px">'+(rows.length?rows.map(function(x){
     var n=x.payout-x.stake,cls=n>0?"win":(n===0?"even":"loss"),t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
-    return '<div class="feed-i"><span>'+esc(GAMES[x.game]||x.game)+' · '+esc(betLabel(x.game,x.bet))+' · Einsatz '+fmt(x.stake)+(x.bonus>0?' <span class="tag">Event +'+fmt(x.bonus)+'</span>':'')+'<br><span class="muted">'+t+'</span></span><span class="'+cls+'">'+(n>0?"+":"")+fmt(n)+'</span></div>';
+    return '<div class="feed-i"><span>'+esc(GAMES[x.game]||x.game)+' · '+esc(betLabel(x.game,x.bet))+' · Einsatz '+fmt(x.stake)+(x.bonus>0?' <span class="tag">Event +'+fmt(x.bonus)+'</span>':'')+(x.luck?' <span class="tag">'+(x.luck>0?'🍀 +':'🌧️ −')+fmt(Math.abs(x.luck))+'</span>':'')+'<br><span class="muted">'+t+'</span></span><span class="'+cls+'">'+(n>0?"+":"")+fmt(n)+'</span></div>';
   }).join(""):'<p class="muted">Keine Runden.</p>')+'</div>';
   if(H.more)h+='<div style="margin-top:8px"><button class="tab off" data-act="histmore"'+(H.busy?' disabled':'')+'>Ältere laden</button></div>';
   var tl=function(t){return new Date(t).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})};
@@ -2150,6 +2158,7 @@ function adminPlayersHtml(me){var h="";
     if(me.is_owner)h+='<button class="tab off" data-act="coown"'+(sel&&!sel.is_owner&&sel.id!==me.id&&!(sel.banned&&!sel.is_coowner)?'':' disabled')+'>'+(sel&&sel.is_coowner?'Co-Besitzer entfernen':'Zum Co-Besitzer machen')+'</button>';
     h+='<button class="tab off" data-act="hist"'+(sel?'':' disabled')+'>📜 Verlauf ansehen</button>';
     if(me.own)h+='<button class="tab off" data-act="vip"'+(sel?'':' disabled')+'>'+(sel&&sel.is_vip?'VIP entfernen':'💜 Zum VIP machen')+'</button>';
+    if(me.own){var lk=sel?luckOf(sel):null;h+='<span class="muted" style="align-self:center">Dauer (Min): <input id="lkmin" type="number" min="5" max="1440" value="'+esc(st.lkmin)+'" style="width:70px"></span><button class="tab off" data-act="luck"'+(sel?'':' disabled')+'>🍀 Glück geben</button><button class="tab off" data-act="curse"'+(sel?'':' disabled')+'>🌧️ Pech geben</button>'+(lk?'<button class="tab off" data-act="unluck">Strähne beenden ('+(lk==="luck"?"🍀":"🌧️")+' noch '+luckLeft(sel)+')</button>':'');}
     h+='<button class="tab off" data-act="ban"'+(sel&&!sel.is_owner&&sel.id!==me.id&&(!sel.is_admin||me.own)&&(!sel.is_coowner||me.is_owner)?'':' disabled')+'>'+(sel&&sel.banned?'Entsperren':'Sperren')+'</button></div></div>';
   }
   return h}
@@ -2222,6 +2231,7 @@ function render(){
     if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
     else if(b<MINS)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+MINS+' Punkte. Punkte bekommst du von einem Admin auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</p>';
     c+='<h2 style="margin:0">'+esc(GAMES[pg])+(VIPG.indexOf(pg)>=0?' <span class="vipchip">VIP</span>':'')+'</h2>';
+    c+=luckNoticeHtml(me);
     if(VIPG.indexOf(pg)>=0&&!isVipUser(me)){c+=vipNoticeHtml();canPlay=false}
     if(isLocked(pg)&&!me.own&&!hasRound(pg))c+=maintHtml(pg);
     else{
@@ -2305,6 +2315,8 @@ app.addEventListener("click",function(e){
   else if(a==="hist"){if(st.osel)openHist(st.osel)}
   else if(a==="histback"){go("admin")}
   else if(a==="histmore"){if(st.hist&&!st.hist.busy)loadHist(true)}
+  else if(a==="luck"||a==="curse"){var sl=selected();if(sl)adminCall("set_luck",{p_target:sl.id,p_kind:a,p_minutes:parseInt(st.lkmin)||30})}
+  else if(a==="unluck"){var su=selected();if(su)adminCall("set_luck",{p_target:su.id,p_kind:"none",p_minutes:30})}
   else if(a==="vip"){var sv=selected();if(sv)adminCall("set_vip",{p_target:sv.id,p_value:!sv.is_vip})}
   else if(a==="rpsave")saveReport(false);
   else if(a==="synckey")makeSyncKey();
@@ -2404,6 +2416,7 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
+  else if(t.id==="lkmin")st.lkmin=t.value;
   else if(t.id==="bantxt")st.banIn=t.value;
   else if(t.id==="mton"||t.id==="mtmsg"||t.id==="mtlb"){if(!st.sysf)st.sysf={on:st.maint,msg:st.maintMsg||"",lb:st.lvBonus};if(t.id==="mton")st.sysf.on=t.checked;else if(t.id==="mtmsg")st.sysf.msg=t.value;else st.sysf.lb=t.value}
   else if(t.id==="cpcode")st.cpin=t.value;
