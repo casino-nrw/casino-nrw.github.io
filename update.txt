@@ -1,7 +1,7 @@
-⬆️ Neu: Level, mehr Abzeichen und Gutscheine
+⬆️ Neu: Designs und eigener Hintergrund
 
-Level: Für gesetzte Punkte, Abzeichen und den Mini-Tycoon sammelst du Erfahrung. Mit jedem neuen Level gibt es einen Bonus an Punkten. Dein Level siehst du oben neben deinem Punktestand und in den Einstellungen.
-Abzeichen: 25 neue, einige davon richtig schwer. Schau auf der Abzeichen-Seite, welche du noch holen kannst.
-Gutscheine: Unter „Gutschein“ kannst du Codes einlösen, die es bei Aktionen hier auf dem Server gibt.
-VIP: Neu sind Roulette und Blackjack. Zusammen mit den VIP-Slots sind das die VIP-Spiele. Sehen kann sie jeder, spielen nur Spieler mit der VIP-Rolle. Die bekommst du auf dem Discord-Server über ein Ticket: https://discord.gg/BJAeQt5vTm
+Designs: Die Seite gibt es jetzt in Normal, Winter, Herbst, Frühling, Sommer und Casino. Bei Winter, Herbst und Frühling fallen Schnee, Blätter oder Blüten, das kannst du in den Einstellungen abschalten.
+Dein eigenes Design: Unter Einstellungen → Design wählst du, was du sehen willst, auch wenn der Server ein anderes eingestellt hat.
+Eigener Hintergrund: Unter Einstellungen kannst du ein Bild von dir als Hintergrund hochladen und einstellen, wie dunkel es sein soll. Nur du siehst es.
+Wartung: Wenn eine Wartung geplant ist, siehst du oben einen Countdown, damit du vorher noch in Ruhe zu Ende spielen kannst.
 Viel Spaß und viel Glück! 🎉
