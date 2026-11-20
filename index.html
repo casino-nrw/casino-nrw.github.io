@@ -219,6 +219,17 @@ main{display:none}
 body.winter{--muted:#9db8d9;--line:rgba(190,225,255,.22);--accent:#7fd3ff;--card:rgba(205,232,255,.07);--text:#eef7ff;
  --btn-bg:linear-gradient(180deg,#e3f5ff,#6cc4f5);--btn-fg:#06233f;--btn-sh:0 2px 12px rgba(108,196,245,.4);
  background:radial-gradient(ellipse at 18% 0%,#1f5683 0,transparent 55%),radial-gradient(ellipse at 88% 22%,#16666f 0,transparent 46%),radial-gradient(ellipse at 50% 105%,#33498a 0,transparent 55%),linear-gradient(180deg,#0b1a33,#050c1c);background-attachment:fixed}
+body.th-herbst{--muted:#d9b89a;--line:rgba(255,200,150,.22);--accent:#ff9a3c;--card:rgba(255,190,130,.08);--text:#fff3e6;--btn-bg:linear-gradient(180deg,#ffd9a8,#f0892b);--btn-fg:#3a1a05;--btn-sh:0 2px 12px rgba(240,137,43,.4);
+ background:radial-gradient(ellipse at 15% 0%,#7a3a12 0,transparent 55%),radial-gradient(ellipse at 90% 25%,#6b2416 0,transparent 50%),radial-gradient(ellipse at 50% 105%,#5a3f10 0,transparent 55%),linear-gradient(180deg,#24120a,#120805);background-attachment:fixed}
+body.th-fruehling{--muted:#bfe3c9;--line:rgba(190,255,215,.22);--accent:#ff8fc1;--card:rgba(200,255,225,.07);--text:#f2fff7;--btn-bg:linear-gradient(180deg,#ffd3e8,#ff7fb8);--btn-fg:#40102a;--btn-sh:0 2px 12px rgba(255,127,184,.4);
+ background:radial-gradient(ellipse at 15% 0%,#1f6b4a 0,transparent 55%),radial-gradient(ellipse at 90% 25%,#6b2a55 0,transparent 48%),radial-gradient(ellipse at 50% 105%,#2a5a3a 0,transparent 55%),linear-gradient(180deg,#0e2a22,#07150f);background-attachment:fixed}
+body.th-sommer{--muted:#ffe3a8;--line:rgba(255,225,150,.25);--accent:#ffd23f;--card:rgba(255,230,160,.09);--text:#fffaf0;--btn-bg:linear-gradient(180deg,#fff1a8,#ffb42b);--btn-fg:#3a2600;--btn-sh:0 2px 12px rgba(255,180,43,.45);
+ background:radial-gradient(ellipse at 80% -5%,#ff9a3c 0,transparent 50%),radial-gradient(ellipse at 10% 30%,#c2410c 0,transparent 50%),radial-gradient(ellipse at 50% 105%,#0e7490 0,transparent 55%),linear-gradient(180deg,#3b1d4e,#16213e);background-attachment:fixed}
+body.th-casino{--muted:#e6c9a0;--line:rgba(255,215,120,.28);--accent:#ffd54a;--card:rgba(255,215,120,.07);--text:#fff6e0;--btn-bg:linear-gradient(180deg,#ffe28a,#d4a017);--btn-fg:#2b1a00;--btn-sh:0 2px 12px rgba(212,160,23,.5);
+ background:radial-gradient(ellipse at 50% 0%,#8b1a1a 0,transparent 60%),radial-gradient(ellipse at 90% 80%,#0b5a2e 0,transparent 50%),linear-gradient(180deg,#1a0707,#0a0303);background-attachment:fixed}
+#userbg{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;pointer-events:none}
+body.hasbg .card{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.mcd{font-variant-numeric:tabular-nums}
 body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 50% -12%,rgba(170,225,255,.22),transparent 55%)}
 .winter h1,.winter .top .brand{background:linear-gradient(90deg,#ffffff,#8fd8ff 60%,#b9a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .winter .top{background:rgba(7,17,36,.9);border-bottom-color:rgba(190,225,255,.3)}
@@ -323,6 +334,7 @@ body.winter::before{content:"";position:fixed;inset:0;pointer-events:none;z-inde
 <body>
 <div id="app"><div class="loginbox"><div class="card">Lade …</div></div></div>
 <input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden>
+<input type="file" id="bgfile" accept="image/png,image/jpeg,image/webp" hidden>
 <div id="rulesholder" hidden><div class="card" id="rulescard"><h2>📖 Regeln</h2><div class="legend" id="legend"></div>
 <p class="muted" style="margin-bottom:0"><b>Farbwürfel:</b> Wähle eine Farbe und setze <span class="lim">500 bis 2000</span> Punkte. Kommt deine Farbe 1× vor, bekommst du das Doppelte deines Einsatzes zurück. Bei 2× bekommst du deinen Einsatz zurück. Bei 0×, 3× oder 4× ist der Einsatz verloren.</p>
 <p class="muted" style="margin-bottom:0"><b>Glücksrad:</b> Wähle Dark oder light und setze <span class="lim">500 bis 2000</span> Punkte. Landet das Rad auf deiner Farbe, bekommst du das Doppelte deines Einsatzes. Bei der anderen Farbe oder beim Stern ★ ist der Einsatz verloren. Du kannst auch auf den Stern ★ setzen: Landet das Rad dort, bekommst du das Dreifache deines Einsatzes.</p>
@@ -473,7 +485,7 @@ function setLim(mn,mx){MINS=+mn;MAXS=+mx;Array.prototype.forEach.call(document.q
 document.getElementById("legend").innerHTML=COLORS.map(function(c){return '<span><span class="dot" style="background:'+c[1]+'"></span>'+c[0]+'</span>'}).join("");
 
 var st={lastPick:null,landed:false,user:null,me:null,list:[],feed:[],names:{},err:URL_ERR,cpick:"K",crot:0,cmsg:"",game:"dice",pick:0,wpick:"D",stake:500,msg:"",wmsg:"",dice:null,wrot:0,rolling:false,duelMsg:"",duelRes:null,dpick:0,ch:[],seen:{},seenInit:false,toast:"",toastUntil:0,menuOpen:false,locked:[],glmsg:"",glbusy:false,scard:null,scmsg:"",scbusy:false,daily:null,dailyAt:0,dgLoaded:false,crash:null,crmsg:"",crbusy:false,crT0:0,crRaf:0,crPoll:false,hl:null,hlmsg:"",hlbusy:false,kpick:[],kres:null,kmsg:"",kbusy:false,bbet:"P",bres:null,bmsg:"",bbusy:false,page:"dice",sideOpen:false,userMenuOpen:false,stats:[],mylog:[],lastExpire:0,osearch:"",osel:null,oamt:100,lminIn:null,lmaxIn:null,limUpd:null,alog:[],alogAll:false,mines:null,minesLoaded:false,balls:[],plSeq:0,plPend:0,plHold:0,plLog:[],plFlash:{},pegFl:{},avs:{},prof:null,avMsg:"",mn:3,mmsg:"",mbusy:false,pr:"M",pmsg:"",plSlot:null,badges:{},myB:null,tseen:null,tlist:[],tsearch:"",tsel:null,tamt:"100",tmsg:""};
-st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.sbg=null;st.sbr=null;st.sbt="";st.sbbusy=false;st.lkmin=30;st.lkpct=25;st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
+st.banner="";st.bannerAt=null;st.events=[];st.banIn=null;st.bmsg="";st.evf=null;st.evmsg="";st.ostats=null;st.ostW="all";st.ostatsErr="";st.inv=null;st.imsg="";st.icf=null;st.iseen=null;st.invCfg={inviter:1000,nw:500,max:10};st.refTried=false;st.ty=null;st.tys=null;st.tymsg="";st.tybusy=false;st.tyiv=0;st.tyf=null;st.tycmsg="";st.tyCfg={on:true,min:10,max:20,cd:300,day:100};st.bg=null;st.bgLoaded=false;st.bgMsg="";st.maintLeft=null;st.maintAt=0;st.mtplan="15";st.sbg=null;st.sbr=null;st.sbt="";st.sbbusy=false;st.lkmin=30;st.lkpct=25;st.rb={};st.rres=null;st.rwang=0;st.rdm="";st.bjShow=null;st.bjPN=0;st.bjDN=0;st.rwin={};st.rmsg="";st.rbusy=false;st.bj=null;st.bjmsg="";st.bjbusy=false;st.bjLoaded=false;st.admTab=(function(){try{return localStorage.getItem("admtab")||"players"}catch(e){return "players"}})();st.sync=null;st.syncKey="";st.syncMsg="";st.maint=false;st.maintMsg="";st.lvBonus=0;st.lvSeen=null;st.sysf=null;st.sysmsg="";st.cpin="";st.cpmsg="";st.cpbusy=false;st.cpl=null;st.cpf=null;st.cfmsg="";st.hist=null;st.rep=null;st.rpf=null;st.rpmsg="";st.sres=null;st.smsg="";st.sbusy=false;st.theme=(function(){try{return localStorage.getItem("theme")||"winter"}catch(e){return "winter"}})();st.themeMsg="";st.integ=null;st.intf=null;st.integMsg="";st.alerts=null;st.alAt=0;
 
 function shade(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"}
 function diceHtml(v,roll,marks){return '<div class="dice">'+[0,1,2,3].map(function(i){
@@ -533,6 +545,7 @@ async function load(){
   qs.push(sb.from("settings").select("min_bet,max_bet,updated_at,locked_games,banner,banner_at,invite_bonus_inviter,invite_bonus_new,invite_max,theme,tycoon_enabled,tycoon_min,tycoon_max,tycoon_cooldown,tycoon_daily,maintenance,maintenance_msg,level_bonus").eq("id",1).maybeSingle());
   qs.push(sb.from("events").select("id,title,game,factor,starts_at,ends_at").gt("ends_at",new Date().toISOString()).order("starts_at",{ascending:true}).limit(20));
   qs.push(sb.from("invites").select("invitee_id,inviter_id,invitee_name,bonus_inviter").order("created_at",{ascending:false}).limit(100));
+  var mp=sb.rpc("maint_state");
   var rr=await Promise.all(qs);
   var ir=rr[rr.length-1],er=rr[rr.length-2],sr=rr[rr.length-3],tr=rr[rr.length-4],br=rr[rr.length-5];
   if(br&&!br.error&&br.data){
@@ -555,6 +568,8 @@ async function load(){
   }
   if(sr&&!sr.error&&sr.data){setLim(sr.data.min_bet,sr.data.max_bet);st.limUpd=sr.data.updated_at;st.locked=sr.data.locked_games||[];st.banner=sr.data.banner||"";st.maint=!!sr.data.maintenance;st.maintMsg=sr.data.maintenance_msg||"";st.lvBonus=+sr.data.level_bonus||0;if(sr.data.tycoon_min!==undefined)st.tyCfg={on:sr.data.tycoon_enabled,min:sr.data.tycoon_min,max:sr.data.tycoon_max,cd:sr.data.tycoon_cooldown,day:sr.data.tycoon_daily};
     if(sr.data.theme){st.theme=sr.data.theme;try{localStorage.setItem("theme",st.theme)}catch(e){}}st.bannerAt=sr.data.banner_at;st.invCfg={inviter:sr.data.invite_bonus_inviter,nw:sr.data.invite_bonus_new,max:sr.data.invite_max}}
+  try{var mr=await mp;if(mr&&!mr.error&&mr.data){st.maint=!!mr.data.on;st.maintMsg=mr.data.msg||"";st.maintLeft=mr.data.left;st.maintAt=Date.now()}}catch(e){}
+  if(!st.bgLoaded){st.bgLoaded=true;loadBg()}
   if(er&&!er.error&&er.data)st.events=er.data;
   if(ir&&!ir.error&&ir.data){
     var mineI=ir.data.filter(function(x){return x.inviter_id===st.user.id});
@@ -675,6 +690,7 @@ function logLine(l){
   if(l.action==="coowner_on")return a+' machte '+t+' zum Co-Besitzer';
   if(l.action==="coowner_off")return a+' entzog '+t+' die Co-Besitzer-Rolle';
   if(l.action==="theme_set")return a+' stellte das Design auf <b>'+esc(d)+'</b>';
+  if(l.action==="maint_plan"){var mp2=String(d||'').split('|');return a+(mp2[0]==="abgebrochen"?' brach die Wartungs-Ankündigung ab':' kündigte eine <b>Wartung</b> in '+esc(mp2[0])+' Minuten an')}
   if(l.action==="maintenance")return a+(String(d).indexOf("an")===0?' schaltete den <b>Wartungsmodus</b> an':' schaltete den Wartungsmodus aus');
   if(l.action==="level_cfg")return a+' stellte den Level-Bonus auf <b>'+fmt(d)+'</b>';
   if(l.action==="coupon_create"){var cc=String(d||"").split("|");return a+' erstellte den Gutschein <b>'+esc(cc[0])+'</b> ('+fmt(cc[1])+' Punkte, '+esc(cc[2])+')'}
@@ -1381,7 +1397,12 @@ function alertsHtml(){
   return h+a.map(function(x){return '<div class="setrow"><span>'+(x.level==="warn"?'⚠️':'ℹ️')+' <b>'+esc(x.kind)+'</b><br>'+esc(x.title)+'<br><span class="muted">'+esc(x.detail)+'</span></span></div>'}).join("")+'<p class="muted" style="margin-top:8px">Das sind nur Hinweise. Hinter einem Treffer muss nicht Betrug stecken, schau dir die Spieler im Live-Feed und Admin-Log an.</p></div>';
 }
 /* --- Winter: Design-Schalter und Schnee --- */
-var SNOW={raf:0,fl:[],cv:null,cx:null,w:0,h:0};
+var SNOW={raf:0,fl:[],cv:null,cx:null,w:0,h:0,kind:"snow"};
+var THEMES=[["standard","🎲","Normal"],["winter","❄️","Winter"],["herbst","🍂","Herbst"],["fruehling","🌸","Frühling"],["sommer","☀️","Sommer"],["casino","🎰","Casino"]];
+var PART={winter:"snow",herbst:"leaf",fruehling:"petal"};
+var PCOL={leaf:["#e8772e","#c8431f","#f2b134","#a85a1c"],petal:["#ffb7d5","#ff8fc1","#ffd9e8","#ffffff"]};
+function curTheme(){var m="server";try{m=localStorage.getItem("mytheme")||"server"}catch(e){}if(m!=="server"&&THEMES.some(function(x){return x[0]===m}))return m;return st.theme||"standard"}
+function themeIco(){var t=curTheme();for(var i=0;i<THEMES.length;i++)if(THEMES[i][0]===t)return THEMES[i][1];return "🎲"}
 function snowPref(){try{return localStorage.getItem("snow")!=="off"}catch(e){return true}}
 function reducedMotion(){try{return window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
 function snowInit(){
@@ -1404,7 +1425,8 @@ function snowResize(){
 }
 function snowFlake(anywhere){
   var r=0.8+Math.random()*2.6;
-  return {x:Math.random()*SNOW.w,y:anywhere?Math.random()*SNOW.h:-6,r:r,vy:0.35+r*0.28,ph:Math.random()*6.28,sw:0.4+Math.random()*0.9,a:0.45+Math.random()*0.45};
+  var pc=PCOL[SNOW.kind];
+  return {x:Math.random()*SNOW.w,y:anywhere?Math.random()*SNOW.h:-6,r:SNOW.kind==="snow"?r:r*1.5,vy:0.35+r*0.28,ph:Math.random()*6.28,sw:0.4+Math.random()*0.9,a:0.45+Math.random()*0.45,rot:Math.random()*6.28,vr:(Math.random()-.5)*0.05,col:pc?pc[Math.floor(Math.random()*pc.length)]:"#fff"};
 }
 function snowRun(){
   if(SNOW.raf)return;
@@ -1413,7 +1435,9 @@ function snowRun(){
     for(var i=0;i<SNOW.fl.length;i++){
       var f=SNOW.fl[i];f.y+=f.vy;f.ph+=0.012;f.x+=Math.sin(f.ph)*f.sw;
       if(f.y>SNOW.h+6||f.x<-10||f.x>SNOW.w+10){SNOW.fl[i]=f=snowFlake(false)}
-      c.globalAlpha=f.a;c.beginPath();c.arc(f.x,f.y,f.r,0,6.283);c.fillStyle="#fff";c.fill();
+      c.globalAlpha=f.a;
+      if(SNOW.kind==="snow"){c.beginPath();c.arc(f.x,f.y,f.r,0,6.283);c.fillStyle="#fff";c.fill()}
+      else{f.rot+=f.vr;c.save();c.translate(f.x,f.y);c.rotate(f.rot);c.beginPath();c.ellipse(0,0,f.r*1.7,f.r*0.85,0,0,6.283);c.fillStyle=f.col;c.fill();c.restore()}
     }
     SNOW.raf=requestAnimationFrame(loop);
   })();
@@ -1421,9 +1445,25 @@ function snowRun(){
 function snowHalt(){if(SNOW.raf){cancelAnimationFrame(SNOW.raf);SNOW.raf=0}}
 function snowStop(){snowHalt();if(SNOW.cv)SNOW.cv.style.display="none"}
 function applyTheme(){
-  var w=st.theme==="winter";
-  document.body.classList.toggle("winter",w);
-  if(w&&snowPref()&&!reducedMotion()){snowInit();if(!document.hidden)snowRun()}else snowStop();
+  var t=curTheme(),b=document.body;
+  THEMES.forEach(function(x){b.classList.remove("th-"+x[0])});
+  b.classList.toggle("winter",t==="winter");
+  if(t!=="winter"&&t!=="standard")b.classList.add("th-"+t);
+  var kind=PART[t];
+  if(kind&&snowPref()&&!reducedMotion()){
+    if(SNOW.kind!==kind){SNOW.kind=kind;SNOW.fl=[]}
+    snowInit();if(!document.hidden)snowRun();
+  }else snowStop();
+  applyBg();
+}
+function applyBg(){
+  var b=document.body,e=document.getElementById("userbg"),g=st.bg;
+  if(g&&g.img){
+    if(!e){e=document.createElement("div");e.id="userbg";e.setAttribute("aria-hidden","true");b.appendChild(e)}
+    var d=(g.dim||0)/100,v="linear-gradient(rgba(0,0,0,"+d+"),rgba(0,0,0,"+d+")),url("+g.img+")";
+    if(e.getAttribute("data-k")!==g.img.length+"|"+g.dim){e.style.backgroundImage=v;e.setAttribute("data-k",g.img.length+"|"+g.dim)}
+    b.classList.add("hasbg");
+  }else{if(e)e.remove();b.classList.remove("hasbg")}
 }
 function toggleSnow(){try{localStorage.setItem("snow",snowPref()?"off":"on")}catch(e){}render()}
 async function setTheme(t){
@@ -1432,8 +1472,9 @@ async function setTheme(t){
   await load();render();
 }
 function themePanelHtml(){
-  return '<div class="card"><h2>🎨 Design</h2><p class="muted" style="margin:0 0 8px">Gilt für alle Spieler. Im Winter-Design schneit es, jeder kann den Schnee in den Einstellungen für sich abschalten.</p>'
-    +'<div class="row"><button class="'+(st.theme==="winter"?'':'tab off')+'" data-act="theme" data-v="winter">❄️ Winter</button><button class="'+(st.theme==="winter"?'tab off':'')+'" data-act="theme" data-v="standard">🎲 Standard</button></div><div class="msg">'+esc(st.themeMsg||"")+'</div></div>';
+  var h='<div class="card"><h2>🎨 Design</h2><p class="muted" style="margin:0 0 8px">Gilt für alle Spieler, die kein eigenes Design gewählt haben. Bei Winter, Herbst und Frühling fallen Schnee, Blätter oder Blüten, jeder kann das in den Einstellungen für sich abschalten.</p><div class="row">';
+  THEMES.forEach(function(x){h+='<button class="'+(st.theme===x[0]?'':'tab off')+'" data-act="theme" data-v="'+x[0]+'">'+x[1]+' '+x[2]+'</button>'});
+  return h+'</div><div class="msg">'+esc(st.themeMsg||"")+'</div></div>';
 }
 /* --- Mini-Tycoon: jedes Mal ein anderes Aufbauspiel, bei 100 % gibt es Gratis-Punkte --- */
 var TYTHEMES=[
@@ -1611,6 +1652,17 @@ function lvBoxHtml(p){
   var xp=+p.xp||0,l=lvOf(xp),a=lvXp(l),b=lvXp(l+1),pc=Math.max(0,Math.min(100,Math.round((xp-a)/(b-a)*100)));
   return '<div class="lvbox"><div class="lvtop"><b>Level '+l+'</b> · '+lvTitle(l)+'</div><div class="lvbar"><i style="width:'+pc+'%"></i></div><div class="muted lvsub">'+fmt(xp)+' XP · noch '+fmt(b-xp)+' bis Level '+(l+1)+(st.lvBonus>0?' (dann +'+fmt(st.lvBonus)+' Punkte)':'')+'</div><div class="muted lvsub">XP bekommst du für gesetzte Punkte, Abzeichen und den Mini-Tycoon.</div></div>';
 }
+function maintRem(){return Math.max(0,Math.ceil((st.maintLeft||0)-(Date.now()-st.maintAt)/1000))}
+function fmtMM(s){var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+":"+(m<10?"0":""):"")+m+":"+(x<10?"0":"")+x}
+async function planMaint(){
+  var m=parseInt(st.mtplan)||15;
+  var r=await sb.rpc("schedule_maintenance",{p_minutes:m,p_msg:(st.sysf&&st.sysf.msg)||st.maintMsg||null});
+  st.sysmsg=r.error?r.error.message:"Wartung angekündigt: Die Spieler sehen jetzt den Countdown.";await load();render();
+}
+async function cancelPlan(){
+  var r=await sb.rpc("cancel_maintenance_plan");
+  st.sysmsg=r.error?r.error.message:"Ankündigung abgebrochen.";await load();render();
+}
 function maintPageHtml(me){
   return '<div class="loginbox"><div class="card" style="text-align:center"><div style="font-size:3rem">🔧</div><h2 style="margin:6px 0">Wartungsarbeiten</h2><p style="margin:0 0 8px">'+esc(st.maintMsg||"Die Seite wird gerade überarbeitet und ist gleich wieder da.")+'</p><p class="muted" style="margin:0 0 12px">Deine Punkte sind sicher. Diese Seite öffnet sich von selbst wieder.</p><button class="tab off" data-act="logout">Abmelden</button></div></div>';
 }
@@ -1621,7 +1673,11 @@ function sysPanelHtml(){
   h+='<div class="row"><label class="muted"><input id="mton" type="checkbox"'+(f.on?' checked':'')+'> Wartungsmodus an</label></div>';
   h+='<input id="mtmsg" type="text" maxlength="200" placeholder="Nachricht für die Spieler (optional)" value="'+esc(f.msg)+'" style="width:100%;margin-top:6px">';
   h+='<div class="row" style="margin-top:8px"><label class="muted">Bonus pro neuem Level (Punkte) <input id="mtlb" type="number" min="0" max="100000" value="'+esc(f.lb)+'" style="width:110px"></label></div>';
-  h+='<div class="row" style="margin-top:8px"><button data-act="syssave">Speichern</button></div><div class="msg">'+esc(st.sysmsg||"")+'</div></div>';
+  h+='<div class="row" style="margin-top:8px"><button data-act="syssave">Speichern</button></div>';
+  h+='<hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><b>Wartung ankündigen</b><p class="muted" style="margin:4px 0 8px">Die Spieler sehen oben einen Countdown. Wenn er abläuft, schaltet sich die Wartung von selbst ein (die Nachricht oben wird mit angezeigt).</p>';
+  if(st.maintLeft!=null&&!st.maint)h+='<div class="dayban">Geplant: Wartung startet in <b class="mcd">'+fmtMM(maintRem())+'</b></div><div class="row"><button class="tab off" data-act="mtcancel">Ankündigung abbrechen</button></div>';
+  else h+='<div class="row"><label class="muted">In <input id="mtplan" type="number" min="1" max="1440" value="'+esc(st.mtplan)+'" style="width:80px"> Minuten</label><button class="tab off" data-act="mtgo">Ankündigen</button></div>';
+  h+='<div class="msg">'+esc(st.sysmsg||"")+'</div></div>';
   return h;
 }
 async function saveSys(){
@@ -2131,7 +2187,7 @@ function sideHtml(me){
   return h;
 }
 function topHtml(me){
-  var h='<header class="top"><button class="tab off ibtn burger" data-act="side" aria-label="Menü">☰</button><span class="brand" data-act="nav" data-v="dice">'+(st.theme==="winter"?"❄️":"🎲")+' Punkte-Spiele</span><span class="grow"></span>';
+  var h='<header class="top"><button class="tab off ibtn burger" data-act="side" aria-label="Menü">☰</button><span class="brand" data-act="nav" data-v="dice">'+themeIco()+' Punkte-Spiele</span><span class="grow"></span>';
   h+='<span class="balpill" title="Dein Punktestand">🪙 <b>'+fmt(me.balance)+'</b></span><span class="lvpill" data-act="nav" data-v="settings" title="Level '+lvOf(me.xp)+' · '+lvTitle(lvOf(me.xp))+'">Lv '+lvOf(me.xp)+'</span>';
   h+='<button class="tab off ibtn" data-act="mute" title="Ton an/aus">'+(SFX.isMuted()?"🔇":"🔊")+'</button>';
   h+='<div class="uwrap"><button class="ubtn" data-act="umenu">'+avU(me.id,me.name,"sm")+'<span class="uname">'+esc(me.name)+'</span> ▾</button>';
@@ -2229,7 +2285,12 @@ function settingsHtml(me){
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
   h+=lvBoxHtml(me);
   h+='<div class="setrow"><span><b>Profil & Profilbild</b><br><span class="muted">Eigenes Bild hochladen oder entfernen.</span></span><button data-act="myprof">Bearbeiten</button></div>';
-  if(st.theme==="winter")h+='<div class="setrow"><span><b>Schnee</b><br><span class="muted">Schneefall im Winter-Design.</span></span><button class="tab off" data-act="snow">'+(snowPref()?'❄️ An':'Aus')+'</button></div>';
+  var mt="server";try{mt=localStorage.getItem("mytheme")||"server"}catch(e){}
+  h+='<div class="setrow"><span><b>Design</b><br><span class="muted">Nur für dich. „Wie Server" nimmt das Design, das der Besitzer eingestellt hat.</span></span><select id="mytheme"><option value="server"'+(mt==="server"?' selected':'')+'>Wie Server</option>'+THEMES.map(function(x){return '<option value="'+x[0]+'"'+(mt===x[0]?' selected':'')+'>'+x[1]+' '+x[2]+'</option>'}).join("")+'</select></div>';
+  if(PART[curTheme()])h+='<div class="setrow"><span><b>Animation</b><br><span class="muted">Fallender '+(curTheme()==="winter"?"Schnee":(curTheme()==="herbst"?"Blätter":"Blüten"))+' im Hintergrund.</span></span><button class="tab off" data-act="snow">'+(snowPref()?'An':'Aus')+'</button></div>';
+  var bg=st.bg||{};
+  h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label>':'')+'</span></div>';
+  if(st.bgMsg)h+='<div class="msg">'+esc(st.bgMsg)+'</div>';
   h+='<div class="setrow"><span><b>Ton</b><br><span class="muted">Sounds bei Spielen und Gewinnen.</span></span><button class="tab off" data-act="mute">'+(SFX.isMuted()?'🔇 Aus':'🔊 An')+'</button></div>';
   h+='<div class="setrow"><span><b>Abmelden</b><br><span class="muted">Von diesem Gerät abmelden.</span></span><button class="tab off" data-act="logout">Abmelden</button></div></div>';
   return h;
@@ -2238,7 +2299,7 @@ function render(){
   applyTheme();
   if(st.rolling)return;
   if(!st.user){
-    app.innerHTML='<div class="loginbox"><h1>'+(st.theme==="winter"?"❄️":"🎲")+' Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p>'+(function(){try{return localStorage.getItem("pref")?'<p class="msg" style="margin-top:0">🎁 Du wurdest eingeladen! Nach der Anmeldung bekommst du Bonuspunkte.</p>':""}catch(e){return ""}})()+'<button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
+    app.innerHTML='<div class="loginbox"><h1>'+themeIco()+' Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p>'+(function(){try{return localStorage.getItem("pref")?'<p class="msg" style="margin-top:0">🎁 Du wurdest eingeladen! Nach der Anmeldung bekommst du Bonuspunkte.</p>':""}catch(e){return ""}})()+'<button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
     return;
   }
   var me=st.me;
@@ -2249,6 +2310,7 @@ function render(){
   var pg=st.page;
   if((pg==="hist"&&!(me.is_admin&&!me.banned))||(pg==="admin"&&!(me.is_admin&&!me.banned))||((pg==="log"||pg==="ostats")&&!(me.own&&!me.banned)))pg=st.page="dice";
   var c=toastHtml()+noticeHtml();
+  if(st.maintLeft!=null&&!st.maint)c+='<div class="dayban">🔧 <b>Wartung startet in <span class="mcd">'+fmtMM(maintRem())+'</span></b>'+(st.maintMsg?' · '+esc(st.maintMsg):' · Danach können keine Spiele mehr gespielt werden.')+'</div>';
   if(st.maint&&me.own)c+='<div class="dayban">🔧 <b>Wartungsmodus ist AN</b> · Normale Spieler sehen nur die Wartungsseite. Ausschalten unter Admin-Bereich.</div>';
   if(GPAGES.indexOf(pg)>=0){
     st.game=pg;
@@ -2419,10 +2481,46 @@ app.addEventListener("click",function(e){
   else if(a==="dcancel")duelCancel(+v);
   else if(a==="djoin")duelJoin(+v,false);
   else if(a==="djoinr")duelJoin(null,true);
+  else if(a==="mtgo")planMaint();
+  else if(a==="mtcancel")cancelPlan();
+  else if(a==="bgpick"){var bf=document.getElementById("bgfile");if(bf)bf.click()}
+  else if(a==="bgdel")bgSet("",st.bg?st.bg.dim:45);
   else if(a==="mute"){SFX.setMuted(!SFX.isMuted());SFX.unlock();render()}
   else if(a==="toastclose"){st.toastUntil=0;render()}
 });
 document.addEventListener("click",function(){SFX.unlock()});
+function bgResize(file){
+  return new Promise(function(res,rej){
+    var img=new Image(),url=URL.createObjectURL(file);
+    img.onload=function(){
+      var mx=1280,sc=Math.min(1,mx/Math.max(img.width,img.height)),c=document.createElement("canvas");
+      c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+      var q=.78,d=c.toDataURL("image/jpeg",q);
+      while(d.length>400000&&q>.3){q-=.08;d=c.toDataURL("image/jpeg",q)}
+      if(d.length>400000){var c2=document.createElement("canvas");c2.width=Math.round(c.width*.7);c2.height=Math.round(c.height*.7);c2.getContext("2d").drawImage(c,0,0,c2.width,c2.height);d=c2.toDataURL("image/jpeg",.6)}
+      d.length>440000?rej(new Error("Das Bild ist zu groß, nimm ein kleineres.")):res(d);
+    };
+    img.onerror=function(){URL.revokeObjectURL(url);rej(new Error("Das ist kein gültiges Bild"))};
+    img.src=url;
+  });
+}
+async function loadBg(){var r=await sb.rpc("my_background");if(!r.error&&r.data){st.bg=r.data;applyBg();if(st.page==="settings")render()}}
+async function bgSet(img,dim){
+  var r=await sb.rpc("set_background",{p_img:img,p_dim:dim});
+  if(r.error){st.bgMsg=r.error.message;render();return}
+  if(img==="")st.bg={img:null,dim:dim};else if(img!==null)st.bg={img:img,dim:dim};else st.bg={img:st.bg.img,dim:dim};
+  st.bgMsg=img===""?"Hintergrund entfernt.":(img?"✅ Hintergrund gespeichert.":"");render();
+}
+document.getElementById("bgfile").addEventListener("change",async function(e){
+  var f=e.target.files&&e.target.files[0];e.target.value="";
+  if(!f||!st.user)return;
+  st.bgMsg="Bild wird verarbeitet …";render();
+  try{
+    if(f.size>20*1024*1024)throw new Error("Das Bild ist zu groß (höchstens 20 MB).");
+    var d=await bgResize(f);await bgSet(d,st.bg&&st.bg.img?st.bg.dim:45);
+  }catch(err){st.bgMsg=(err&&err.message)||"Das hat nicht geklappt.";render()}
+});
 document.getElementById("avfile").addEventListener("change",async function(e){
   var f=e.target.files&&e.target.files[0];e.target.value="";
   if(!f||!st.user)return;
@@ -2444,6 +2542,9 @@ app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
+  else if(t.id==="mytheme"){try{localStorage.setItem("mytheme",t.value)}catch(er){}render()}
+  else if(t.id==="bgdim"){var dv=parseInt(t.value)||0;st.bg.dim=dv;applyBg();clearTimeout(st.bgT);st.bgT=setTimeout(function(){bgSet(null,dv)},500)}
+  else if(t.id==="mtplan")st.mtplan=t.value;
   else if(t.id==="sbg")st.sbg=t.value;
   else if(t.id==="sbr")st.sbr=t.value;
   else if(t.id==="sbt")st.sbt=t.value;
@@ -2734,7 +2835,7 @@ function toggleBan(){var s=selected();if(s)adminCall("set_banned",{p_target:s.id
 sb.auth.onAuthStateChange(function(ev,session){
   st.user=session?session.user:null;
   setTimeout(async function(){
-    if(st.user)await load();else{st.me=null;st.lvSeen=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.locked=[];st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
+    if(st.user)await load();else{st.bg=null;st.bgLoaded=false;applyBg();st.me=null;st.lvSeen=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.locked=[];st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
     render();
   },0);
 });
@@ -2747,6 +2848,11 @@ setInterval(async function(){
 },5000);
 setInterval(function(){
   if(st.user&&st.page==="tycoon"&&st.tys){var w=document.getElementById("tywait");if(w){var l=tyWaitLeft();if(l<=0)render();else w.textContent=tyMMSS(l)}}
+  if(st.user&&st.maintLeft!=null&&!st.maint){
+    var rm=maintRem(),tx=fmtMM(rm);
+    document.querySelectorAll(".mcd").forEach(function(e){e.textContent=tx});
+    if(rm<=0&&!st.mRefresh){st.mRefresh=true;load().then(function(){st.mRefresh=false;render()},function(){st.mRefresh=false})}
+  }
   if(!st.user||!st.daily)return;
   var left=leftSecs(),t=fmtLeft(left);
   document.querySelectorAll(".cd").forEach(function(e){e.textContent=t});
