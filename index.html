@@ -145,6 +145,7 @@ main{display:none}
 .nav.on{background:linear-gradient(90deg,rgba(245,179,1,.25),rgba(245,179,1,.06));color:#ffd666;font-weight:700;box-shadow:inset 3px 0 0 var(--accent)}
 .ni{width:24px;text-align:center;font-size:1.15rem}
 .scnt{margin:18px 8px 0;color:var(--muted);font-size:.82rem}
+body.hasbg .scnt{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .sidebg{display:none}
 .content{grid-area:main;padding:16px;width:100%;max-width:760px;margin:0 auto;min-width:0}
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
@@ -2187,7 +2188,7 @@ function sideHtml(me){
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.filter(function(g){return st.daily.active===g}).forEach(function(g){var ac=true,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("coupon","🎁","Gutschein")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
   if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
-  h+='</aside>';
+  h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
   return h;
 }
 function topHtml(me){
