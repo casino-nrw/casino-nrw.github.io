@@ -149,10 +149,11 @@ main{display:none}
 .content{grid-area:main;padding:16px;width:100%;max-width:760px;margin:0 auto;min-width:0}
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .setrow:first-of-type{border-top:0}
+body.sidelock{overflow:hidden}
 @media(max-width:860px){
  .shell{grid-template-columns:minmax(0,1fr);grid-template-areas:"top" "main"}
  .burger{display:inline-block}
- .side{position:fixed;left:0;top:0;bottom:0;height:auto;width:250px;z-index:70;padding-top:16px;background:#150e36;transform:translateX(-105%);transition:transform .22s;border-right:1px solid var(--line)}
+ .side{position:fixed;left:0;top:0;bottom:0;height:100vh;height:100dvh;max-height:100dvh;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom));width:250px;z-index:70;padding-top:16px;background:#150e36;transform:translateX(-105%);transition:transform .22s;border-right:1px solid var(--line)}
  .side.open{transform:none}
  .sidebg.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:65}
  .uname{display:none}.brand{font-size:1rem}.top{gap:6px;padding:8px 10px}
@@ -1446,6 +1447,7 @@ function snowHalt(){if(SNOW.raf){cancelAnimationFrame(SNOW.raf);SNOW.raf=0}}
 function snowStop(){snowHalt();if(SNOW.cv)SNOW.cv.style.display="none"}
 function applyTheme(){
   var t=curTheme(),b=document.body;
+  b.classList.toggle("sidelock",!!st.sideOpen&&window.innerWidth<=860);
   THEMES.forEach(function(x){b.classList.remove("th-"+x[0])});
   b.classList.toggle("winter",t==="winter");
   if(t!=="winter"&&t!=="standard")b.classList.add("th-"+t);
@@ -1461,7 +1463,9 @@ function applyBg(){
   if(g&&g.img){
     if(!e){e=document.createElement("div");e.id="userbg";e.setAttribute("aria-hidden","true");b.appendChild(e)}
     var d=(g.dim||0)/100,v="linear-gradient(rgba(0,0,0,"+d+"),rgba(0,0,0,"+d+")),url("+g.img+")";
+    var cn=g.contrast||100;
     if(e.getAttribute("data-k")!==g.img.length+"|"+g.dim){e.style.backgroundImage=v;e.setAttribute("data-k",g.img.length+"|"+g.dim)}
+    e.style.filter=cn===100?"":"contrast("+(cn/100)+")";
     b.classList.add("hasbg");
   }else{if(e)e.remove();b.classList.remove("hasbg")}
 }
@@ -2183,7 +2187,7 @@ function sideHtml(me){
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.filter(function(g){return st.daily.active===g}).forEach(function(g){var ac=true,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
   h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("coupon","🎁","Gutschein")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
   if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
-  h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
+  h+='</aside>';
   return h;
 }
 function topHtml(me){
@@ -2289,7 +2293,7 @@ function settingsHtml(me){
   h+='<div class="setrow"><span><b>Design</b><br><span class="muted">Nur für dich. „Wie Server" nimmt das Design, das der Besitzer eingestellt hat.</span></span><select id="mytheme"><option value="server"'+(mt==="server"?' selected':'')+'>Wie Server</option>'+THEMES.map(function(x){return '<option value="'+x[0]+'"'+(mt===x[0]?' selected':'')+'>'+x[1]+' '+x[2]+'</option>'}).join("")+'</select></div>';
   if(PART[curTheme()])h+='<div class="setrow"><span><b>Animation</b><br><span class="muted">Fallender '+(curTheme()==="winter"?"Schnee":(curTheme()==="herbst"?"Blätter":"Blüten"))+' im Hintergrund.</span></span><button class="tab off" data-act="snow">'+(snowPref()?'An':'Aus')+'</button></div>';
   var bg=st.bg||{};
-  h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label>':'')+'</span></div>';
+  h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label><label class="muted">Kontrast <input id="bgcon" type="range" min="50" max="160" value="'+(bg.contrast||100)+'"></label>':'')+'</span></div>';
   if(st.bgMsg)h+='<div class="msg">'+esc(st.bgMsg)+'</div>';
   h+='<div class="setrow"><span><b>Ton</b><br><span class="muted">Sounds bei Spielen und Gewinnen.</span></span><button class="tab off" data-act="mute">'+(SFX.isMuted()?'🔇 Aus':'🔊 An')+'</button></div>';
   h+='<div class="setrow"><span><b>Abmelden</b><br><span class="muted">Von diesem Gerät abmelden.</span></span><button class="tab off" data-act="logout">Abmelden</button></div></div>';
@@ -2506,10 +2510,11 @@ function bgResize(file){
   });
 }
 async function loadBg(){var r=await sb.rpc("my_background");if(!r.error&&r.data){st.bg=r.data;applyBg();if(st.page==="settings")render()}}
-async function bgSet(img,dim){
-  var r=await sb.rpc("set_background",{p_img:img,p_dim:dim});
+async function bgSet(img,dim,con){
+  var cc=con||(st.bg&&st.bg.contrast)||100;
+  var r=await sb.rpc("set_background",{p_img:img,p_dim:dim,p_contrast:cc});
   if(r.error){st.bgMsg=r.error.message;render();return}
-  if(img==="")st.bg={img:null,dim:dim};else if(img!==null)st.bg={img:img,dim:dim};else st.bg={img:st.bg.img,dim:dim};
+  if(img==="")st.bg={img:null,dim:dim,contrast:cc};else if(img!==null)st.bg={img:img,dim:dim,contrast:cc};else st.bg={img:st.bg.img,dim:dim,contrast:cc};
   st.bgMsg=img===""?"Hintergrund entfernt.":(img?"✅ Hintergrund gespeichert.":"");render();
 }
 document.getElementById("bgfile").addEventListener("change",async function(e){
@@ -2543,7 +2548,9 @@ app.addEventListener("input",function(e){
   if(t.id==="stake")st.stake=parseInt(t.value)||MINS;
   else if(t.id==="oamt")st.oamt=t.value;
   else if(t.id==="mytheme"){try{localStorage.setItem("mytheme",t.value)}catch(er){}render()}
-  else if(t.id==="bgdim"){var dv=parseInt(t.value)||0;st.bg.dim=dv;applyBg();clearTimeout(st.bgT);st.bgT=setTimeout(function(){bgSet(null,dv)},500)}
+  else if(t.id==="bgdim"||t.id==="bgcon"){
+    if(t.id==="bgdim")st.bg.dim=parseInt(t.value)||0;else st.bg.contrast=parseInt(t.value)||100;
+    applyBg();clearTimeout(st.bgT);st.bgT=setTimeout(function(){bgSet(null,st.bg.dim,st.bg.contrast)},500)}
   else if(t.id==="mtplan")st.mtplan=t.value;
   else if(t.id==="sbg")st.sbg=t.value;
   else if(t.id==="sbr")st.sbr=t.value;
