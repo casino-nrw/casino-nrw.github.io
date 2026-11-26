@@ -1938,6 +1938,7 @@ function applyHtml(me){
         else h+='<textarea id="ap_'+q[0]+'" class="aptx" maxlength="1000"'+(q[2]===2?' style="min-height:70px"':'')+'>'+esc(f[q[0]]||"")+'</textarea>';
       });
       h+='<p class="muted" style="margin:10px 0 0;font-size:.8rem">Schreib keine Passwörter und keine privaten Daten wie Adresse oder Telefonnummer. Nach einer Absage kannst du dich nach 7 Tagen neu bewerben.</p>';
+      if(st.appMsg)h+='<div class="msg" style="margin-top:10px">'+esc(st.appMsg)+'</div>';
       h+='<div class="row" style="margin-top:10px"><button data-act="apsend"'+(st.apbusy?' disabled':'')+'>📨 Bewerbung abschicken</button></div>';
     }else{
       var tf=st.tkForm=st.tkForm||{subject:"",body:""},idea=v.kind==="idea";
@@ -1945,6 +1946,7 @@ function applyHtml(me){
       h+='<p class="apq" style="margin-top:0">Betreff</p><input id="tk_subject" type="text" maxlength="80" placeholder="'+(idea?'z. B. Poker als neues Spiel':'z. B. Ich habe Punkte verloren')+'" value="'+esc(tf.subject||"")+'" style="width:100%;box-sizing:border-box">';
       h+='<p class="apq">'+(idea?'Was ist deine Idee? Wie soll sie funktionieren?':'Was ist passiert? Je genauer, desto schneller können wir helfen.')+' (mindestens 15 Zeichen)</p><textarea id="tk_body" class="aptx" maxlength="1500" style="min-height:130px">'+esc(tf.body||"")+'</textarea>';
       h+='<p class="muted" style="margin:10px 0 0;font-size:.8rem">Schreib keine Passwörter oder private Daten.</p>';
+      if(st.appMsg)h+='<div class="msg" style="margin-top:10px">'+esc(st.appMsg)+'</div>';
       h+='<div class="row" style="margin-top:10px"><button data-act="tksend"'+(st.apbusy?' disabled':'')+'>📨 Abschicken</button></div>';
     }
     return h+'</div>';
@@ -1968,16 +1970,16 @@ async function appSend(){
   st.apbusy=true;st.appMsg="";render();
   var r=await sb.rpc("app_submit",{p_answers:{q1:f.q1||"",q2:f.q2||"",q3:f.q3||"",q4:f.q4||"",q5:f.q5||"",q6:f.q6||""}});
   st.apbusy=false;
-  if(r.error){st.appMsg=r.error.message;render();return}
+  if(r.error){st.appMsg=r.error.message;render();window.scrollTo(0,0);return}
   st.appForm=null;st.tkView=null;st.appMsg="✅ Deine Bewerbung ist angekommen. Wir melden uns hier bei dir.";
-  await loadApps();render();
+  await loadApps();render();window.scrollTo(0,0);
 }
 async function ticketSend(){
   if(st.apbusy||!st.tkView)return;var f=st.tkForm||{},kind=st.tkView.kind;
   st.apbusy=true;st.appMsg="";render();
   var r=await sb.rpc("ticket_submit",{p_kind:kind,p_subject:f.subject||"",p_body:f.body||""});
   st.apbusy=false;
-  if(r.error){st.appMsg=r.error.message;render();return}
+  if(r.error){st.appMsg=r.error.message;render();window.scrollTo(0,0);return}
   st.tkForm=null;st.tkView=null;st.appMsg=kind==="idea"?"✅ Danke für deine Idee! Sie ist angekommen.":"✅ Dein Ticket ist angekommen. Wir melden uns hier bei dir.";
   await loadApps();render();
 }
@@ -2643,7 +2645,7 @@ function settingsHtml(me){
   h+='<div class="setrow"><span><b>Design</b><br><span class="muted">Nur für dich. „Wie Server" nimmt das Design, das der Besitzer eingestellt hat.</span></span><select id="mytheme"><option value="server"'+(mt==="server"?' selected':'')+'>Wie Server</option>'+THEMES.map(function(x){return '<option value="'+x[0]+'"'+(mt===x[0]?' selected':'')+(x[3]&&!isUltraUser(me)?' disabled':'')+'>'+x[1]+' '+x[2]+'</option>'}).join("")+'</select></div>';
   if(PART[curTheme()])h+='<div class="setrow"><span><b>Animation</b><br><span class="muted">Fallender '+(curTheme()==="winter"?"Schnee":(curTheme()==="herbst"?"Blätter":"Blüten"))+' im Hintergrund.</span></span><button class="tab off" data-act="snow">'+(snowPref()?'An':'Aus')+'</button></div>';
   var bg=st.bg||{};
-  h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.'+(isUltraUser(me)?' 💎 Als Ultra-VIP auch animierte GIFs (bis 800 KB) und größere Bilder.':'')+'</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label><label class="muted">Kontrast <input id="bgcon" type="range" min="50" max="160" value="'+(bg.contrast||100)+'"></label>':'')+'</span></div>';
+  h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.'+(isUltraUser(me)?' 💎 Als Ultra-VIP auch animierte GIFs (bis 1 MB) und größere Bilder.':'')+'</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label><label class="muted">Kontrast <input id="bgcon" type="range" min="50" max="160" value="'+(bg.contrast||100)+'"></label>':'')+'</span></div>';
   if(st.bgMsg)h+='<div class="msg">'+esc(st.bgMsg)+'</div>';
   h+='<p class="muted" style="margin:10px 0 0;font-size:.75rem">Seiten-Version '+VERSION+'</p>';
   h+='<div class="setrow"><span><b>Ton</b><br><span class="muted">Sounds bei Spielen und Gewinnen.</span></span><button class="tab off" data-act="mute">'+(SFX.isMuted()?'🔇 Aus':'🔊 An')+'</button></div>';
@@ -2880,7 +2882,7 @@ function bgResize(file){
     var big=isUltraUser(st.me),LIM=big?1100000:400000;
     if(file.type==="image/gif"){
       if(!big)return rej(new Error("GIF-Hintergründe sind nur für Ultra-VIPs."));
-      if(file.size>800000)return rej(new Error("Das GIF ist zu groß (höchstens 800 KB)."));
+      if(file.size>1050000)return rej(new Error("Das GIF ist zu groß (höchstens 1 MB)."));
       var fr=new FileReader();fr.onload=function(){res(String(fr.result))};fr.onerror=function(){rej(new Error("Das ist kein gültiges Bild"))};fr.readAsDataURL(file);return;
     }
     var img=new Image(),url=URL.createObjectURL(file);
