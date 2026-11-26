@@ -1866,7 +1866,7 @@ async function slotPlay(){
 var APST={open:"Offen",review:"In Prüfung",accepted:"Angenommen",rejected:"Abgelehnt",withdrawn:"Zurückgezogen"};
 var TKK={support:["🛟","Support"],idea:["💡","Idee"],application:["📝","Bewerbung"]};
 var TKLAB={support:{review:"In Bearbeitung",accepted:"Gelöst",rejected:"Geschlossen"},idea:{review:"In Prüfung",accepted:"Angenommen",rejected:"Abgelehnt"}};
-var APQ=[["q1","Wie heißen sie und wie alt sind sie? [IC & OOC]",1],["q2","Warum möchten sie sich hier bewerben?",3],["q3","Warum sollten wir sie annehmen?",3],["q4","Haben sie eine Spielsucht?",1],["q5","Haben sie Erfahrung für das Organisieren?",2],["q6","Haben sie noch weitere Fragen oder Anmerkungen? (freiwillig)",2]];
+var APQ=[["q1","Wie heißen sie und wie alt sind sie? [IC & OOC]",1],["q2","Warum möchten sie sich hier bewerben? (mindestens 20 Zeichen)",3],["q3","Warum sollten wir sie annehmen? (mindestens 20 Zeichen)",3],["q4","Haben sie eine Spielsucht?",1],["q5","Haben sie Erfahrung für das Organisieren?",2],["q6","Haben sie noch weitere Fragen oder Anmerkungen? (freiwillig)",2]];
 function apLab(kind,st_){return (TKLAB[kind]&&TKLAB[kind][st_])||APST[st_]||st_}
 function apDate(i){return new Date(i).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"})}
 async function refreshAi(){
@@ -1896,7 +1896,7 @@ function apDetail(a,staff){
   var h='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><b>'+k[0]+' '+esc(a.kind==="application"?"Bewerbung":(a.subject||k[1]))+'</b>'+apStatus(a)+'</div>';
   h+='<p class="muted" style="margin:4px 0 0">'+(staff?'<b>'+esc(a.name||"?")+'</b> · ':'')+k[1]+' · '+apDate(a.created_at)+''+'</p>';
   if(a.kind==="application"){
-    if(a.answers)h+=APQ.map(function(q,i){return apQA((i+1)+'. '+q[1].replace(" (freiwillig)",""),a.answers[q[0]])}).join("");
+    if(a.answers)h+=APQ.map(function(q,i){return apQA((i+1)+'. '+q[1].replace(" (freiwillig)","").replace(" (mindestens 20 Zeichen)",""),a.answers[q[0]])}).join("");
     else h+=apQA('Erfahrung',a.experience)+apQA('Zeit pro Woche',a.hours)+apQA('Warum ich?',a.why)+apQA('Sonstiges',a.extra);
   }
   else h+=apQA(a.kind==="idea"?'Idee':'Nachricht',a.why);
