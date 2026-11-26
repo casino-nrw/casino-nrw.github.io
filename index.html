@@ -149,7 +149,7 @@ main{display:none}
 .scnt{position:sticky;bottom:-24px;margin:18px -12px -24px;padding:10px 20px 14px;color:var(--muted);font-size:.82rem;background:rgba(10,8,22,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-top:1px solid var(--line)}
 body.hasbg .scnt{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .sidebg{display:none}
-.content{grid-area:main;padding:16px;width:100%;max-width:760px;margin:0 auto;min-width:0}
+.content{grid-area:main;padding:16px 16px 160px;width:100%;max-width:760px;margin:0 auto;min-width:0}
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .setrow:first-of-type{border-top:0}
 body.sidelock{overflow:hidden}
@@ -1912,7 +1912,7 @@ async function ultraSpin(){
   st.uwang=tgt;
   var el=document.getElementById("uwheel");
   if(el){void el.getBoundingClientRect();el.style.transition="transform 4.2s cubic-bezier(.15,.7,.12,1)";el.style.transform="rotate("+tgt+"deg)"}
-  SFX.play("rball",4200);
+  SFX.play("wheel",4200);
   await delay(4400);
   st.ubusy=false;st.umsg="🎉 Du hast "+fmt(d.prize)+" Punkte gewonnen!";
   SFX.play("win",d.prize>=(st.ui?st.ui.base:100)*10);
@@ -2427,7 +2427,7 @@ function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
 }
-var VERSION="48 · 26.11.";
+var VERSION="48b · 26.11.";
 function settingsHtml(me){
   var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
