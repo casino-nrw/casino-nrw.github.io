@@ -80,6 +80,66 @@ td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .plink:hover{color:var(--accent)}
 .modalbg{position:fixed;inset:0;background:rgba(5,5,15,.72);z-index:50;display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(3px)}
 .pcard{position:relative;background:linear-gradient(180deg,#26254a,#17162c);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;width:100%;max-width:440px;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#tutov{position:fixed;inset:0;z-index:90}
+#tutov.nt{background:rgba(5,5,15,.78)}
+#tutspot{position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(5,5,15,.78),0 0 0 3px #8fb0ff,0 0 24px 4px rgba(143,176,255,.6);transition:left .25s,top .25s,width .25s,height .25s;pointer-events:none}
+#tuttip{position:absolute;background:linear-gradient(180deg,#26254a,#17162c);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:16px 16px 12px;box-shadow:0 20px 60px rgba(0,0,0,.6);text-align:left}
+#tuttip h3{margin:0 0 6px;font-size:1.05rem}
+#tuttip p{margin:0 0 8px;color:var(--text);font-size:.92rem;line-height:1.45}
+#tuttip .tutico{font-size:2.4rem;text-align:center}
+#tuttip.ctr{text-align:center}
+.tutdots{display:flex;gap:5px;justify-content:center;margin:10px 0}
+.tutdots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25)}
+.tutdots i.on{background:#8fb0ff;transform:scale(1.3)}
+.tutrow{display:flex;gap:8px;justify-content:space-between;align-items:center}
+.tutskip{background:none;box-shadow:none;color:var(--muted);padding:6px 4px;font-size:.85rem}
+.howbtn{margin-left:8px;padding:3px 10px;font-size:.78rem;vertical-align:middle;border-radius:999px}
+.howbox{position:relative;background:linear-gradient(180deg,#26254a,#17162c);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;width:100%;max-width:440px;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.howbox h2{margin:0 0 10px;padding-right:30px}
+.howbox ol{margin:12px 0 4px;padding-left:20px}.howbox li{margin:5px 0}
+.hwd{height:170px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hwdice{display:flex;gap:12px}.hwdice b{width:46px;height:46px;border-radius:10px;display:block;animation:hwBounce 2.6s infinite}
+.hwdice b:nth-child(2){animation-delay:.15s}.hwdice b:nth-child(3){animation-delay:.3s}.hwdice b:nth-child(4){animation-delay:.45s}
+.hwdice b.m{animation-name:hwBounce,hwMatch;animation-duration:2.6s,2.6s}
+@keyframes hwBounce{0%,55%{transform:translateY(0) rotate(0)}10%{transform:translateY(-26px) rotate(90deg)}20%{transform:translateY(0) rotate(180deg)}30%{transform:translateY(-16px) rotate(270deg)}40%{transform:translateY(0) rotate(360deg)}}
+@keyframes hwMatch{0%,60%{box-shadow:none}70%,100%{box-shadow:0 0 0 4px #fff,0 0 18px #fff}}
+.hwtag{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-weight:700;opacity:0;animation:hwTag 2.6s infinite}
+@keyframes hwTag{0%,62%{opacity:0;transform:translateY(6px)}72%,95%{opacity:1;transform:none}100%{opacity:0}}
+.hwcoin{width:84px;height:84px;position:relative;transform-style:preserve-3d;animation:hwFlip 3s ease-in-out infinite}
+.hwcoin span{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;backface-visibility:hidden;background:radial-gradient(circle at 35% 30%,#ffe28a,#d9a21b);color:#5a3d00;border:3px solid #b8860b}
+.hwcoin span+span{transform:rotateY(180deg)}
+.hwdw{perspective:500px;display:flex;align-items:center;justify-content:center}
+@keyframes hwFlip{0%,10%{transform:rotateY(0)}70%,100%{transform:rotateY(1620deg)}}
+.hwspin{animation:hwSpin 4s cubic-bezier(.15,.7,.2,1) infinite;transform-origin:50% 50%}
+@keyframes hwSpin{0%{transform:rotate(0)}75%,100%{transform:rotate(1130deg)}}
+.hwm{display:grid;grid-template-columns:repeat(4,38px);gap:6px}
+.hwm i{width:38px;height:38px;border-radius:8px;background:#2f2f55;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:1.2rem}
+.hwm i em{font-style:normal;opacity:0;animation:hwShow 5s infinite}
+.hwm i.d1 em{animation-delay:.2s}.hwm i.d2 em{animation-delay:1s}.hwm i.d3 em{animation-delay:1.8s}
+.hwm i.d1,.hwm i.d2,.hwm i.d3{animation:hwTile 5s infinite}.hwm i.d2{animation-delay:.8s}.hwm i.d3{animation-delay:1.6s}.hwm i.d1{animation-delay:0s}
+@keyframes hwTile{0%,5%{background:#2f2f55}10%,90%{background:#1c7a5a}100%{background:#2f2f55}}
+@keyframes hwShow{0%,3%{opacity:0;transform:scale(.3)}10%,90%{opacity:1;transform:scale(1)}100%{opacity:0}}
+.hwmult{position:absolute;right:12px;top:10px;font-weight:700;color:#7dffb5;opacity:0;animation:hwShow 5s infinite;animation-delay:2s}
+.hwsc{position:relative;display:grid;grid-template-columns:repeat(3,48px);gap:5px}
+.hwsc i{height:48px;background:#2a2a4d;border-radius:8px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:1.5rem}
+.hwsc i.w{box-shadow:0 0 0 2px #ffd34a}
+.hwcover{position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(45deg,#9aa0b8,#9aa0b8 6px,#868ca6 6px,#868ca6 12px);animation:hwWipe 4s infinite}
+@keyframes hwWipe{0%,15%{clip-path:inset(0 0 0 0)}70%,100%{clip-path:inset(0 0 0 100%)}}
+.hwrow{display:flex;gap:8px;align-items:center}.hwlbl{position:absolute;left:12px;font-size:.75rem;color:var(--muted)}
+.hwcard{width:40px;height:56px;border-radius:7px;background:#f4f4fa;color:#222;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;opacity:0;animation:hwDeal 6s infinite}
+.hwcard.r{color:#d33}.hwcard.back{background:repeating-linear-gradient(45deg,#3d5afe,#3d5afe 5px,#2c40c4 5px,#2c40c4 10px);color:transparent}
+.hwcard.c1{animation-delay:.2s}.hwcard.c2{animation-delay:.7s}.hwcard.c3{animation-delay:1.2s}.hwcard.c4{animation-delay:1.7s}.hwcard.c5{animation-delay:2.8s}
+@keyframes hwDeal{0%{opacity:0;transform:translateY(-30px) rotate(-8deg)}6%,88%{opacity:1;transform:none}100%{opacity:0}}
+.hwsum{position:absolute;right:12px;font-weight:700;font-size:.85rem;opacity:0;animation:hwShow 6s infinite}
+.hwbj{display:flex;flex-direction:column;gap:14px;align-items:center}
+.hwreel{width:52px;height:60px;overflow:hidden;border-radius:8px;background:#f4f4fa;position:relative}
+.hwreel div{display:flex;flex-direction:column;font-size:2rem;line-height:60px;text-align:center;animation:hwReel 4s cubic-bezier(.2,.7,.3,1) infinite}
+.hwreel:nth-child(2) div{animation-delay:.25s}.hwreel:nth-child(3) div{animation-delay:.5s}
+@keyframes hwReel{0%{transform:translateY(0)}60%,100%{transform:translateY(-300px)}}
+.hwroul{position:relative;width:160px;height:160px;transform:scale(.8);margin-top:-14px}.hwball{position:absolute;inset:0;animation:hwOrbit 4s cubic-bezier(.2,.7,.3,1) infinite}
+.hwball i{position:absolute;left:50%;top:8px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff}
+@keyframes hwOrbit{0%{transform:rotate(0)}70%,100%{transform:rotate(-1090deg)}}
+@media(prefers-reduced-motion:reduce){.hwd *{animation:none!important}}
 .pclose{position:absolute;top:10px;right:10px;padding:4px 10px;background:rgba(255,255,255,.12);color:var(--text);box-shadow:none}
 .phead{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:10px}
 .pstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:12px 0}
@@ -614,6 +674,7 @@ async function load(){
   st.err="";st.list=r.data;
   st.names={};st.avs={};st.umap={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url;if(p.is_ultra)st.umap[p.id]=1});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
+  if(!st.tutChecked&&st.me&&!st.me.banned){st.tutChecked=true;try{if(!localStorage.getItem("tut_"+st.user.id)&&!st.maint)setTimeout(function(){if(st.me&&!st.tut)tutStart()},800)}catch(e){}}
   if(st.me)st.me.own=!!(st.me.is_owner||st.me.is_coowner);
   if(st.me){var lvNow=lvOf(st.me.xp);if(st.lvSeen===null)st.lvSeen=lvNow;else if(lvNow>st.lvSeen){notifyText("⬆️ Level "+lvNow+" erreicht!"+(st.lvBonus>0?" +"+fmt(st.lvBonus*(lvNow-st.lvSeen))+" Punkte":""));st.lvSeen=lvNow}}
   if(st.me&&!st.me.banned&&Date.now()-(st.fwAt||0)>4000){st.fwAt=Date.now();sb.rpc("flush_wins").then(function(){},function(){})}
@@ -1866,6 +1927,106 @@ async function slotPlay(){
 var APST={open:"Offen",review:"In Prüfung",accepted:"Angenommen",rejected:"Abgelehnt",withdrawn:"Zurückgezogen"};
 var TKK={support:["🛟","Support"],idea:["💡","Idee"],application:["📝","Bewerbung"]};
 var TKLAB={support:{review:"In Bearbeitung",accepted:"Gelöst",rejected:"Geschlossen"},idea:{review:"In Prüfung",accepted:"Angenommen",rejected:"Abgelehnt"}};
+var TUT=[
+ {i:"👋",t:"Willkommen bei Casino NRW!",p:"Das ist die Spielseite für unsere Discord-Community. Hier wird nur mit Punkten gespielt, nicht mit echtem Geld. Ich zeige dir kurz, wo alles ist. Das dauert eine Minute."},
+ {sel:".balpill",t:"Dein Punktestand",p:"Hier siehst du, wie viele Punkte du hast. Daneben steht dein Level. Für gesetzte Punkte und Abzeichen bekommst du XP und steigst auf, dafür gibt es Bonuspunkte."},
+ {sel:'.nav[data-v="dice"]',side:1,t:"Die Spiele",p:"Hier im Menü sind alle Spiele: Farbwürfel, Glücksrad, Münzwurf, 1 gegen 1, Minen, Plinko und Rubbellos. Am Handy öffnest du das Menü mit dem ☰ oben links."},
+ {sel:".cdline",side:1,t:"Spiel des Tages",p:"Jeden Tag um Mitternacht wechselt das Spiel des Tages. Hier siehst du, wann es soweit ist."},
+ {sel:".howbtn",t:"So geht's",p:"Bei jedem Spiel gibt es diesen Knopf. Er zeigt dir in einer kleinen Animation, wie das Spiel funktioniert. Probier ihn gleich aus!"},
+ {sel:'.nav[data-v="tycoon"]',side:1,t:"Gratis Punkte",p:"Im Mini-Tycoon baust du eine kleine Firma auf und bekommst Punkte, ohne etwas zu setzen. Schau regelmäßig vorbei."},
+ {sel:'.nav[data-v="ultra"]',side:1,t:"Ultra-Lounge",p:"Für Ultra-VIPs: gratis Glücksrad jeden Tag, Wochenbonus, goldener Name und mehr. Die VIP-Spiele Slots, Roulette und Blackjack gibt es mit der VIP-Rolle. Beides bekommst du über ein Ticket im Discord."},
+ {sel:'.nav[data-v="ranking"]',side:1,t:"Community",p:"In der Rangliste siehst du, wer vorne liegt. Darunter findest du Live-Feed, Abzeichen, Überweisen und Gutscheine für Codes aus dem Discord."},
+ {sel:'.nav[data-v="apply"]',side:1,t:"Tickets",p:"Brauchst du Hilfe, hast du eine Idee oder willst du im Team mithelfen? Wähle hier Support, Idee oder Bewerbung. Antworten bekommst du direkt auf der Seite."},
+ {sel:".uwrap",t:"Dein Konto",p:"Hier öffnest du dein Profil, die Statistik und die Einstellungen. Dort änderst du auch dein Design, den Hintergrund und den Ton. Dieses Tutorial findest du in den Einstellungen wieder."},
+ {sel:'.nav[data-v="rules"]',side:1,t:"Regeln",p:"Hier stehen die Regeln aller Spiele und die Gewinnchancen. Lies sie einmal durch."},
+ {i:"🎉",t:"Fertig! Viel Spaß!",p:"Spiele nur zum Spaß und mach Pausen. Mehrfachkonten und Tricks mit Fehlern sind verboten. Einen Fehler gefunden? Melde ihn im Support-Ticket. Viel Glück!"}
+];
+function tutDone(){try{localStorage.setItem("tut_"+st.user.id,"1")}catch(e){}}
+function tutStart(){if(GPAGES.indexOf(st.page)<0)st.page="dice";st.tut={i:0};st.userMenuOpen=false;st.prof=null;st.how=null;tutApply()}
+function tutEnd(){if(st.user)tutDone();st.tut=null;st.sideOpen=false;var o=document.getElementById("tutov");if(o)o.remove();render()}
+function tutStep(d){if(!st.tut)return;var n=st.tut.i+d;if(n>=TUT.length){tutEnd();return}if(n<0)return;st.tut.i=n;tutApply()}
+function tutApply(){var x=TUT[st.tut.i],need=!!x.side&&window.innerWidth<=860;if(!!st.sideOpen!==need){st.sideOpen=need;render()}else{render()}}
+function tutDraw(){
+  var ov=document.getElementById("tutov");
+  if(!st.tut){if(ov)ov.remove();return}
+  var x=TUT[st.tut.i],last=st.tut.i===TUT.length-1,vw=window.innerWidth,vh=window.innerHeight;
+  if(!ov){
+    ov=document.createElement("div");ov.id="tutov";
+    ov.innerHTML='<div id="tutspot"></div><div id="tuttip"></div>';
+    ov.addEventListener("click",function(e){
+      var t=e.target.closest("[data-tut]");if(!t)return;
+      var a=t.dataset.tut;if(a==="next")tutStep(1);else if(a==="prev")tutStep(-1);else tutEnd();
+    });
+    document.body.appendChild(ov);
+  }
+  var el=x.sel?document.querySelector(x.sel):null,spot=document.getElementById("tutspot"),tip=document.getElementById("tuttip");
+  tip.className=el?"":"ctr";
+  tip.innerHTML=(x.i?'<div class="tutico">'+x.i+'</div>':'')+'<h3'+(el?'':' style="text-align:center"')+'>'+esc(x.t)+'</h3><p>'+esc(x.p)+'</p><div class="tutdots">'+TUT.map(function(_,n){return '<i'+(n===st.tut.i?' class="on"':'')+'></i>'}).join("")+'</div><div class="tutrow">'+(st.tut.i?'<button class="tab off" data-tut="prev">← Zurück</button>':'<button class="tutskip" data-tut="end">Überspringen</button>')+'<span class="muted" style="font-size:.8rem">'+(st.tut.i+1)+' / '+TUT.length+'</span><button data-tut="'+(last?'end':'next')+'">'+(last?"Los geht's!":"Weiter →")+'</button></div>';
+  var tw=Math.min(el?340:420,vw-24);tip.style.width=tw+"px";
+  var th=tip.offsetHeight,L,T;
+  if(el){
+    try{el.scrollIntoView({block:"nearest",inline:"nearest"})}catch(e){}
+    var r=el.getBoundingClientRect();
+    ov.className="";spot.style.display="block";
+    spot.style.left=(r.left-6)+"px";spot.style.top=(r.top-6)+"px";spot.style.width=(r.width+12)+"px";spot.style.height=(r.height+12)+"px";
+    if(x.side&&vw>860){L=r.right+20;T=r.top+r.height/2-th/2}
+    else{L=r.left+r.width/2-tw/2;T=(r.bottom+16+th<vh)?r.bottom+16:r.top-th-16}
+    L=Math.max(12,Math.min(L,vw-tw-12));T=Math.max(12,Math.min(T,vh-th-12));
+  }else{
+    ov.className="nt";spot.style.display="none";L=(vw-tw)/2;T=Math.max(12,(vh-th)/2);
+  }
+  tip.style.left=L+"px";tip.style.top=T+"px";
+  clearTimeout(tutDraw.t);tutDraw.t=setTimeout(function(){if(st.tut&&!tutDraw.again){tutDraw.again=1;tutDraw();tutDraw.again=0}},320);
+}
+window.addEventListener("resize",function(){if(st.tut)tutDraw()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){if(st.tut)tutEnd();else if(st.how){st.how=null;render()}}});
+
+/* ===== So geht's: kleine Animationen pro Spiel ===== */
+function hwWheel(){
+  var n=12,R=70,c=80,h='<svg width="160" height="160" viewBox="0 0 160 160"><g class="hwspin">';
+  for(var k=0;k<n;k++){
+    var a0=(k/n)*2*Math.PI-Math.PI/2,a1=((k+1)/n)*2*Math.PI-Math.PI/2;
+    var col=k===0?"#f5c542":(k%2?"#e8e8f4":"#35345e");
+    h+='<path d="M'+c+' '+c+' L'+(c+R*Math.cos(a0)).toFixed(1)+' '+(c+R*Math.sin(a0)).toFixed(1)+' A'+R+' '+R+' 0 0 1 '+(c+R*Math.cos(a1)).toFixed(1)+' '+(c+R*Math.sin(a1)).toFixed(1)+' Z" fill="'+col+'"/>';
+  }
+  h+='<text x="80" y="30" text-anchor="middle" font-size="14">★</text></g><circle cx="80" cy="80" r="9" fill="#17162c"/><path d="M72 4 L88 4 L80 20 Z" fill="#ff5a5a"/></svg>';
+  return h;
+}
+var HOW={
+ dice:{d:'<div class="hwdice"><b style="background:#e5484d"></b><b style="background:#3e8bff"></b><b class="m" style="background:#e5484d" ></b><b style="background:#32c27c"></b></div><div class="hwtag" style="color:#7dffb5">Treffer! ×2</div>',
+  s:["Wähle deine Farbe.","Setze deinen Einsatz.","Würfeln! Kommt deine Farbe 1× vor, bekommst du das Doppelte. Bei 2× gibt es den Einsatz zurück."]},
+ wheel:{d:null,s:["Wähle Dark oder Light, oder den Stern ★.","Setze deinen Einsatz und dreh das Rad.","Landet es auf deiner Farbe, bekommst du das Doppelte. Beim Stern ★ gibt es das Dreifache."]},
+ coin:{d:'<div class="hwdw"><div class="hwcoin"><span>Kopf</span><span>Zahl</span></div></div>',
+  s:["Wähle Kopf oder Zahl.","Setze deinen Einsatz und wirf die Münze.","Trifft deine Seite (50 %), bekommst du das 1,9-fache zurück."]},
+ mines:{d:'<div class="hwm"><i class="d1"><em>💎</em></i><i></i><i></i><i></i><i></i><i class="d2"><em>💎</em></i><i></i><i></i><i></i><i></i><i class="d3"><em>💎</em></i><i></i><i></i><i>💣</i><i></i></div><div class="hwmult">×1.8 · Auszahlen!</div>',
+  s:["Wähle, wie viele Minen versteckt sind.","Decke Felder auf. Jeder Diamant 💎 erhöht deinen Multiplikator.","Zahle jederzeit aus. Bei einer Bombe 💣 ist der Einsatz weg."]},
+ plinko:{d:'<svg width="190" height="160" viewBox="0 0 190 160"><g fill="#c9c9e6">'+(function(){var o="";for(var r=0;r<5;r++)for(var k=0;k<=r+1;k++)o+='<circle cx="'+(95+(k-(r+1)/2)*26)+'" cy="'+(24+r*22)+'" r="3"/>';return o})()+'</g><g font-size="11" fill="#9aa" text-anchor="middle"><text x="30" y="150">×3</text><text x="63" y="150">×1</text><text x="95" y="150">×0.5</text><text x="127" y="150">×1</text><text x="160" y="150">×3</text></g><circle r="6" fill="#ffd34a"><animateMotion dur="3s" repeatCount="indefinite" path="M95 6 L82 24 L100 46 L112 68 L96 90 L84 112 L95 130 L95 130" keyTimes="0;.15;.3;.45;.6;.75;.9;1" calcMode="linear"/></circle></svg>',
+  s:["Wähle das Risiko und deinen Einsatz.","Lass die Kugel fallen. Sie springt über die Nägel.","Am Rand sind die hohen Multiplikatoren, in der Mitte die niedrigen."]},
+ scratch:{d:'<div class="hwsc"><i class="w">🍒</i><i class="w">🍒</i><i class="w">🍒</i><i>🍋</i><i>⭐</i><i>🔔</i><i>7️⃣</i><i>🍋</i><i>⭐</i><div class="hwcover"></div></div>',
+  s:["Kaufe ein Los.","Rubbele mit der Maus oder dem Finger die 9 Felder frei.","3 gleiche Symbole gewinnen."]}
+};
+function hwRoul(){
+  var n=12,R=70,c=80,h='<svg width="160" height="160" viewBox="0 0 160 160"><g class="hwspin" style="animation-duration:6s">';
+  for(var k=0;k<n;k++){
+    var a0=(k/n)*2*Math.PI-Math.PI/2,a1=((k+1)/n)*2*Math.PI-Math.PI/2;
+    var col=k===0?"#1f9d5a":(k%2?"#d33":"#222");
+    h+='<path d="M'+c+' '+c+' L'+(c+R*Math.cos(a0)).toFixed(1)+' '+(c+R*Math.sin(a0)).toFixed(1)+' A'+R+' '+R+' 0 0 1 '+(c+R*Math.cos(a1)).toFixed(1)+' '+(c+R*Math.sin(a1)).toFixed(1)+' Z" fill="'+col+'" stroke="#c9a54a" stroke-width=".8"/>';
+  }
+  return h+'</g><circle cx="80" cy="80" r="16" fill="#17162c" stroke="#c9a54a"/></svg>';
+}
+HOW.blackjack={d:'<div class="hwbj"><div class="hwrow"><span class="hwcard c1">10</span><span class="hwcard c2">7</span></div><div class="hwrow"><span class="hwcard r c3">K</span><span class="hwcard r c4">9</span></div></div><span class="hwlbl" style="top:30px">Geber</span><span class="hwlbl" style="bottom:30px">Du</span><span class="hwsum" style="top:30px;animation-delay:2.2s;color:#ccd">17</span><span class="hwsum" style="bottom:30px;animation-delay:2.4s;color:#7dffb5">19 · Gewonnen!</span>',
+ s:["Setze deinen Einsatz. Du und der Geber bekommen Karten.","Komm mit „Karte“ näher an 21, aber nicht drüber. „Halten“ beendet deine Runde. „Verdoppeln“ geht bei den ersten zwei Karten.","Der Geber bleibt ab 17 stehen. Wer näher an 21 ist, gewinnt (1:1). Blackjack zahlt 6:5."]};
+HOW.roulette={d:'<div class="hwroul">'+hwRoul()+'<div class="hwball"><i></i></div></div><div class="hwtag" style="color:#7dffb5;animation-duration:4s;bottom:6px">Rot 7 · Treffer! ×2</div>',
+ s:["Tippe bis zu 10 Felder an. Jedes bekommt deinen Einsatz.","Die Kugel rollt und bleibt auf einer Zahl liegen.","Einzelzahl ×36, Dutzend und Reihe ×3, Rot/Schwarz und Gerade/Ungerade ×2. Bei der 0 gewinnt nur die 0."]};
+HOW.slots={d:'<div class="hwrow"><div class="hwreel"><div><span>🍒</span><span>🍋</span><span>🔔</span><span>⭐</span><span>💎</span><span>7️⃣</span></div></div><div class="hwreel"><div><span>🍋</span><span>🔔</span><span>⭐</span><span>💎</span><span>🍒</span><span>7️⃣</span></div></div><div class="hwreel"><div><span>🔔</span><span>⭐</span><span>💎</span><span>🍒</span><span>🍋</span><span>7️⃣</span></div></div></div><div class="hwtag" style="color:#ffd34a;animation-duration:4s;bottom:8px">Drei Siebener! ×100</div>',
+ s:["Setze deinen Einsatz und dreh die Walzen.","Drei gleiche Symbole gewinnen: 7️⃣ ×100, 💎 ×40, 🔔 ×20, ⭐ ×10, 🍋 ×6, 🍒 ×4.","Zwei Kirschen zahlen ×2, zwei gleiche andere Symbole geben deinen Einsatz zurück."]};
+HOW.duel={d:'<div class="hwrow" style="gap:18px"><span style="font-size:2rem">🧑</span><div class="hwdice" style="gap:7px"><b style="width:30px;height:30px;background:#e5484d"></b><b style="width:30px;height:30px;background:#3e8bff"></b><b class="m" style="width:30px;height:30px;background:#e5484d"></b><b style="width:30px;height:30px;background:#e5484d"></b></div><span style="font-size:2rem">🧑</span></div><div class="hwtag" style="color:#7dffb5">Rot gewinnt den Pott!</div><span class="hwlbl" style="top:12px;left:12px;color:#e5484d">Rot</span><span class="hwlbl" style="top:12px;left:auto;right:12px;color:#3e8bff">Blau</span>',
+ s:["Du wählst eine Farbe und deinen Einsatz und erstellst eine Herausforderung.","Ein anderer Spieler tritt mit einer anderen Farbe bei und setzt dasselbe.","Mit 4 Würfeln wird gewürfelt: Wessen Farbe öfter fällt, gewinnt den ganzen Pott. Bei Gleichstand wird neu gewürfelt."]};
+function howBtn(pg){return HOW[pg]?'<button class="tab off howbtn" data-act="how" data-v="'+pg+'">❓ So geht\'s</button>':""}
+function howHtml(){
+  var g=st.how,x=HOW[g];if(!x)return "";
+  return '<div class="modalbg" data-act="howbg"><div class="howbox"><button class="pclose" data-act="howclose">✕</button><h2>'+esc(GAMES[g])+' · So geht\'s</h2><div class="hwd">'+(g==="wheel"?hwWheel():x.d)+'</div><ol>'+x.s.map(function(t){return '<li>'+esc(t)+'</li>'}).join("")+'</ol><div class="row" style="margin-top:12px"><button data-act="howclose">Alles klar!</button></div></div></div>';
+}
 var APQ=[["q1","Wie heißen sie und wie alt sind sie? [IC & OOC]",1],["q2","Warum möchten sie sich hier bewerben? (mindestens 20 Zeichen)",3],["q3","Warum sollten wir sie annehmen? (mindestens 20 Zeichen)",3],["q4","Haben sie eine Spielsucht?",1],["q5","Haben sie Erfahrung für das Organisieren?",2],["q6","Haben sie noch weitere Fragen oder Anmerkungen? (freiwillig)",2]];
 function apLab(kind,st_){return (TKLAB[kind]&&TKLAB[kind][st_])||APST[st_]||st_}
 function apDate(i){return new Date(i).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"})}
@@ -2635,7 +2796,7 @@ function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
 }
-var VERSION="50 · 26.11.";
+var VERSION="53 · 27.11.";
 function settingsHtml(me){
   var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
@@ -2649,11 +2810,13 @@ function settingsHtml(me){
   if(st.bgMsg)h+='<div class="msg">'+esc(st.bgMsg)+'</div>';
   h+='<p class="muted" style="margin:10px 0 0;font-size:.75rem">Seiten-Version '+VERSION+'</p>';
   h+='<div class="setrow"><span><b>Ton</b><br><span class="muted">Sounds bei Spielen und Gewinnen.</span></span><button class="tab off" data-act="mute">'+(SFX.isMuted()?'🔇 Aus':'🔊 An')+'</button></div>';
+  h+='<div class="setrow"><span><b>Tutorial</b><br><span class="muted">Die Einführung noch einmal ansehen.</span></span><button class="tab off" data-act="tutopen">Ansehen</button></div>';
   h+='<div class="setrow"><span><b>Abmelden</b><br><span class="muted">Von diesem Gerät abmelden.</span></span><button class="tab off" data-act="logout">Abmelden</button></div></div>';
   return h;
 }
 function render(){
   applyTheme();
+  if(!st.tut){var _o=document.getElementById("tutov");if(_o)_o.remove()}
   if(st.rolling)return;
   if(!st.user){
     app.innerHTML='<div class="loginbox"><h1>'+themeIco()+' Punkte-Spiele</h1><div class="card"><p style="margin-top:0">Melde dich mit deinem Discord-Konto an, um zu spielen.</p>'+(function(){try{return localStorage.getItem("pref")?'<p class="msg" style="margin-top:0">🎁 Du wurdest eingeladen! Nach der Anmeldung bekommst du Bonuspunkte.</p>':""}catch(e){return ""}})()+'<button data-act="login">Mit Discord anmelden</button>'+(/[?&]alt=1/.test(location.search)?'<p style="margin:12px 0 0"><button class="tab off" data-act="loginalt">Notfall: alter Discord-Login</button></p>':'')+'<p class="muted" style="margin-bottom:0">👥 <b id="cnt">–</b> Spieler angemeldet</p>'+(st.err?'<p class="msg">'+esc(st.err)+'</p>':'')+'</div></div>';
@@ -2674,7 +2837,7 @@ function render(){
     c+='<div class="card">';
     if(me.banned)c+='<p class="msg">Du wurdest gesperrt.</p>';
     else if(b<LMN)c+='<p class="muted" style="margin:0 0 8px">Zum Spielen brauchst du mindestens '+LMN+' Punkte. Punkte bekommst du von einem Admin auf dem <a href="https://discord.gg/BJAeQt5vTm" target="_blank" rel="noopener">Discord-Server</a> über ein Ticket.</p>';
-    c+='<h2 style="margin:0">'+esc(GAMES[pg])+(VIPG.indexOf(pg)>=0?' <span class="vipchip">VIP</span>':'')+'</h2>';
+    c+='<h2 style="margin:0">'+esc(GAMES[pg])+(VIPG.indexOf(pg)>=0?' <span class="vipchip">VIP</span>':'')+howBtn(pg)+'</h2>';
     c+=luckNoticeHtml(me);
     if(VIPG.indexOf(pg)>=0&&!isVipUser(me)){c+=vipNoticeHtml();canPlay=false}
     var eaE=earlyOf(pg);if(eaE&&!isUltraUser(me)){c+=earlyNoticeHtml(pg,eaE);canPlay=false}
@@ -2703,6 +2866,7 @@ function render(){
   if(st.err)c+='<p class="muted">'+esc(st.err)+'</p>';
   var h='<div class="shell">'+topHtml(me)+sideHtml(me)+'<div class="content">'+c+'</div></div>';
   if(st.prof)h+=profHtml();
+  if(st.how)h+=howHtml();
   var keepY=window.pageYOffset;
   var holder=document.getElementById("rulesholder"),rc=document.getElementById("rulescard");
   if(rc&&holder&&rc.parentNode!==holder)holder.appendChild(rc);
@@ -2714,6 +2878,7 @@ function render(){
   if(st.balls.length)plDraw(performance.now());st.landed=false;
   if(pg==="crash"&&st.crash&&st.crash.status==="active")crLoop();
   if(pg==="scratch")scInit();
+  if(st.tut)tutDraw();
 }
 function go(p){
   if(p!=="admin")st.syncKey="";
@@ -2849,6 +3014,10 @@ app.addEventListener("click",function(e){
   else if(a==="limits")saveLimits();
   else if(a==="mn"){st.mn=+v;render()}
   else if(a==="prof")openProfile(v);
+  else if(a==="how"){st.how=v;render()}
+  else if(a==="howbg"){if(e.target===t){st.how=null;render()}}
+  else if(a==="howclose"){st.how=null;render()}
+  else if(a==="tutopen")tutStart();
   else if(a==="profbg"){if(e.target===t){st.prof=null;render()}}
   else if(a==="profclose"){st.prof=null;render()}
   else if(a==="avpick"){var fi=document.getElementById("avfile");if(fi)fi.click()}
@@ -3243,7 +3412,7 @@ function toggleBan(){var s=selected();if(s)adminCall("set_banned",{p_target:s.id
 sb.auth.onAuthStateChange(function(ev,session){
   st.user=session?session.user:null;
   setTimeout(async function(){
-    if(st.user)await load();else{st.bg=null;st.bgLoaded=false;applyBg();st.me=null;st.lvSeen=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.locked=[];st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
+    if(st.user)await load();else{st.bg=null;st.bgLoaded=false;applyBg();st.me=null;st.tut=null;st.how=null;st.tutChecked=false;st.lvSeen=null;st.list=[];st.feed=[];st.ch=[];st.seen={};st.seenInit=false;st.duelRes=null;st.menuOpen=false;st.crash=null;st.hl=null;st.kres=null;st.bres=null;st.scard=null;st.locked=[];st.kpick=[];st.daily=null;st.dgLoaded=false;st.page="dice";st.userMenuOpen=false;st.sideOpen=false;loadCount()}
     render();
   },0);
 });
