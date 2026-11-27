@@ -1936,7 +1936,7 @@ var TUT=[
  {sel:'.nav[data-v="tycoon"]',side:1,t:"Gratis Punkte",p:"Im Mini-Tycoon baust du eine kleine Firma auf und bekommst Punkte, ohne etwas zu setzen. Schau regelmäßig vorbei."},
  {sel:'.nav[data-v="ultra"]',side:1,t:"Ultra-Lounge",p:"Für Ultra-VIPs: gratis Glücksrad jeden Tag, Wochenbonus, goldener Name und mehr. Die VIP-Spiele Slots, Roulette und Blackjack gibt es mit der VIP-Rolle. Beides bekommst du über ein Ticket im Discord."},
  {sel:'.nav[data-v="ranking"]',side:1,t:"Community",p:"In der Rangliste siehst du, wer vorne liegt. Darunter findest du Live-Feed, Abzeichen, Überweisen und Gutscheine für Codes aus dem Discord."},
- {sel:'.nav[data-v="apply"]',side:1,t:"Tickets",p:"Brauchst du Hilfe, hast du eine Idee oder willst du im Team mithelfen? Wähle hier Support, Idee oder Bewerbung. Antworten bekommst du direkt auf der Seite."},
+ {sel:'.nav[data-v="apply"]',side:1,t:"Tickets",p:"Ganz oben im Menü: Brauchst du Hilfe, hast du eine Idee oder willst du im Team mithelfen? Wähle hier Support, Idee oder Bewerbung. Antworten bekommst du direkt auf der Seite."},
  {sel:".uwrap",t:"Dein Konto",p:"Hier öffnest du dein Profil, die Statistik und die Einstellungen. Dort änderst du auch dein Design, den Hintergrund und den Ton. Dieses Tutorial findest du in den Einstellungen wieder."},
  {sel:'.nav[data-v="rules"]',side:1,t:"Regeln",p:"Hier stehen die Regeln aller Spiele und die Gewinnchancen. Lies sie einmal durch."},
  {i:"🎉",t:"Fertig! Viel Spaß!",p:"Spiele nur zum Spaß und mach Pausen. Mehrfachkonten und Tricks mit Fehlern sind verboten. Einen Fehler gefunden? Melde ihn im Support-Ticket. Viel Glück!"}
@@ -2114,8 +2114,8 @@ function applyHtml(me){
   }
   /* Übersicht */
   var actApp=st.apps.some(function(x){return x.kind==="application"&&(x.status==="open"||x.status==="review")}),accApp=st.apps.some(function(x){return x.kind==="application"&&x.status==="accepted"});
-  var note=accApp?"Du bist schon im Team":(actApp?"Du hast schon eine laufende Bewerbung":(!ai.open?"Gerade geschlossen":"Mitarbeiter werden"));
-  var offApp=accApp||actApp||!ai.open;
+  var note=me.own?"Als Besitzer immer möglich":accApp?"Du bist schon im Team":(actApp?"Du hast schon eine laufende Bewerbung":(!ai.open?"Gerade geschlossen":"Mitarbeiter werden"));
+  var offApp=(accApp||actApp||!ai.open)&&!me.own;
   h+=msg+'<div class="card"><h2>Was möchtest du tun?</h2><div class="tkgrid">'+
     '<button class="tkcard" data-act="tkkind" data-v="support"><span>🛟</span><b>Support</b><small>Ich brauche Hilfe</small></button>'+
     '<button class="tkcard" data-act="tkkind" data-v="idea"><span>💡</span><b>Idee</b><small>Ich habe einen Vorschlag</small></button>'+
@@ -2181,6 +2181,11 @@ async function appStatus(status){
   if(r.error){st.saMsg=r.error.message;render();return}
   st.saNote="";st.saMsg="Status geändert: "+apLab(a.kind,status);await openSA(a.id);
 }
+async function appHook(url){
+  var r=await sb.rpc("app_set_webhook",{p_url:url});
+  if(r.error){st.saMsg=r.error.message;render();return}
+  st.apHook="";st.saMsg=url?"✅ Webhook für Tickets gespeichert.":"Eigener Webhook entfernt.";await loadStaffApps();
+}
 async function appOpenClose(open){
   var r=await sb.rpc("app_set_open",{p_open:open});
   if(r.error){st.saMsg=r.error.message;render();return}
@@ -2191,7 +2196,8 @@ function appsStaffHtml(me){
   h+='<div class="card"><h2 style="margin:0">📥 Tickets</h2>';
   if(c){
     h+='<div class="setrow"><span><b>Bewerbungen sind '+(c.open?'<span class="win">offen</span>':'<span class="loss">geschlossen</span>')+'</b><br><span class="muted">Geschlossen: Niemand kann sich neu bewerben, laufende Tickets gehen weiter. Support und Ideen sind immer möglich.</span></span><button class="tab off" data-act="saoc" data-v="'+(c.open?'0':'1')+'">'+(c.open?'Schließen':'Öffnen')+'</button></div>';
-    h+='<p class="muted" style="margin:6px 0 0">Discord-Meldung bei neuen Tickets: <b>'+(c.webhook&&c.notify?'an':(c.webhook?'aus':'kein Webhook hinterlegt (Admin → Discord)'))+'</b></p>';
+    h+='<p class="muted" style="margin:6px 0 0">Discord-Meldung bei neuen Tickets: <b>'+(c.webhook&&c.notify?'an':(c.webhook?'aus':'kein Webhook hinterlegt'))+'</b> · Webhook: <b>'+(c.own_webhook?'eigener für Tickets':(c.webhook?'der Gewinn-Webhook':'keiner'))+'</b></p>';
+    h+='<p class="apq">Eigener Webhook nur für Ticket-Meldungen (Discord → Kanal → Integrationen → Webhooks → URL kopieren)</p><div class="row"><input id="aphook" type="password" autocomplete="off" placeholder="https://discord.com/api/webhooks/…" value="'+esc(st.apHook||"")+'" style="flex:1;min-width:200px"><button data-act="aphooksave">Speichern</button>'+(c.own_webhook?'<button class="tab off" data-act="aphookdel">Entfernen</button>':'')+'</div><p class="muted" style="margin:6px 0 0;font-size:.8rem">Leer lassen und „Speichern“ löscht ihn. Dann wird der Gewinn-Webhook genutzt. Die Adresse bleibt geheim und wird nie angezeigt.</p>';
   }
   h+='</div>';
   if(st.saMsg)h+='<div class="msg">'+esc(st.saMsg)+'</div>';
@@ -2694,10 +2700,12 @@ var GPAGES=["dice","wheel","coin","duel","mines","plinko","scratch","crash","hil
 function navBtn(id,ico,txt){var lk=isLocked(id);return '<button class="nav'+(st.page===id?' on':'')+(lk?' lock':'')+'" data-act="nav" data-v="'+id+'"><span class="ni">'+(lk?'🔧':ico)+'</span>'+txt+(lk?'<small>Wartung</small>':'')+'</button>'}
 function sideHtml(me){
   var h='<div class="sidebg'+(st.sideOpen?' open':'')+'" data-act="sidebg"></div><aside class="side'+(st.sideOpen?' open':'')+'">';
+  h+='<div class="sh">TICKETS</div>'+navBtn("apply","🎫","Support, Idee, Bewerbung"+((st.ai&&st.ai.unread>0)?'<span class="tag" style="background:#c0392b">'+st.ai.unread+'</span>':""));
+  if(me.own&&!me.banned)h+=navBtn("apps","📥","Ticket-Eingang"+((st.ai&&st.ai.staff_new>0)?'<span class="tag" style="background:#c0392b">'+st.ai.staff_new+'</span>':""));
   h+='<div class="sh">SPIELE</div>'+navBtn("dice","🎲","Farbwürfel")+navBtn("wheel","🎡","Glücksrad")+navBtn("coin","🪙","Münzwurf")+navBtn("duel","⚔️","1 gegen 1")+navBtn("mines","💣","Minen")+navBtn("plinko","🔻","Plinko")+navBtn("scratch","🎟️","Rubbellos")+navBtn("slots","🎰","VIP-Slots <span class=\"vipchip\">VIP</span>")+navBtn("roulette","🎡","Roulette <span class=\"vipchip\">VIP</span>")+navBtn("blackjack","🃏","Blackjack <span class=\"vipchip\">VIP</span>")+navBtn("tycoon","🏭","Mini-Tycoon<span class=\"live\">GRATIS</span>")+navBtn("ultra","💎","Ultra-Lounge"+((st.ui&&(st.ui.spins_left>0||st.ui.week_ready))?'<span class=\"live\">GRATIS</span>':(isUltraUser(me)?' <span class=\"ultchip\">ULTRA</span>':'')));
   if(st.daily){h+='<div class="sh">SPIEL DES TAGES</div>';DAYG.filter(function(g){return st.daily.active===g}).forEach(function(g){var ac=true,i=daysUntil(g);h+='<button class="nav'+(st.page===g?' on':'')+(ac?'':' lock')+'" data-act="nav" data-v="'+g+'"><span class="ni">'+(isLocked(g)?'🔧':(ac?DAYICO[g]:'🔒'))+'</span>'+GAMES[g]+(isLocked(g)?'<small>Wartung</small>':ac?'<span class="live">HEUTE</span>':'<small>'+(i===1?'morgen':'in '+i+' T.')+'</small>')+'</button>'});h+='<div class="cdline">⏳ Wechsel in <b class="cd">'+fmtLeft(leftSecs())+'</b></div>'}
-  h+='<div class="sh">COMMUNITY</div>'+navBtn("apply","🎫","Tickets"+((st.ai&&st.ai.unread>0)?'<span class="tag" style="background:#c0392b">'+st.ai.unread+'</span>':""))+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("coupon","🎁","Gutschein")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
-  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("apps","📥","Tickets"+((st.ai&&st.ai.staff_new>0)?'<span class="tag" style="background:#c0392b">'+st.ai.staff_new+'</span>':""))+navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
+  h+='<div class="sh">COMMUNITY</div>'+navBtn("ranking","🏆","Rangliste")+navBtn("feed","📡","Live-Feed")+navBtn("badges","🏅","Abzeichen")+navBtn("coupon","🎁","Gutschein")+navBtn("transfer","💸","Überweisen")+navBtn("rules","📖","Regeln");
+  if(me.is_admin&&!me.banned){h+='<div class="sh">ADMIN</div>'+navBtn("admin","🛠️","Admin-Bereich");if(me.own)h+=navBtn("ostats","📈","Statistik"+(st.alerts&&st.alerts.filter(function(x){return x.level==="warn"}).length?' <span class="tag" style="background:#c0392b">'+st.alerts.filter(function(x){return x.level==="warn"}).length+'</span>':""))+navBtn("log","🔒","Admin-Log")}
   h+='<div class="scnt">👥 <b id="cnt">'+st.list.length+'</b> Spieler angemeldet</div></aside>';
   return h;
 }
@@ -2796,7 +2804,7 @@ function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
 }
-var VERSION="53 · 27.11.";
+var VERSION="54 · 27.11.";
 function settingsHtml(me){
   var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
@@ -2952,6 +2960,8 @@ app.addEventListener("click",function(e){
   else if(a==="safilter"){st.sfilter=v;st.sopen=null;loadStaffApps()}
   else if(a==="sast")appStatus(v);
   else if(a==="saoc")appOpenClose(v==="1");
+  else if(a==="aphooksave")appHook(st.apHook||"");
+  else if(a==="aphookdel")appHook("");
   else if(a==="uweek")ultraWeek();
   else if(a==="utsave")ultraTitle(false);
   else if(a==="utdel")ultraTitle(true);
@@ -3104,6 +3114,7 @@ document.getElementById("avfile").addEventListener("change",async function(e){
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&st.prof){st.prof=null;render()}});
 app.addEventListener("input",function(e){
   var t=e.target;
+  if(t.id==="aphook"){st.apHook=t.value;return}
   if(t.id==="tk_subject"||t.id==="tk_body"){st.tkForm=st.tkForm||{};st.tkForm[t.id.slice(3)]=t.value;return}
   if(/^ap_/.test(t.id)){st.appForm=st.appForm||{};st.appForm[t.id.slice(3)]=t.value;return}
   if(t.id==="apr"){st.apReply=t.value;return}
