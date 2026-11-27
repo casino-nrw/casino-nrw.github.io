@@ -1857,7 +1857,7 @@ function histHtml(){
   if(d.per_game.length)h+='<table><tr><th style="text-align:left">Spiel</th><th class="n">Runden</th><th class="n">Gesetzt</th><th class="n">Ausgezahlt</th></tr>'+d.per_game.map(function(g){return '<tr><td>'+esc(GAMES[g.game]||g.game)+'</td><td class="n">'+g.n+'</td><td class="n">'+fmt(g.stake)+'</td><td class="n">'+fmt(g.payout)+'</td></tr>'}).join("")+'</table>';
   var rows=H.rows.filter(function(x){return H.gf==="all"||x.game===H.gf});
   h+='<h2 style="margin:14px 0 6px">Alle Runden</h2><div class="row"><label class="muted">Spiel <select id="hfgame"><option value="all">Alle</option>'+ALLG.map(function(g){return '<option value="'+g+'"'+(H.gf===g?' selected':'')+'>'+esc(GAMES[g])+'</option>'}).join("")+'</select></label></div>';
-  h+='<div style="max-height:420px;overflow:auto;margin-top:6px">'+(rows.length?rows.map(function(x){
+  h+='<div id="hlist" style="max-height:420px;overflow:auto;margin-top:6px">'+(rows.length?rows.map(function(x){
     var n=x.payout-x.stake,cls=n>0?"win":(n===0?"even":"loss"),t=new Date(x.created_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
     return '<div class="feed-i"><span>'+esc(GAMES[x.game]||x.game)+' · '+esc(betLabel(x.game,x.bet))+' · Einsatz '+fmt(x.stake)+(x.bonus>0?' <span class="tag">Event +'+fmt(x.bonus)+'</span>':'')+(x.luck?' <span class="tag">'+(x.luck>0?'🍀 +':'🌧️ −')+fmt(Math.abs(x.luck))+'</span>':'')+'<br><span class="muted">'+t+'</span></span><span class="'+cls+'">'+(n>0?"+":"")+fmt(n)+'</span></div>';
   }).join(""):'<p class="muted">Keine Runden.</p>')+'</div>';
@@ -2180,6 +2180,19 @@ async function appStatus(status){
   var r=await sb.rpc("app_set_status",{p_id:a.id,p_status:status,p_note:st.saNote||null});
   if(r.error){st.saMsg=r.error.message;render();return}
   st.saNote="";st.saMsg="Status geändert: "+apLab(a.kind,status);await openSA(a.id);
+}
+function tkSig(a){return a?(a.status+"|"+(a.msgs||[]).length+"|"+a.updated_at):""}
+async function tkQuiet(){
+  try{
+    if(st.page==="apps"&&st.sopen){
+      var r=await sb.rpc("app_get",{p_id:st.sopen.id});
+      if(!r.error&&r.data&&tkSig(r.data)!==tkSig(st.sopen)){st.sopen=r.data;render()}
+    }else if(st.page==="apply"){
+      var q=await sb.rpc("app_my");
+      if(!q.error&&JSON.stringify(q.data)!==JSON.stringify(st.apps)){st.apps=q.data;render()}
+    }
+    await refreshAi();
+  }catch(e){}
 }
 async function appHook(url){
   var r=await sb.rpc("app_set_webhook",{p_url:url});
@@ -2803,7 +2816,7 @@ function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
 }
-var VERSION="54 · 27.11.";
+var VERSION="56 · 27.11.";
 function settingsHtml(me){
   var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
@@ -2875,6 +2888,7 @@ function render(){
   if(st.prof)h+=profHtml();
   if(st.how)h+=howHtml();
   var keepY=window.pageYOffset;
+  var _hl=document.getElementById("hlist"),keepH=_hl?_hl.scrollTop:0;
   var holder=document.getElementById("rulesholder"),rc=document.getElementById("rulescard");
   if(rc&&holder&&rc.parentNode!==holder)holder.appendChild(rc);
   var oldSide=app.querySelector(".side"),keepSide=oldSide?oldSide.scrollTop:0;
@@ -2882,6 +2896,7 @@ function render(){
   var newSide=app.querySelector(".side");if(newSide&&keepSide)newSide.scrollTop=keepSide;
   if(pg==="rules"&&rc){var sl=document.getElementById("rulesslot");if(sl)sl.appendChild(rc)}
   if(keepY&&Math.abs(window.pageYOffset-keepY)>2)window.scrollTo(0,keepY);
+  var _hn=document.getElementById("hlist");if(_hn&&keepH)_hn.scrollTop=keepH;
   if(st.balls.length)plDraw(performance.now());st.landed=false;
   if(pg==="crash"&&st.crash&&st.crash.status==="active")crLoop();
   if(pg==="scratch")scInit();
@@ -3431,6 +3446,8 @@ setInterval(async function(){
   if(!st.user||st.rolling||st.plPend||st.kbusy||st.bbusy||(st.page==="scratch"&&st.scard&&!st.scard.done)||(st.balls&&st.balls.length)||st.sbusy||st.rbusy||st.bjbusy||st.ubusy||(st.page==="tycoon"&&st.ty&&(st.ty.phase==="play"||st.ty.phase==="claim"))||(st.page==="crash"&&st.crash&&st.crash.status==="active"))return;
   var ae=document.activeElement;
   if(ae&&(ae.tagName==="INPUT"||ae.tagName==="TEXTAREA"||ae.tagName==="SELECT")&&app.contains(ae))return;
+  if(st.page==="hist"&&st.hist&&st.hist.d)return;
+  if((st.page==="apply"&&st.tkView&&st.tkView.mode==="detail")||(st.page==="apps"&&st.sopen)){await tkQuiet();return}
   await load();render();
 },5000);
 setInterval(function(){
