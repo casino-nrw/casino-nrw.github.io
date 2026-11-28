@@ -294,8 +294,24 @@ body.th-casino{--muted:#e6c9a0;--line:rgba(255,215,120,.28);--accent:#ffd54a;--c
 .ultchip{display:inline-block;font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:8px;background:linear-gradient(90deg,#f6d365,#d4a017,#fff1b0,#d4a017);background-size:250% 100%;color:#2b1a00;vertical-align:middle;margin-left:3px;animation:ultsh 4s linear infinite}
 .ultname{background:linear-gradient(90deg,#f6d365,#fff3b8,#d4a017,#f6d365);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;animation:ultsh 4s linear infinite;font-weight:800}
 @keyframes ultsh{0%{background-position:0 0}100%{background-position:250% 0}}
-@media (prefers-reduced-motion:reduce){.ultname,.ultchip{animation:none}}
+@media (prefers-reduced-motion:reduce){.ultname,.ultchip,.boostname,.vipname,.ownname,.ownchip{animation:none}}
 .udia{font-size:.95em}
+.ownname{background:linear-gradient(90deg,#ff3b3b,#ffd36b,#fff3c4,#ff8a3b,#ff3b3b);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;animation:ultsh 3s linear infinite;font-weight:900;filter:drop-shadow(0 0 6px rgba(255,120,40,.55))}
+.ownchip{display:inline-block;font-size:.62rem;font-weight:900;padding:1px 7px;border-radius:8px;background:linear-gradient(90deg,#ff3b3b,#ffb347,#ff3b3b);background-size:250% 100%;color:#2a0500;vertical-align:middle;margin-left:3px;animation:ultsh 3s linear infinite;box-shadow:0 0 8px rgba(255,100,40,.6)}
+body.th-thron{--muted:#e8b7a8;--line:rgba(255,120,80,.35);--accent:#ff7a45;--card:rgba(255,120,80,.07);--text:#fff3ee;--btn-bg:linear-gradient(180deg,#ffd08a,#e0482a);--btn-fg:#2a0700;--btn-sh:0 2px 16px rgba(255,90,40,.55);
+ background:radial-gradient(ellipse at 50% 0%,#7a1a0a 0,transparent 55%),radial-gradient(ellipse at 90% 80%,#5a3a05 0,transparent 50%),linear-gradient(180deg,#1a0705,#080202);background-attachment:fixed}
+.vipname{background:linear-gradient(90deg,#34d399,#a7f3d0,#10b981,#34d399);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;animation:ultsh 6s linear infinite;font-weight:800}
+.vipg{background:linear-gradient(90deg,#34d399,#10b981)!important;color:#022c1f!important}
+body.th-smaragd{--muted:#a9d9c4;--line:rgba(80,220,160,.3);--accent:#34d399;--card:rgba(80,220,160,.07);--text:#effff8;--btn-bg:linear-gradient(180deg,#8cf0c4,#14a66f);--btn-fg:#02261a;--btn-sh:0 2px 14px rgba(40,200,140,.5);
+ background:radial-gradient(ellipse at 20% 0%,#0f5f45 0,transparent 55%),radial-gradient(ellipse at 90% 75%,#0b3d4a 0,transparent 50%),linear-gradient(180deg,#05150f,#020a07);background-attachment:fixed}
+body.th-kleeblatt{--muted:#b8d6a4;--line:rgba(150,225,90,.3);--accent:#8bdc4a;--card:rgba(150,225,90,.07);--text:#f6ffee;--btn-bg:linear-gradient(180deg,#c6f58f,#5cae1f);--btn-fg:#0f2402;--btn-sh:0 2px 14px rgba(120,210,50,.5);
+ background:radial-gradient(ellipse at 80% 0%,#2f6a12 0,transparent 55%),radial-gradient(ellipse at 10% 80%,#6a5a12 0,transparent 50%),linear-gradient(180deg,#0a1405,#040a02);background-attachment:fixed}
+.boostname{background:linear-gradient(90deg,#ff7ad9,#c8a2ff,#ff9ad5,#ff7ad9);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;animation:ultsh 4s linear infinite;font-weight:800}
+.boostchip{display:inline-block;font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:8px;background:linear-gradient(90deg,#ff7ad9,#b388ff,#ff9ad5);color:#2a0630;vertical-align:middle;margin-left:3px}
+body.th-booster{--muted:#e3b9e8;--line:rgba(255,140,220,.32);--accent:#ff7ad9;--card:rgba(255,140,220,.07);--text:#fff1fb;--btn-bg:linear-gradient(180deg,#ffb3ea,#d94fb4);--btn-fg:#2a0630;--btn-sh:0 2px 14px rgba(255,100,210,.5);
+ background:radial-gradient(ellipse at 15% 0%,#6a1b6e 0,transparent 55%),radial-gradient(ellipse at 90% 75%,#3a1a7a 0,transparent 50%),linear-gradient(180deg,#1a0720,#0a030f);background-attachment:fixed}
+body.th-nitro{--muted:#b9c0f5;--line:rgba(130,150,255,.35);--accent:#8c9bff;--card:rgba(130,150,255,.08);--text:#f0f2ff;--btn-bg:linear-gradient(180deg,#a9b4ff,#5865f2);--btn-fg:#0a0d33;--btn-sh:0 2px 14px rgba(88,101,242,.55);
+ background:radial-gradient(ellipse at 80% 0%,#2f3aa8 0,transparent 55%),radial-gradient(ellipse at 10% 80%,#7a2fa8 0,transparent 50%),linear-gradient(180deg,#0b0d2b,#05061a);background-attachment:fixed}
 .utitle{display:block;font-size:.72rem;font-style:italic;color:#e8c14a;font-weight:600;line-height:1.2;margin-top:1px}
 .ultcard{border-color:rgba(255,213,74,.55);box-shadow:0 0 18px rgba(212,160,23,.18)}
 .felt.gold{background:radial-gradient(ellipse at 50% 20%,#34343a,#17171c 55%,#09090c);border-color:#b8860b;box-shadow:inset 0 0 36px rgba(0,0,0,.7),0 0 20px rgba(212,160,23,.4)}
@@ -623,7 +639,7 @@ var CH_COLS="id,creator_id,creator_color,stake,status,joiner_id,joiner_color,dic
 async function load(){
   if(Date.now()-st.lastExpire>30000){st.lastExpire=Date.now();try{sb.rpc("expire_challenges").then(function(){},function(){})}catch(e){}}
   var qs=[
-    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip,luck_kind,luck_until,luck_pct,is_ultra,ultra_title").order("balance",{ascending:false}),
+    sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip,luck_kind,luck_until,luck_pct,is_ultra,ultra_title,is_booster").order("balance",{ascending:false}),
     sb.from("game_log").select("id,user_id,game,bet,stake,payout,created_at").order("created_at",{ascending:false}).limit(st.page==="feed"?100:5),
     sb.from("challenges").select(CH_COLS).eq("status","open").order("created_at",{ascending:true}).limit(50),
     sb.from("challenges").select(CH_COLS).eq("status","done").order("finished_at",{ascending:false}).limit(12)
@@ -639,7 +655,7 @@ async function load(){
   qs.push(sb.from("invites").select("invitee_id,inviter_id,invitee_name,bonus_inviter").order("created_at",{ascending:false}).limit(100));
   var mp=sb.rpc("maint_state");
   var rr=await Promise.all(qs);
-  if(rr[0]&&rr[0].error&&/ultra/i.test(rr[0].error.message||"")){rr[0]=await sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip,luck_kind,luck_until,luck_pct").order("balance",{ascending:false})}
+  if(rr[0]&&rr[0].error&&/ultra|booster/i.test(rr[0].error.message||"")){rr[0]=await sb.from("profiles").select("id,name,balance,total_wagered,is_admin,is_owner,is_coowner,banned,avatar_url,xp,is_vip,luck_kind,luck_until,luck_pct").order("balance",{ascending:false})}
   var ir=rr[rr.length-1],er=rr[rr.length-2],sr=rr[rr.length-3],tr=rr[rr.length-4],br=rr[rr.length-5];
   if(br&&!br.error&&br.data){
     var bm={};br.data.forEach(function(x){(bm[x.user_id]=bm[x.user_id]||[]).push(x.badge)});st.badges=bm;
@@ -672,13 +688,14 @@ async function load(){
   var r=rr[0],f=rr[1];
   if(r.error){st.err=r.error.message;return}
   st.err="";st.list=r.data;
-  st.names={};st.avs={};st.umap={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url;if(p.is_ultra)st.umap[p.id]=1});
+  st.names={};st.avs={};st.umap={};r.data.forEach(function(p){st.names[p.id]=p.name;if(p.avatar_url)st.avs[p.id]=p.avatar_url;if(p.is_owner)st.umap[p.id]=4;else if(p.is_ultra)st.umap[p.id]=1;else if(p.is_booster)st.umap[p.id]=2;else if(p.is_vip)st.umap[p.id]=3});
   st.me=r.data.find(function(p){return p.id===st.user.id})||null;
   if(!st.tutChecked&&st.me&&!st.me.banned){st.tutChecked=true;try{if(!localStorage.getItem("tut_"+st.user.id)&&!st.maint)setTimeout(function(){if(st.me&&!st.tut)tutStart()},800)}catch(e){}}
   if(st.me)st.me.own=!!(st.me.is_owner||st.me.is_coowner);
   if(st.me){var lvNow=lvOf(st.me.xp);if(st.lvSeen===null)st.lvSeen=lvNow;else if(lvNow>st.lvSeen){notifyText("⬆️ Level "+lvNow+" erreicht!"+(st.lvBonus>0?" +"+fmt(st.lvBonus*(lvNow-st.lvSeen))+" Punkte":""));st.lvSeen=lvNow}}
   if(st.me&&!st.me.banned&&Date.now()-(st.fwAt||0)>4000){st.fwAt=Date.now();sb.rpc("flush_wins").then(function(){},function(){})}
   if(st.me&&st.me.own&&!st.me.banned&&Date.now()-st.alAt>60000){st.alAt=Date.now();loadAlerts()}
+  if(st.me&&st.me.own&&!st.me.banned&&Date.now()-(st.secAt||0)>30000){st.secAt=Date.now();await secLoad()}
   if(st.me&&!st.refTried){
     st.refTried=true;var rc=null;
     try{rc=localStorage.getItem("pref");localStorage.removeItem("pref")}catch(e){}
@@ -732,6 +749,7 @@ var GAMES={dice:"Farbwürfel",wheel:"Glücksrad",coin:"Münzwurf",duel:"1 gegen 
 var PL_MULT={L:[9,2.8,1.6,1.3,1.1,0.8,0.5,0.8,1.1,1.3,1.6,2.8,9],M:[32,10,3.8,1.9,1.1,0.5,0.3,0.5,1.1,1.9,3.8,10,32],H:[140,21,6.8,2.1,0.6,0.2,0.2,0.2,0.6,2.1,6.8,21,140]};
 var PL_NAME={L:"niedrig",M:"mittel",H:"hoch"};
 var BADGES={
+  booster:["🚀","Server-Booster","Hat den Discord-Server geboostet. Danke!"],
   first:["🎲","Frischling","Das erste Spiel gespielt"],
   games100:["🔥","Dauerspieler","100 Spiele gespielt"],
   games500:["🎰","Stammgast","500 Spiele gespielt"],
@@ -802,8 +820,12 @@ function logLine(l){
   if(l.action==="ultra_on")return a+' machte '+t+' zum Ultra-VIP';
   if(l.action==="ultra_off")return a+' entzog '+t+' den Ultra-Rang';
   if(l.action==="title_clear")return a+' löschte den Titel von '+t;
+  if(l.action==="give_blocked"){var gb=String(d||"").split("|");return a+' wollte '+t+' Punkte geben, wurde aber von der <b>🛡️ Sicherheitssperre</b> gestoppt ('+esc(gb[0])+' verschiedene Spieler in '+esc(gb[1])+' Min)'}
+  if(l.action==="sec_cfg"){var sc=String(d||"").split("|");return a+' änderte die Admin-Sicherheit ('+(sc[0]==="0"?'aus':'Sperre ab '+esc(sc[0])+' Spielern in '+esc(sc[1])+' Min')+')'}
   if(l.action==="ultra_cfg")return a+' änderte die Ultra-Einstellungen ('+esc(d||'')+')';
   if(l.action==="early_set"){var ea=String(d||"").split("|");return a+(parseFloat(ea[1])>0?' startete den Frühzugang für '+esc(ea[0])+' ('+esc(ea[1])+' Tage)':' beendete den Frühzugang für '+esc(ea[0]))}
+  if(l.action==="boost_on")return a+' machte '+t+' zum Server-Booster';
+  if(l.action==="boost_off")return a+' entzog '+t+' den Booster-Rang';
   if(l.action==="vip_on")return a+' machte '+t+' zum VIP';
   if(l.action==="vip_off")return a+' entzog '+t+' die VIP-Rolle';
   if(l.action==="tycoon_cfg")return a+' änderte den Mini-Tycoon (<span class="muted">'+esc(d)+'</span>)';
@@ -940,7 +962,7 @@ function profHtml(){
   var have=st.badges[d.id]||[],fav="",fn=0,pp=st.list.find(function(x){return x.id===d.id})||{};
   Object.keys(d.per_game||{}).forEach(function(g){if(d.per_game[g]>fn){fn=d.per_game[g];fav=g}});
   var quote=d.games>0?Math.round(100*d.wins/d.games)+" %":"–";
-  h+='<div class="phead">'+avU(d.id,d.name,"xl")+'<div style="font-size:1.3rem;font-weight:800">'+(pp.is_ultra?'<span class="udia">💎</span> <span class="ultname">'+esc(d.name)+'</span>':esc(d.name))+'</div>'+(pp.ultra_title?'<div class="utitle" style="text-align:center">'+esc(pp.ultra_title)+'</div>':'')+'<div>'+lvChip(pp)+vipChip(pp)+'</div><div>'+(d.is_owner?'<span class="tag">Besitzer</span>':(d.is_coowner?'<span class="tag">Co-Besitzer</span>':d.is_admin?'<span class="tag">Admin</span>':''))+(d.banned?'<span class="tag">gesperrt</span>':'')+'</div></div>';
+  h+='<div class="phead">'+avU(d.id,d.name,"xl")+'<div style="font-size:1.3rem;font-weight:800">'+(d.is_owner?'<span class="udia">👑</span> <span class="ownname">'+esc(d.name)+'</span>':pp.is_ultra?'<span class="udia">💎</span> <span class="ultname">'+esc(d.name)+'</span>':(pp.is_booster?'<span class="udia">🚀</span> <span class="boostname">'+esc(d.name)+'</span>':(pp.is_vip?'<span class="udia">🍀</span> <span class="vipname">'+esc(d.name)+'</span>':esc(d.name))))+'</div>'+(pp.ultra_title?'<div class="utitle" style="text-align:center">'+esc(pp.ultra_title)+'</div>':'')+'<div>'+lvChip(pp)+vipChip(pp)+'</div><div>'+(d.is_owner?'<span class="tag">Besitzer</span>':(d.is_coowner?'<span class="tag">Co-Besitzer</span>':d.is_admin?'<span class="tag">Admin</span>':''))+(d.banned?'<span class="tag">gesperrt</span>':'')+'</div></div>';
   if(have.length)h+='<div class="pbadges">'+BORDER.filter(function(k){return have.indexOf(k)>=0}).map(function(k){return '<span title="'+esc(BADGES[k][2])+'">'+BADGES[k][0]+' '+esc(BADGES[k][1])+'</span>'}).join("")+'</div>';
   else h+='<p class="muted" style="text-align:center;margin:0">Noch keine Abzeichen.</p>';
   h+='<div class="pstats"><div><b>'+(d.rank?'#'+d.rank:'–')+'</b>Rang</div><div><b>'+fmt(d.balance)+'</b>Punkte</div><div><b>'+fmt(d.games)+'</b>Spiele</div><div><b>'+quote+'</b>Gewinnquote</div><div><b>'+fmt(d.total_wagered)+'</b>Gesetzt</div><div><b>'+(d.biggest>0?'+'+fmt(d.biggest):'–')+'</b>Größter Gewinn</div></div>';
@@ -1023,8 +1045,8 @@ function avU(id,n,cls){
   var u=st.avs&&st.avs[id];
   return '<span class="av'+(cls?' '+cls:'')+'" style="background:'+avColor(n||"?")+'">'+esc((n||"?").charAt(0).toUpperCase())+(u?'<img src="'+esc(u)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</span>';
 }
-function nameLink(id,n){var u=st.umap&&st.umap[id];return (u?'<span class="udia">💎</span> ':'')+'<span class="plink'+(u?' ultname':'')+'" data-act="prof" data-v="'+esc(id)+'">'+esc(n)+'</span>'}
-function uName(id){var n=esc(st.names[id]||"Spieler");return st.umap&&st.umap[id]?'<span class="udia">💎</span> <span class="ultname">'+n+'</span>':n}
+function nameLink(id,n){var u=st.umap&&st.umap[id];return (u===4?'<span class="udia">👑</span> ':u===1?'<span class="udia">💎</span> ':(u===2?'<span class="udia">🚀</span> ':(u===3?'<span class="udia">🍀</span> ':'')))+'<span class="plink'+(u===1?' ultname':(u===2?' boostname':(u===3?' vipname':(u===4?' ownname':''))))+'" data-act="prof" data-v="'+esc(id)+'">'+esc(n)+'</span>'}
+function uName(id){var n=esc(st.names[id]||"Spieler"),u=st.umap&&st.umap[id];return u===4?'<span class="udia">👑</span> <span class="ownname">'+n+'</span>':u===1?'<span class="udia">💎</span> <span class="ultname">'+n+'</span>':(u===2?'<span class="udia">🚀</span> <span class="boostname">'+n+'</span>':(u===3?'<span class="udia">🍀</span> <span class="vipname">'+n+'</span>':n))}
 function avHtml(n,big){return '<span class="av'+(big?' big':'')+'" style="background:'+avColor(n)+'">'+esc((n||"?").charAt(0).toUpperCase())+'</span>'}
 function tlistHtml(){
   var q=st.tsearch.trim().toLowerCase();
@@ -1503,10 +1525,11 @@ function alertsHtml(){
 }
 /* --- Winter: Design-Schalter und Schnee --- */
 var SNOW={raf:0,fl:[],cv:null,cx:null,w:0,h:0,kind:"snow"};
-var THEMES=[["standard","🎲","Normal"],["winter","❄️","Winter"],["herbst","🍂","Herbst"],["fruehling","🌸","Frühling"],["sommer","☀️","Sommer"],["casino","🎰","Casino"],["gold","👑","Gold (Ultra)",1],["diamant","💎","Diamant (Ultra)",1]];
+var THEMES=[["standard","🎲","Normal"],["winter","❄️","Winter"],["herbst","🍂","Herbst"],["fruehling","🌸","Frühling"],["sommer","☀️","Sommer"],["casino","🎰","Casino"],["gold","👑","Gold (Ultra)",1],["diamant","💎","Diamant (Ultra)",1],["booster","🚀","Booster",2],["nitro","💜","Nitro",2],["smaragd","💚","Smaragd (VIP)",3],["kleeblatt","🍀","Kleeblatt (VIP)",3],["thron","🔥","Thron (nur Besitzer)",4]];
 var PART={winter:"snow",herbst:"leaf",fruehling:"petal"};
 var PCOL={leaf:["#e8772e","#c8431f","#f2b134","#a85a1c"],petal:["#ffb7d5","#ff8fc1","#ffd9e8","#ffffff"]};
-function curTheme(){var m="server";try{m=localStorage.getItem("mytheme")||"server"}catch(e){}if(m!=="server"&&THEMES.some(function(x){return x[0]===m&&(!x[3]||isUltraUser(st.me))}))return m;return st.theme||"standard"}
+function themeOk(x,me){return !x[3]||(x[3]===1&&isUltraUser(me))||(x[3]===2&&!!(me&&(me.is_booster||me.is_ultra||me.own)))||(x[3]===3&&!!(me&&(me.is_vip||me.is_ultra||me.own)))||(x[3]===4&&!!(me&&me.is_owner))}
+function curTheme(){var m="server";try{m=localStorage.getItem("mytheme")||"server"}catch(e){}if(m!=="server"&&THEMES.some(function(x){return x[0]===m&&themeOk(x,st.me)}))return m;return st.theme||"standard"}
 function themeIco(){var t=curTheme();for(var i=0;i<THEMES.length;i++)if(THEMES[i][0]===t)return THEMES[i][1];return "🎲"}
 function snowPref(){try{return localStorage.getItem("snow")!=="off"}catch(e){return true}}
 function reducedMotion(){try{return window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
@@ -1755,7 +1778,7 @@ function luckOf(p){return p&&p.luck_kind&&p.luck_until&&new Date(p.luck_until).g
 function luckLeft(p){var m=Math.ceil((new Date(p.luck_until).getTime()-Date.now())/60000);return m>=60?Math.floor(m/60)+" Std "+(m%60)+" Min":m+" Min"}
 function luckChip(p){var k=luckOf(p);return k?'<span class="luckchip '+k+'" title="'+(k==="luck"?"Glückssträhne":"Pechsträhne")+' (Stärke '+(p.luck_pct||25)+' %) noch '+luckLeft(p)+'">'+(k==="luck"?"🍀":"🌧️")+'</span>':''}
 function luckNoticeHtml(p){var k=luckOf(p);if(!k)return "";return '<div class="dayban luckbox '+k+'">'+(k==="luck"?'🍀 <b>Glückssträhne!</b> Der Besitzer hat dir Glück geschenkt: Deine Gewinnchance ist erhöht (Stärke '+(p.luck_pct||25)+' %).':'🌧️ <b>Pechsträhne!</b> Der Besitzer hat dir Pech gegeben: Deine Gewinnchance ist gesenkt (Stärke '+(p.luck_pct||25)+' %).')+' Gilt für alle Spiele außer Duellen. Noch '+luckLeft(p)+'.</div>'}
-function vipChip(p){return (p&&p.is_ultra?'<span class="ultchip">ULTRA</span>':(p&&p.is_vip?'<span class="vipchip">VIP</span>':''))+luckChip(p)}
+function vipChip(p){return (p&&p.is_owner?'<span class="ownchip">👑 BESITZER</span>':'')+(p&&p.is_ultra?'<span class="ultchip">ULTRA</span>':(p&&p.is_vip?'<span class="vipchip vipg">🍀 VIP</span>':''))+(p&&p.is_booster?'<span class="boostchip">🚀 BOOSTER</span>':'')+luckChip(p)}
 function lvBoxHtml(p){
   var xp=+p.xp||0,l=lvOf(xp),a=lvXp(l),b=lvXp(l+1),pc=Math.max(0,Math.min(100,Math.round((xp-a)/(b-a)*100)));
   return '<div class="lvbox"><div class="lvtop"><b>Level '+l+'</b> · '+lvTitle(l)+'</div><div class="lvbar"><i style="width:'+pc+'%"></i></div><div class="muted lvsub">'+fmt(xp)+' XP · noch '+fmt(b-xp)+' bis Level '+(l+1)+(st.lvBonus>0?' (dann +'+fmt(st.lvBonus)+' Punkte)':'')+'</div><div class="muted lvsub">XP bekommst du für gesetzte Punkte, Abzeichen und den Mini-Tycoon.</div></div>';
@@ -2317,6 +2340,24 @@ async function ultraTitle(clear){
   if(r.error){st.umsg=r.error.message;render();return}
   st.utIn=null;st.umsg=v?"Titel gespeichert.":"Titel entfernt.";await load();render();
 }
+function secPanelHtml(){
+  var c=st.sec;
+  if(!c)return '<div class="card"><h2>🛡️ Admin-Sicherheit</h2><p class="muted">Braucht das neue Datenbank-Update (supabase.sql erneut ausführen).</p></div>';
+  var f=st.secf||{},g=function(k,d){return esc(f[k]!=null?f[k]:d)};
+  var h='<div class="card"><h2>🛡️ Admin-Sicherheit</h2><p class="muted" style="margin:0 0 8px">Schützt vor Missbrauch: Ein Admin darf innerhalb des Zeitraums nicht an so viele verschiedene Spieler Punkte vergeben (oder abziehen). Besitzer und Co-Besitzer sind ausgenommen. Bei einer Sperre wird die Aktion blockiert, im Admin-Log eingetragen und per Discord gemeldet.</p>';
+  h+='<div class="row"><label class="muted">Sperre ab so vielen verschiedenen Spielern (0 = aus) <input id="sec_p" type="number" min="0" max="20" value="'+g("p",c.people)+'" style="width:80px"></label><label class="muted">innerhalb von (Minuten) <input id="sec_w" type="number" min="5" max="1440" value="'+g("w",c.window)+'" style="width:90px"></label></div>';
+  h+='<p class="muted" style="margin:6px 0">Aktuell: '+(c.people>0?'Ein Admin darf höchstens <b>'+(c.people-1)+'</b> verschiedenen Spielern in <b>'+c.window+'</b> Minuten Punkte geben. Der '+c.people+'. wird blockiert.':'<b>aus</b>')+' · Blockiert in den letzten 24 Stunden: <b>'+c.blocked_24h+'</b></p>';
+  h+='<div class="row"><button data-act="secsave">Speichern</button></div><div class="msg">'+esc(st.secMsg||"")+'</div></div>';
+  return h;
+}
+async function secLoad(){var r=await sb.rpc("admin_sec_cfg");if(!r.error)st.sec=r.data;else st.sec=null}
+async function secSave(){
+  var f=st.secf||{},c=st.sec||{};
+  var p=parseInt(f.p!=null?f.p:c.people),w=parseInt(f.w!=null?f.w:c.window);
+  var r=await sb.rpc("set_admin_sec",{p_people:isNaN(p)?3:p,p_window:isNaN(w)?60:w});
+  st.secMsg=r.error?r.error.message:"Gespeichert.";if(!r.error)st.secf=null;
+  await secLoad();render();
+}
 function ultraCfgPanelHtml(){
   var ui=st.ui;if(!ui)return '<div class="card"><h2>💎 Ultra-VIP</h2><p class="muted">Braucht das neue Datenbank-Update (supabase.sql erneut ausführen).</p></div>';
   var f=st.ucf||{},g=function(k,d){return esc(f[k]!=null?f[k]:d)},c=ui.cfg;
@@ -2357,21 +2398,23 @@ function syncPanelHtml(){
   h+='<div class="row"><label class="muted" style="flex:1">Rollen-ID (mehrere mit Komma)<br><input id="sbr" type="text" value="'+esc(r)+'" style="width:100%"></label></div>';
   var ur=st.sbu!=null?st.sbu:(v.ultra_role||"");
   h+='<div class="row"><label class="muted" style="flex:1">💎 Ultra-Rollen-ID (leer lassen, wenn es keinen Ultra-Rang über Discord geben soll)<br><input id="sbu" type="text" value="'+esc(ur)+'" style="width:100%"></label></div>';
+  var br=st.sbb!=null?st.sbb:(v.booster_role||"");
+  h+='<div class="row"><label class="muted" style="flex:1">🚀 Booster-Rollen-ID (die Discord-Rolle „Server Booster", leer lassen, wenn es keinen Booster-Rang über Discord geben soll)<br><input id="sbb" type="text" value="'+esc(br)+'" style="width:100%"></label></div>';
   h+='<div class="row"><label class="muted" style="flex:1">Bot-Token '+(v.bot?'<b class="win">(gespeichert, leer lassen zum Behalten)</b>':'')+'<br><input id="sbt" type="password" autocomplete="off" value="'+esc(st.sbt)+'" placeholder="'+(v.bot?'••••••••':'Token einfügen')+'" style="width:100%"></label></div>';
   h+='<div class="row"><button data-act="sbsave"'+(st.sbbusy?' disabled':'')+'>Speichern und einschalten</button><button class="tab off" data-act="sbrun"'+(v.bot&&!st.sbbusy?'':' disabled')+'>Jetzt abgleichen</button>'+(v.bot?'<button class="tab off" data-act="sbdel">Token löschen und ausschalten</button>':'')+'</div>';
   h+='<p style="margin:8px 0 4px">Status: <b class="'+(v.auto&&v.bot?'win':'loss')+'">'+(v.auto&&v.bot?(v.running?'läuft gerade …':'eingeschaltet'):'ausgeschaltet')+'</b>'+(v.cron?'':' <span class="muted">(Zeitplan pg_cron nicht aktiv: Der Abgleich läuft, solange jemand auf der Seite ist)</span>')+'</p>';
   if(v.err)h+='<p class="loss" style="margin:0 0 4px">Fehler: '+esc(v.err)+'</p>';
   h+='<p style="margin:0 0 4px">Letzter Abgleich: <b>'+(v.last?new Date(v.last).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+' Uhr':'noch nie')+'</b>'+(v.note?' <span class="muted">· '+esc(v.note)+'</span>':'')+'</p>';
-  h+='<p class="muted" style="margin:0 0 8px">VIPs über Discord: <b>'+v.discord_vips+'</b> · von Hand vergeben: <b>'+v.manual_vips+'</b>'+(v.ultra_role?'<br>💎 Ultra über Discord: <b>'+v.discord_ultras+'</b> · von Hand vergeben: <b>'+v.manual_ultras+'</b>':'')+'</p>';
+  h+='<p class="muted" style="margin:0 0 8px">VIPs über Discord: <b>'+v.discord_vips+'</b> · von Hand vergeben: <b>'+v.manual_vips+'</b>'+(v.ultra_role?'<br>💎 Ultra über Discord: <b>'+v.discord_ultras+'</b> · von Hand vergeben: <b>'+v.manual_ultras+'</b>':'')+(v.booster_role?'<br>🚀 Booster über Discord: <b>'+v.discord_boosters+'</b> · von Hand vergeben: <b>'+v.manual_boosters+'</b>':'')+'</p>';
   return h+'<div class="msg">'+esc(st.syncMsg||"")+'</div></div>';
 }
 async function sbSave(){
   var v=st.sync||{};
   st.sbbusy=true;st.syncMsg="";render();
-  var r=await sb.rpc("set_sync_bot",{p_token:st.sbt||null,p_guild:st.sbg!==null?st.sbg:(v.guild||""),p_roles:st.sbr!==null?st.sbr:(v.roles||""),p_auto:true,p_ultra:st.sbu!=null?st.sbu:(v.ultra_role||"")});
+  var r=await sb.rpc("set_sync_bot",{p_token:st.sbt||null,p_guild:st.sbg!==null?st.sbg:(v.guild||""),p_roles:st.sbr!==null?st.sbr:(v.roles||""),p_auto:true,p_ultra:st.sbu!=null?st.sbu:(v.ultra_role||""),p_booster:st.sbb!=null?st.sbb:(v.booster_role||"")});
   st.sbbusy=false;
   if(r.error){st.syncMsg=r.error.message;render();return}
-  st.sbt="";st.sbg=null;st.sbr=null;st.sbu=null;st.syncMsg="Gespeichert. Der erste Abgleich läuft jetzt.";
+  st.sbt="";st.sbg=null;st.sbr=null;st.sbu=null;st.sbb=null;st.syncMsg="Gespeichert. Der erste Abgleich läuft jetzt.";
   await loadSync();setTimeout(loadSync,6000);setTimeout(loadSync,15000);
 }
 async function sbRun(){
@@ -2773,6 +2816,7 @@ function adminPlayersHtml(me){var h="";
     if(me.own)h+='<button class="tab off" data-act="admin"'+(sel&&!sel.is_owner&&!sel.is_coowner?'':' disabled')+'>'+(sel&&sel.is_admin?'Admin entfernen':'Zum Admin machen')+'</button>';
     if(me.is_owner)h+='<button class="tab off" data-act="coown"'+(sel&&!sel.is_owner&&sel.id!==me.id&&!(sel.banned&&!sel.is_coowner)?'':' disabled')+'>'+(sel&&sel.is_coowner?'Co-Besitzer entfernen':'Zum Co-Besitzer machen')+'</button>';
     h+='<button class="tab off" data-act="hist"'+(sel?'':' disabled')+'>📜 Verlauf ansehen</button>';
+    if(me.own)h+='<button class="tab off" data-act="boost"'+(sel?'':' disabled')+'>'+(sel&&sel.is_booster?'Booster entfernen':'🚀 Zum Booster machen')+'</button>';
     if(me.own)h+='<button class="tab off" data-act="vip"'+(sel?'':' disabled')+'>'+(sel&&sel.is_vip?'VIP entfernen':'💜 Zum VIP machen')+'</button>';
     if(me.own)h+='<button class="tab off" data-act="ultra"'+(sel?'':' disabled')+'>'+(sel&&sel.is_ultra?'Ultra entfernen':'💎 Zum Ultra machen')+'</button><button class="tab off" data-act="utclear"'+(sel&&sel.ultra_title?'':' disabled')+'>Titel löschen</button>';
     if(me.own){var lk=sel?luckOf(sel):null;h+='<span class="muted" style="align-self:center">Dauer (Min): <input id="lkmin" type="number" min="5" max="1440" value="'+esc(st.lkmin)+'" style="width:70px"> Stärke (%): <input id="lkpct" type="number" min="1" max="100" value="'+esc(st.lkpct)+'" style="width:60px"></span><button class="tab off" data-act="luck"'+(sel?'':' disabled')+'>🍀 Glück geben</button><button class="tab off" data-act="curse"'+(sel?'':' disabled')+'>🌧️ Pech geben</button>'+(lk?'<button class="tab off" data-act="unluck">Strähne beenden ('+(lk==="luck"?"🍀":"🌧️")+' noch '+luckLeft(sel)+')</button>':'');}
@@ -2809,21 +2853,21 @@ function adminPageHtml(me){
   else if(t==="games")h+=adminLimitsHtml(me)+(me.own?lockPanelHtml()+tycoonPanelHtml()+ultraCfgPanelHtml():"");
   else if(t==="promo")h+=bannerPanelHtml()+(me.own?eventsPanelHtml()+invPanelHtml()+couponPanelHtml():"");
   else if(t==="discord")h+=integPanelHtml()+reportPanelHtml()+syncPanelHtml();
-  else if(t==="system")h+=sysPanelHtml()+themePanelHtml();
+  else if(t==="system")h+=(me.own?secPanelHtml():"")+sysPanelHtml()+themePanelHtml();
   return h;
 }
 function statsHtml(){
   var h='<div class="card"><h2>📊 Meine Statistik</h2><p class="muted" style="margin:0 0 4px">Nur du siehst das hier.</p>';
   return h+statsBody()+'</div>';
 }
-var VERSION="56 · 27.11.";
+var VERSION="60 · 28.11.";
 function settingsHtml(me){
   var h='<div class="card"><h2>⚙️ Einstellungen</h2>';
   h+='<div class="setrow"><span>'+avU(me.id,me.name,"big")+'</span><span><b>'+esc(me.name)+'</b><br><span class="muted">Dein Name kommt von Discord.</span></span></div>';
   h+=lvBoxHtml(me);
   h+='<div class="setrow"><span><b>Profil & Profilbild</b><br><span class="muted">Eigenes Bild hochladen oder entfernen.</span></span><button data-act="myprof">Bearbeiten</button></div>';
   var mt="server";try{mt=localStorage.getItem("mytheme")||"server"}catch(e){}
-  h+='<div class="setrow"><span><b>Design</b><br><span class="muted">Nur für dich. „Wie Server" nimmt das Design, das der Besitzer eingestellt hat.</span></span><select id="mytheme"><option value="server"'+(mt==="server"?' selected':'')+'>Wie Server</option>'+THEMES.map(function(x){return '<option value="'+x[0]+'"'+(mt===x[0]?' selected':'')+(x[3]&&!isUltraUser(me)?' disabled':'')+'>'+x[1]+' '+x[2]+'</option>'}).join("")+'</select></div>';
+  h+='<div class="setrow"><span><b>Design</b><br><span class="muted">Nur für dich. „Wie Server" nimmt das Design, das der Besitzer eingestellt hat.</span></span><select id="mytheme"><option value="server"'+(mt==="server"?' selected':'')+'>Wie Server</option>'+THEMES.map(function(x){return '<option value="'+x[0]+'"'+(mt===x[0]?' selected':'')+(!themeOk(x,me)?' disabled':'')+'>'+x[1]+' '+x[2]+'</option>'}).join("")+'</select></div>';
   if(PART[curTheme()])h+='<div class="setrow"><span><b>Animation</b><br><span class="muted">Fallender '+(curTheme()==="winter"?"Schnee":(curTheme()==="herbst"?"Blätter":"Blüten"))+' im Hintergrund.</span></span><button class="tab off" data-act="snow">'+(snowPref()?'An':'Aus')+'</button></div>';
   var bg=st.bg||{};
   h+='<div class="setrow" style="align-items:flex-start"><span><b>Eigener Hintergrund</b><br><span class="muted">Ein Bild als Hintergrund, nur du siehst es. Es wird verkleinert gespeichert.'+(isUltraUser(me)?' 💎 Als Ultra-VIP auch animierte GIFs (bis 1 MB) und größere Bilder.':'')+'</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span><button class="tab off" data-act="bgpick">'+(bg.img?'Anderes Bild':'Bild wählen')+'</button>'+(bg.img?' <button class="tab off" data-act="bgdel">Entfernen</button>':'')+'</span>'+(bg.img?'<label class="muted">Abdunklung <input id="bgdim" type="range" min="0" max="85" value="'+(bg.dim||0)+'"></label><label class="muted">Kontrast <input id="bgcon" type="range" min="50" max="160" value="'+(bg.contrast||100)+'"></label>':'')+'</span></div>';
@@ -2955,6 +2999,7 @@ app.addEventListener("click",function(e){
   else if(a==="histmore"){if(st.hist&&!st.hist.busy)loadHist(true)}
   else if(a==="luck"||a==="curse"){var sl=selected();if(sl)adminCall("set_luck",{p_target:sl.id,p_kind:a,p_minutes:parseInt(st.lkmin)||30,p_pct:parseInt(st.lkpct)||25})}
   else if(a==="unluck"){var su=selected();if(su)adminCall("set_luck",{p_target:su.id,p_kind:"none",p_minutes:30,p_pct:25})}
+  else if(a==="boost"){var sb2=selected();if(sb2)adminCall("set_booster",{p_target:sb2.id,p_value:!sb2.is_booster})}
   else if(a==="vip"){var sv=selected();if(sv)adminCall("set_vip",{p_target:sv.id,p_value:!sv.is_vip})}
   else if(a==="ultra"){var su2=selected();if(su2)adminCall("set_ultra",{p_target:su2.id,p_value:!su2.is_ultra})}
   else if(a==="utclear"){var sc2=selected();if(sc2)adminCall("clear_ultra_title",{p_target:sc2.id})}
@@ -2980,6 +3025,7 @@ app.addEventListener("click",function(e){
   else if(a==="utsave")ultraTitle(false);
   else if(a==="utdel")ultraTitle(true);
   else if(a==="ucfg")saveUcfg();
+  else if(a==="secsave")secSave();
   else if(a==="eastart")earlySet(st.eag,st.ead!=null&&st.ead!==""?st.ead:3);
   else if(a==="eaend")earlySet(v,0);
   else if(a==="rpsave")saveReport(false);
@@ -3129,12 +3175,14 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape"&&st.prof){st
 app.addEventListener("input",function(e){
   var t=e.target;
   if(t.id==="aphook"){st.apHook=t.value;return}
+  if(t.id==="sec_p"||t.id==="sec_w"){st.secf=st.secf||{};st.secf[t.id.slice(4)]=t.value;return}
   if(t.id==="tk_subject"||t.id==="tk_body"){st.tkForm=st.tkForm||{};st.tkForm[t.id.slice(3)]=t.value;return}
   if(/^ap_/.test(t.id)){st.appForm=st.appForm||{};st.appForm[t.id.slice(3)]=t.value;return}
   if(t.id==="apr"){st.apReply=t.value;return}
   if(t.id==="sar"){st.saReply=t.value;return}
   if(t.id==="san"){st.saNote=t.value;return}
   if(t.id==="sbu"){st.sbu=t.value;return}
+  if(t.id==="sbb"){st.sbb=t.value;return}
   if(t.id==="utitle"){st.utIn=t.value;return}
   if(t.id==="eag"){st.eag=t.value;return}
   if(t.id==="ead"){st.ead=t.value;return}
@@ -3287,7 +3335,13 @@ async function adminCall(fn,args){
   await load();render();
 }
 function selected(){return st.list.find(function(p){return p.id===st.osel})||null}
-function give(){var amt=parseInt(st.oamt);if(!st.osel||!amt)return;adminCall("give_points",{p_target:st.osel,p_amount:amt})}
+async function give(){
+  var amt=parseInt(st.oamt);if(!st.osel||!amt)return;
+  var r=await sb.rpc("give_points",{p_target:st.osel,p_amount:amt});
+  if(r.error){alert(r.error.message);return}
+  if(r.data===-1){alert("🛡️ Sicherheitssperre: Du hast in letzter Zeit schon mehreren Spielern Punkte gegeben. Weitere Vergaben sind gerade nicht erlaubt. Die Besitzer wurden informiert.");await load();render();return}
+  await load();render();
+}
 var PL_COL=["#ffd54f","#ff8a65","#f06292","#4dd0e1","#aed581","#ba68c8"],plRaf=0;
 function plBuild(b){
   var cx=PL.W/2,R=0,W=[],i,sy=PL.top+12*PL.rh+4;
